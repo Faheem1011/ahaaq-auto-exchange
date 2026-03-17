@@ -1,19 +1,23 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const siteUrl = "https://ahhaqautoexchange.net";
 
 export const metadata = {
   title: "Ahaaq Auto Exchange | Premium Luxury Car Dealership in Jacksonville, FL",
   description: "Jacksonville's premier auto exchange for luxury pre-owned vehicles. Featuring a curated selection of Toyota, Lexus, Mercedes-Benz, and BMW. Best prices and quality guaranteed in North Florida.",
   keywords: ["Ahaaq Auto Exchange", "luxury car dealer Jacksonville FL", "used cars Jacksonville", "premium auto exchange Florida", "Lexus dealer Jacksonville", "BMW Jacksonville FL"],
   alternates: {
-    canonical: "https://ahaaq-auto-exchange.vercel.app",
+    canonical: siteUrl,
   },
   openGraph: {
     title: "Ahaaq Auto Exchange | Jacksonville's Luxury Car Destination",
     description: "Find your next luxury vehicle at Ahaaq Auto Exchange. Quality inspected, market-leading prices.",
-    url: "https://ahaaq-auto-exchange.vercel.app",
+    url: siteUrl,
     siteName: "Ahaaq Auto Exchange",
     images: [
       {
@@ -33,6 +37,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className} bg-[#FAFAFA] text-zinc-900 antialiased`}>
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
