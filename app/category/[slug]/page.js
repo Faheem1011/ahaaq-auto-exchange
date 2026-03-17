@@ -1,5 +1,8 @@
 import { fetchGraphQL } from '@/lib/graphql';
 import Link from 'next/link';
+import Image from 'next/image';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 async function getCategoryData(slug) {
   const query = `
@@ -40,66 +43,79 @@ export default async function CategoryPage({ params }) {
 
   if (!category) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <h1 className="text-2xl font-bold">Category not found</h1>
-      </div>
+      <main className="min-h-screen bg-white">
+        <Navbar />
+        <div className="min-h-[50vh] flex items-center justify-center pt-32">
+          <h1 className="text-2xl font-black tracking-tighter uppercase">Category not found</h1>
+        </div>
+        <Footer />
+      </main>
     );
   }
 
   const posts = category.posts?.nodes || [];
 
   return (
-    <div className="bg-white py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="border-b border-gray-200 pb-10 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            {category.name}
-          </h1>
-          {category.description && (
-            <p className="mx-auto mt-4 max-w-2xl text-xl text-gray-500">
-              {category.description}
-            </p>
-          )}
-        </div>
-        
-        <div className="mx-auto mt-16 grid max-w-lg gap-8 lg:max-w-none lg:grid-cols-3">
-          {posts.length > 0 ? (
-            posts.map((post) => (
-              <div key={post.id} className="flex flex-col overflow-hidden rounded-lg shadow-lg">
-                <div className="flex-shrink-0">
-                  {post.featuredImage?.node ? (
-                    <img className="h-48 w-full object-cover" src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} />
-                  ) : (
-                    <div className="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col justify-between bg-white p-6">
-                  <div className="flex-1">
-                    <Link href={`/${post.slug}`} className="mt-2 block">
-                      <p className="text-xl font-semibold text-gray-900">{post.title}</p>
+    <main className="min-h-screen bg-white">
+      <Navbar />
+      
+      <div className="pt-32 pb-24 px-8">
+        <div className="max-w-7xl mx-auto">
+          <header className="mb-20 text-center">
+            <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-zinc-900 leading-none uppercase mb-8">
+              {category.name}
+            </h1>
+            {category.description && (
+              <p className="mx-auto max-w-2xl text-lg font-medium text-zinc-500 leading-relaxed uppercase tracking-wide">
+                {category.description}
+              </p>
+            )}
+            <div className="w-24 h-1 bg-zinc-900 mx-auto mt-12" />
+          </header>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <Link key={post.id} href={`/${post.slug}`} className="group flex flex-col h-full bg-zinc-50 rounded-[2rem] overflow-hidden border border-zinc-100 transition-all hover:border-zinc-300 hover:shadow-xl">
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    {post.featuredImage?.node ? (
+                      <Image 
+                        className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                        src={post.featuredImage.node.sourceUrl} 
+                        alt={post.featuredImage.node.altText || post.title} 
+                        fill
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-zinc-200 flex items-center justify-center text-zinc-400 font-bold text-xs uppercase tracking-widest">No Image</div>
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-10">
+                    <div className="flex-1">
+                      <time className="text-[10px] font-bold text-zinc-400 tracking-[0.2em] uppercase mb-4 block" dateTime={post.date}>
+                        {new Date(post.date).toLocaleDateString()}
+                      </time>
+                      <h3 className="text-2xl font-black text-zinc-900 tracking-tighter uppercase mb-4 group-hover:text-zinc-600 transition-colors">
+                        {post.title}
+                      </h3>
                       <div 
-                        className="mt-3 text-base text-gray-500 line-clamp-3" 
+                        className="text-sm font-medium text-zinc-500 leading-relaxed line-clamp-3 uppercase tracking-tight" 
                         dangerouslySetInnerHTML={{ __html: post.excerpt }} 
                       />
-                    </Link>
-                  </div>
-                  <div className="mt-6 flex items-center">
-                    <div className="ml-3">
-                      <div className="flex space-x-1 text-sm text-gray-500">
-                        <time dateTime={post.date}>
-                          {new Date(post.date).toLocaleDateString()}
-                        </time>
-                      </div>
+                    </div>
+                    <div className="mt-8 pt-8 border-t border-zinc-200 flex items-center justify-between">
+                      <span className="text-[10px] font-black tracking-widest uppercase text-zinc-900 group-hover:translate-x-2 transition-transform">Read Article →</span>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 text-center col-span-3">No posts found in this category.</p>
-          )}
+                </Link>
+              ))
+            ) : (
+              <p className="text-zinc-500 text-center col-span-full font-bold uppercase tracking-widest py-20">No articles found in this category.</p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <Footer />
+    </main>
   );
 }

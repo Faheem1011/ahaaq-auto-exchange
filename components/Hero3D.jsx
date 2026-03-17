@@ -2,7 +2,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float, PresentationControls, ContactShadows, MeshTransmissionMaterial } from "@react-three/drei";
 import { useRef } from "react";
-import * as THREE from 'three';
 
 function AbstractCarShape() {
   const meshRef = useRef();

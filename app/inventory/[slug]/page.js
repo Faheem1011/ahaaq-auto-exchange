@@ -45,7 +45,7 @@ async function getVehicleBySlug(slug) {
 export async function generateMetadata({ params }) {
   const vehicle = await getVehicleBySlug(params.slug);
   if (!vehicle) return { title: 'Vehicle Not Found' };
-  
+
   return {
     title: `${vehicle.vehicleDetails?.year} ${vehicle.vehicleDetails?.make} ${vehicle.vehicleDetails?.model} | Ahaaq Auto Exchange`,
     description: `View details for the ${vehicle.vehicleDetails?.year} ${vehicle.vehicleDetails?.make} ${vehicle.vehicleDetails?.model} at Ahaaq Auto Exchange in Jacksonville, FL.`,
@@ -74,7 +74,7 @@ export default async function VehiclePage({ params }) {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
-      
+
       <div className="pt-32 pb-24 px-8">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb / Back */}
@@ -86,17 +86,17 @@ export default async function VehiclePage({ params }) {
             {/* Left: Media */}
             <div className="lg:w-2/3 space-y-8">
               <div className="relative aspect-[16/9] bg-zinc-100 rounded-[2rem] overflow-hidden shadow-2xl border border-zinc-100">
-                <Image 
-                  src={featuredImage?.node?.sourceUrl || "/placeholder-car.jpg"} 
+                <Image
+                  src={featuredImage?.node?.sourceUrl || "/placeholder-car.jpg"}
                   alt={title}
                   fill
                   className="object-cover"
                   priority
                 />
               </div>
-              
-              <div className="prose prose-zinc max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:text-zinc-600 prose-p:leading-relaxed" 
-                dangerouslySetInnerHTML={{ __html: content }} 
+
+              <div className="prose prose-zinc max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:text-zinc-600 prose-p:leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
 
@@ -105,7 +105,7 @@ export default async function VehiclePage({ params }) {
               <div className="bg-zinc-50 p-10 rounded-[2.5rem] border border-zinc-200">
                 <div className="space-y-2 mb-8">
                   <h1 className="text-4xl font-black tracking-tighter text-zinc-900 leading-none uppercase">
-                    {year} {make}<br/>
+                    {year} {make}<br />
                     <span className="text-zinc-400">{model}</span>
                   </h1>
                   <p className="text-sm font-bold text-zinc-500 tracking-[0.2em] uppercase">VIN: {vin || "Contact Dealer"}</p>
@@ -162,18 +162,18 @@ export default async function VehiclePage({ params }) {
                     SCHEDULE TEST DRIVE
                   </button>
                 </div>
-                
+
                 <div className="mt-8 pt-8 border-t border-zinc-200 flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center">
                     <MapPin size={18} className="text-zinc-600" />
                   </div>
                   <p className="text-xs font-bold text-zinc-500 leading-tight">
-                    Visit us in Jacksonville at <br/>
+                    Visit us in Jacksonville at <br />
                     <span className="text-zinc-900">7749 Normandy Blvd</span>
                   </p>
                 </div>
               </div>
-              
+
               {/* Trust Card */}
               <div className="bg-zinc-950 p-8 rounded-[2rem] text-white">
                 <h4 className="text-sm font-bold tracking-[0.2em] uppercase mb-4 text-zinc-400">Our Guarantee</h4>
@@ -196,7 +196,7 @@ export default async function VehiclePage({ params }) {
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </main>
   );

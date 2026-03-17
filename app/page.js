@@ -17,9 +17,9 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
     "name": "Ahaaq Auto Exchange",
-    "image": "https://ahaaq-auto-exchange.vercel.app/images/jacksonville-luxury-cars-hero.jpg",
-    "@id": "https://ahaaq-auto-exchange.vercel.app",
-    "url": "https://ahaaq-auto-exchange.vercel.app",
+    "image": "https://ahhaqautoexchange.net/images/jacksonville-luxury-cars-hero.jpg",
+    "@id": "https://ahhaqautoexchange.net",
+    "url": "https://ahhaqautoexchange.net",
     "telephone": "+19045029709",
     "priceRange": "$$",
     "address": {
@@ -57,7 +57,7 @@ export default async function Home() {
         "position": i + 1,
         "name": v.title,
         "description": `${v.vehicleDetails?.year} ${v.vehicleDetails?.make} ${v.vehicleDetails?.model} available in Jacksonville`,
-        "url": `https://ahaaq-auto-exchange.vercel.app/inventory/${v.slug}`,
+        "url": `https://ahhaqautoexchange.net/inventory/${v.slug}`,
         "offers": {
           "@type": "Offer",
           "price": v.vehicleDetails?.price || 0,
