@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="col-span-1 md:col-span-1 border-r border-zinc-800 pr-8">
           <Logo className="w-32 brightness-0 invert opacity-80 mb-6" />
           <p className="text-zinc-500 text-sm leading-relaxed mb-8">
-            Jacksonville&apos;s premier destination for high-quality pre-owned luxury and reliable daily drivers. Experience the Ahaaq difference.
+            The most trusted <strong>used car dealership in Jacksonville</strong>. We provide premium luxury vehicles and reliable daily drivers to North Florida and beyond with a commitment to excellence.
           </p>
           <div className="flex gap-4">
             <Link href="#" className="p-2 bg-zinc-900 rounded-full hover:bg-zinc-800 transition-colors"><Facebook size={18} /></Link>

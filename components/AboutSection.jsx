@@ -1,4 +1,5 @@
 import { ShieldCheck, Truck, Clock, Banknote } from "lucide-react";
+import Image from "next/image";
 
 export default function AboutSection() {
   const services = [
@@ -37,7 +38,7 @@ export default function AboutSection() {
               EXPERIENCE
             </h3>
             <p className="text-lg text-zinc-600 font-medium leading-relaxed max-w-xl">
-              At Ahaaq Auto Exchange, we don&apos;t just sell cars. We build relationships based on trust, quality, and the best prices in Jacksonville. From $0 start quotes to premium pre-sale services, we&apos;ve got you covered.
+              As the leading <strong>auto exchange in Jacksonville, FL</strong>, we specialize in high-quality pre-owned vehicles from Toyota, Lexus, Mercedes-Benz, and BMW. Our <strong>Jacksonville car dealership</strong> is built on a foundation of transparency, offering the best market-driven prices and comprehensive pre-sale inspections.
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8 pt-8">
@@ -55,21 +56,21 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Graphical Side - Premium Abstract Mesh Placeholder */}
-          <div className="flex-1 w-full max-w-xl aspect-square relative bg-white rounded-[4rem] border border-zinc-200 shadow-2xl shadow-zinc-200/50 flex items-center justify-center overflow-hidden group">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,#fff_0%,#f4f4f5_100%)]" />
+          {/* Graphical Side - Premium Image */}
+          <div className="flex-1 w-full max-w-xl aspect-square relative rounded-[4rem] overflow-hidden group shadow-2xl shadow-zinc-200/50 border border-zinc-100">
+            <Image 
+              src="/images/porsche-hero.png" 
+              alt="Luxury Performance" 
+              fill
+              className="object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent" />
             
             {/* Minimalist Design Elements */}
-            <div className="relative z-10 text-center space-y-4 px-12">
-              <div className="text-9xl font-black text-zinc-900/5 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">AHAAQ</div>
-              <div className="space-y-2">
-                <span className="block text-4xl font-black text-zinc-900">100%</span>
-                <span className="block text-xs font-bold tracking-[0.2em] text-zinc-400 uppercase">Quality Inspected</span>
-              </div>
+            <div className="absolute bottom-12 left-12 z-10 space-y-2">
+              <div className="text-4xl font-black text-white">100%</div>
+              <div className="text-[10px] font-bold tracking-[0.3em] text-zinc-100 uppercase">Quality Inspected</div>
             </div>
-
-            {/* Subtle animated border effect */}
-            <div className="absolute inset-4 rounded-[3.5rem] border border-dashed border-zinc-200 opacity-50 group-hover:rotate-6 transition-transform duration-1000" />
           </div>
         </div>
       </div>

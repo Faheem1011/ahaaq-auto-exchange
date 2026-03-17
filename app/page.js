@@ -1,47 +1,113 @@
 import Navbar from "@/components/Navbar";
-import Hero3D from "@/components/Hero3D";
+// import Hero3D from "@/components/Hero3D";
+// import ScrollSequence from "@/components/ScrollSequence";
 import VehicleCard from "@/components/VehicleCard";
 import AboutSection from "@/components/AboutSection";
+import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import { getVehicles } from "@/lib/graphql";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
   const vehicles = await getVehicles(6);
+  
+  // JSON-LD for Local SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AutoDealer",
+    "name": "Ahaaq Auto Exchange",
+    "image": "https://ahaaq-auto-exchange.vercel.app/images/jacksonville-luxury-cars-hero.jpg",
+    "@id": "https://ahaaq-auto-exchange.vercel.app",
+    "url": "https://ahaaq-auto-exchange.vercel.app",
+    "telephone": "+19045029709",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "8310 Beach Blvd Suite 2",
+      "addressLocality": "Jacksonville",
+      "addressRegion": "FL",
+      "postalCode": "32216",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 30.2869,
+      "longitude": -81.5658
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday"],
+        "opens": "10:00",
+        "closes": "16:00"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Luxury Car Inventory",
+      "itemListElement": vehicles.map((v, i) => ({
+        "@type": "Product",
+        "position": i + 1,
+        "name": v.title,
+        "description": `${v.vehicleDetails?.year} ${v.vehicleDetails?.make} ${v.vehicleDetails?.model} available in Jacksonville`,
+        "url": `https://ahaaq-auto-exchange.vercel.app/inventory/${v.slug}`,
+        "offers": {
+          "@type": "Offer",
+          "price": v.vehicleDetails?.price || 0,
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      }))
+    }
+  };
+
 
   return (
-    <main className="min-h-screen relative overflow-hidden bg-[#FAFAFA]">
+    <main className="min-h-screen relative overflow-hidden bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative w-full h-screen flex items-center justify-center pt-20">
-        <Hero3D />
+      {/* Professional Luxury Hero Section */}
+      <section className="relative w-full h-[95vh] flex items-center overflow-hidden">
+        {/* Background Image with Gradient Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[20s] hover:scale-110"
+          style={{ backgroundImage: `url('/images/jacksonville-luxury-cars-hero.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/70 to-transparent" />
         
-        <div className="pointer-events-none relative z-10 max-w-7xl mx-auto px-8 w-full flex flex-col items-start justify-center">
-          <div className="space-y-6 max-w-2xl bg-white/40 backdrop-blur-sm p-8 rounded-3xl border border-white/50 shadow-2xl shadow-zinc-200/50">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/5 border border-zinc-900/10 text-xs font-semibold tracking-widest text-zinc-800 pointer-events-auto">
-              PREMIUM CARS • BEST PRICE • PRE SALE SERVICES
+        <div className="relative z-10 max-w-7xl mx-auto px-8 w-full flex flex-col items-start pt-20">
+          <div className="max-w-2xl space-y-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold tracking-[0.3em] text-white uppercase animate-fade-in">
+              <MapPin size={12} className="text-white" /> High-End Auto Exchange • Jacksonville, FL
             </div>
             
-            <h1 className="text-6xl md:text-7xl font-black tracking-tighter text-zinc-900 leading-[1.1]">
-              BUY ALL BEST <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-800 to-zinc-500">
-                CARS
-              </span>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] uppercase">
+              DRIVEN BY <br/>
+              <span className="text-zinc-400">PERFECTION.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-zinc-600 font-medium max-w-lg leading-relaxed mix-blend-multiply">
-              Exceptional quality Toyota, Lexus, Mercedes, BMW, and more. Found at the best prices with start quotes from $0.
+            <p className="text-lg md:text-xl text-zinc-300 font-medium max-w-xl leading-relaxed">
+              Experience the pinnacle of pre-owned luxury. We curate only the finest Toyota, Lexus, and European imports for the Jacksonville driver who demands excellence.
             </p>
             
-            <div className="flex items-center gap-4 pt-4 pointer-events-auto">
-              <Link href="/inventory" className="group flex items-center gap-2 px-8 py-4 bg-zinc-900 text-white rounded-full font-semibold tracking-wide hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/20">
-                BOOK NOW
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+              <Link href="/inventory" className="group w-full sm:w-auto flex items-center justify-center gap-2 px-10 py-5 bg-white text-zinc-950 rounded-full font-bold tracking-wide hover:bg-zinc-200 transition-all shadow-2xl shadow-white/10">
+                VIEW COLLECTION
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/contact" className="px-8 py-4 bg-white text-zinc-900 border border-zinc-200 rounded-full font-semibold tracking-wide hover:bg-zinc-50 transition-all shadow-sm">
-                CONTACT US
+              <Link href="/contact" className="w-full sm:w-auto px-10 py-5 bg-transparent text-white border border-white/30 backdrop-blur-sm rounded-full font-bold tracking-wide hover:bg-white/10 transition-all">
+                BOOK CONSULTATION
               </Link>
             </div>
           </div>
@@ -77,6 +143,7 @@ export default async function Home() {
       </section>
 
       <AboutSection />
+      <Testimonials />
       <Footer />
 
     </main>
