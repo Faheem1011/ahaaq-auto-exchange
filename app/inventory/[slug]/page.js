@@ -8,17 +8,20 @@ import ImageGalleryClient from '@/components/ImageGalleryClient';
 import { createClient } from '@/utils/supabase/server';
 
 import VehicleContactForm from '@/components/VehicleContactForm';
+import { localVehicles } from '@/lib/localVehicles';
 
 async function getVehicleBySlug(slug) {
+  // 1. Try Supabase first (using ID as slug for remote cars)
   const supabase = await createClient();
   const { data: v } = await supabase.from('vehicles').select('*').eq('id', slug).single();
+  
   if (v) {
     return {
       id: v.id,
       title: `${v.year} ${v.make} ${v.model}`,
       content: v.description,
       featuredImage: { node: { sourceUrl: v.images?.[0] || null } },
-      galleryImages: (v.images || []).map(url => ({ sourceUrl: url })),
+      galleryImages: v.images || [], // Pass array of strings directly
       videoUrl: v.videoUrl,
       vehicleDetails: {
         make: v.make,
@@ -31,6 +34,15 @@ async function getVehicleBySlug(slug) {
         fuelType: "Gasoline",
         transmission: "Automatic"
       }
+    };
+  }
+
+  // 2. Fallback to localVehicles (using actual slug)
+  const local = localVehicles.find(item => item.slug === slug || item.id === slug);
+  if (local) {
+    return {
+      ...local,
+      galleryImages: local.galleryImages || [] // localVehicles already use array of strings
     };
   }
 
