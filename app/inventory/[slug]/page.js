@@ -1,12 +1,17 @@
 import { fetchGraphQL } from '@/lib/graphql';
+import { localVehicles } from '@/lib/localVehicles';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ShieldCheck, Calendar, Gauge, CreditCard, MapPin, ArrowLeft, Banknote, Clock } from 'lucide-react';
 import Link from 'next/link';
+import ImageGalleryClient from '@/components/ImageGalleryClient';
 
 async function getVehicleBySlug(slug) {
+  const localMatch = localVehicles.find(v => v.slug === slug);
+  if (localMatch) return localMatch;
+
   const query = `
     query GetVehicle($id: ID!) {
       vehicle(id: $id, idType: SLUG) {
@@ -43,7 +48,8 @@ async function getVehicleBySlug(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const vehicle = await getVehicleBySlug(params.slug);
+  const { slug } = await params;
+  const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) return { title: 'Vehicle Not Found' };
 
   return {
@@ -53,13 +59,14 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function VehiclePage({ params }) {
-  const vehicle = await getVehicleBySlug(params.slug);
+  const { slug } = await params;
+  const vehicle = await getVehicleBySlug(slug);
 
   if (!vehicle) {
     notFound();
   }
 
-  const { title, content, featuredImage, vehicleDetails } = vehicle;
+  const { title, content, featuredImage, vehicleDetails, galleryImages } = vehicle;
   const { make, model, year, price, mileage, vin, bodyType, fuelType, transmission } = vehicleDetails || {};
 
   const formatPrice = (amount) => {
@@ -75,7 +82,7 @@ export default async function VehiclePage({ params }) {
     <main className="min-h-screen bg-white">
       <Navbar />
 
-      <div className="pt-32 pb-24 px-8">
+      <div className="pt-40 lg:pt-48 pb-24 px-8">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb / Back */}
           <Link href="/inventory" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-bold text-xs tracking-widest uppercase transition-colors mb-12">
@@ -94,6 +101,12 @@ export default async function VehiclePage({ params }) {
                   priority
                 />
               </div>
+
+              <ImageGalleryClient 
+                images={galleryImages} 
+                title={title} 
+                videoUrl={vehicle.videoUrl} 
+              />
 
               <div className="prose prose-zinc max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:text-zinc-600 prose-p:leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: content }}

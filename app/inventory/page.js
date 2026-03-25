@@ -16,7 +16,7 @@ export default async function InventoryPage() {
     <main className="min-h-screen bg-white">
       <Navbar />
 
-      <div className="pt-32 pb-24 px-8">
+      <div className="pt-40 lg:pt-48 pb-24 px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
