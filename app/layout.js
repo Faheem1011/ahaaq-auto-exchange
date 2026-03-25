@@ -10,12 +10,12 @@ export const metadata = {
   description: "Jacksonville's premier auto exchange for luxury pre-owned vehicles. Featuring a curated selection of Toyota, Lexus, Mercedes-Benz, and BMW. Best prices and quality guaranteed in North Florida.",
   keywords: ["Ahaaq Auto Exchange", "luxury car dealer Jacksonville FL", "used cars Jacksonville", "premium auto exchange Florida", "Lexus dealer Jacksonville", "BMW Jacksonville FL"],
   alternates: {
-    canonical: "https://ahaaq-auto-exchange.vercel.app",
+    canonical: "https://ahhaqautoexchange.net",
   },
   openGraph: {
     title: "Ahaaq Auto Exchange | Jacksonville's Luxury Car Destination",
     description: "Find your next luxury vehicle at Ahaaq Auto Exchange. Quality inspected, market-leading prices.",
-    url: "https://ahaaq-auto-exchange.vercel.app",
+    url: "https://ahhaqautoexchange.net",
     siteName: "Ahaaq Auto Exchange",
     images: [
       {
@@ -30,11 +30,36 @@ export const metadata = {
   },
 };
 
+import SplashScreen from "@/components/SplashScreen";
+import Script from "next/script";
+
 export default function RootLayout({ children }) {
+  const GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // User to replace with their GA4 ID
+
   return (
     <html lang="en">
+      <head>
+        {GA_MEASUREMENT_ID !== "G-XXXXXXXXXX" && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
+      </head>
       <body className={`${inter.className} bg-[#FAFAFA] text-zinc-900 antialiased`}>
-        {children}
+        <SplashScreen>
+          {children}
+        </SplashScreen>
         <SpeedInsights />
         <Analytics />
       </body>

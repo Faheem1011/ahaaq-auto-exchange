@@ -4,13 +4,49 @@ import Link from "next/link";
 import { ArrowRight, Calculator, FileText, CheckCircle, CarFront, ShieldCheck } from "lucide-react";
 
 export const metadata = {
-  title: "Finance Centre | Ahaaq Auto Exchange",
-  description: "Flexible car financing at Ahaaq Auto Exchange. Apply online, calculate your payments, value your trade-in, and learn about our protection plans.",
+  title: "Car Financing in Jacksonville, FL | No Down Payment & Bad Credit | Ahaaq Auto Exchange",
+  description: "Get pre-approved for a car loan in Jacksonville, FL. We offer flexible auto financing, zero-down options, and trade-in appraisals for all credit types at Ahaaq Auto Exchange.",
+  keywords: "car financing Jacksonville, auto loans Jacksonville FL, bad credit car loans Jacksonville, no money down cars Jacksonville, trade-in value Jacksonville",
 };
 
 export default function FinanceCentre() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I finance a car with no money down in Jacksonville?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Ahaaq Auto Exchange offers zero-down financing options for qualified buyers in the Jacksonville area. You can often drive home with no out-of-pocket costs and delay your first payment for up to 60 days."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Ahaaq Auto Exchange offer financing for bad credit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. We work with a network of lenders specialized in all dynamic credit profiles, including positive, zero, or negative credit scores. We focus on your future, not just your past."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What documents do I need for a car loan in Florida?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Typical requirements include a valid Florida driver's license, proof of insurance, recent pay stubs or bank statements for income verification, and your trade-in's title or registration if applicable."
+        }
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Navbar />
 
       {/* Hero Section */}
@@ -18,13 +54,13 @@ export default function FinanceCentre() {
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/50 to-zinc-950 z-0"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-8 w-full text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-[10px] font-bold tracking-[0.3em] text-white uppercase">
-            Ahaaq Auto Exchange
+            Ahaaq Auto Exchange • Jacksonville, FL
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase leading-tight">
-            Flexible Car <span className="text-zinc-500">Financing</span>
+            Flexible Car <span className="text-zinc-500">Financing in Jacksonville</span>
           </h1>
           <p className="text-lg text-zinc-400 max-w-2xl mx-auto font-medium">
-            Drive your dream car home today. We work with all credit profiles to secure the best rates and terms for our luxury inventory.
+            Drive your dream car home today. We work with all credit profiles in Jacksonville to secure the best rates and terms for our premium inventory.
           </p>
           <div className="pt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link href="/finance/apply" className="px-8 py-4 bg-white text-zinc-950 font-bold rounded-full hover:bg-zinc-200 transition-colors flex items-center justify-center w-full sm:w-auto">

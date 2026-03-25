@@ -1,8 +1,10 @@
-import { getVehicles } from '@/lib/graphql';
+import { createClient } from '@/utils/supabase/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import VehicleCard from '@/components/VehicleCard';
 import { Filter, Search } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Luxury Vehicle Inventory | Ahaaq Auto Exchange Jacksonville',
@@ -10,7 +12,38 @@ export const metadata = {
 };
 
 export default async function InventoryPage() {
-  const vehicles = await getVehicles(100); // Fetch all for now
+  const supabase = await createClient();
+  const { data: supabaseData, error } = await supabase.from('vehicles').select('*').order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching from Supabase:', error);
+  }
+
+  // Map supabase vehicles
+  const mappedSupabaseVehicles = (supabaseData || []).map(v => ({
+    id: v.id,
+    slug: v.id, // URL slug is the UUID
+    title: `${v.year} ${v.make} ${v.model}`,
+    featuredImage: {
+      node: {
+        sourceUrl: v.images?.[0] || null
+      }
+    },
+    vehicleDetails: {
+      make: v.make,
+      model: v.model,
+      year: v.year,
+      price: v.price,
+      mileage: v.mileage,
+      vin: v.vin
+    }
+  }));
+
+  // Get vehicles from Supabase only
+  const allVehicles = mappedSupabaseVehicles;
+
+  // Optional: Remove duplicates by ID/slug if necessary
+  const uniqueVehicles = Array.from(new Map(allVehicles.map(v => [v.id, v])).values());
 
   return (
     <main className="min-h-screen bg-white">
@@ -45,10 +78,10 @@ export default async function InventoryPage() {
           </div>
 
           {/* Grid */}
-          {vehicles?.length > 0 ? (
+          {uniqueVehicles?.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-              {vehicles.map((vehicle) => (
-                <VehicleCard key={vehicle?.id} vehicle={vehicle} />
+              {uniqueVehicles.map((vehicle) => (
+                <VehicleCard key={vehicle?.id || vehicle?.slug} vehicle={vehicle} />
               ))}
             </div>
           ) : (

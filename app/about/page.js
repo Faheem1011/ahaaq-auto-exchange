@@ -1,11 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { ShieldCheck, Target, Users, MapPin } from "lucide-react";
+import { ShieldCheck, Users } from "lucide-react";
 
 export const metadata = {
-  title: "About Us | Ahaaq Auto Exchange",
-  description: "Learn more about our premium pre-owned dealership in Jacksonville, FL.",
+  title: "About Us | Ahaaq Auto Exchange | Jacksonville's Trusted Used Car Dealer",
+  description: "Learn about Ahaaq Auto Exchange in Jacksonville, FL. Led by Bobby Ali, we provide premium pre-owned luxury vehicles and exceptional auto financing since our founding.",
+  keywords: "Bobby Ali Jacksonville, Ahaaq Auto Exchange history, about used car dealer Jacksonville, best luxury dealer Jax",
 };
 
 export default function AboutPage() {

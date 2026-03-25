@@ -1,5 +1,3 @@
-import { fetchGraphQL } from '@/lib/graphql';
-import { localVehicles } from '@/lib/localVehicles';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -7,44 +5,36 @@ import Footer from '@/components/Footer';
 import { ShieldCheck, Calendar, Gauge, CreditCard, MapPin, ArrowLeft, Banknote, Clock } from 'lucide-react';
 import Link from 'next/link';
 import ImageGalleryClient from '@/components/ImageGalleryClient';
+import { createClient } from '@/utils/supabase/server';
+
+import VehicleContactForm from '@/components/VehicleContactForm';
 
 async function getVehicleBySlug(slug) {
-  const localMatch = localVehicles.find(v => v.slug === slug);
-  if (localMatch) return localMatch;
-
-  const query = `
-    query GetVehicle($id: ID!) {
-      vehicle(id: $id, idType: SLUG) {
-        title
-        content
-        featuredImage {
-          node {
-            sourceUrl
-            altText
-          }
-        }
-        vehicleDetails {
-          make
-          model
-          year
-          price
-          mileage
-          vin
-          bodyType
-          fuelType
-          transmission
-        }
+  const supabase = await createClient();
+  const { data: v } = await supabase.from('vehicles').select('*').eq('id', slug).single();
+  if (v) {
+    return {
+      id: v.id,
+      title: `${v.year} ${v.make} ${v.model}`,
+      content: v.description,
+      featuredImage: { node: { sourceUrl: v.images?.[0] || null } },
+      galleryImages: (v.images || []).map(url => ({ sourceUrl: url })),
+      videoUrl: v.videoUrl,
+      vehicleDetails: {
+        make: v.make,
+        model: v.model,
+        year: v.year,
+        price: v.price,
+        mileage: v.mileage,
+        vin: v.vin,
+        bodyType: "Premium",
+        fuelType: "Gasoline",
+        transmission: "Automatic"
       }
-    }
-  `;
-
-  try {
-    const data = await fetchGraphQL(query, { id: slug });
-    return data.vehicle;
-  } catch (err) {
-    console.error('Error fetching vehicle:', err);
-    return null;
+    };
   }
+
+  return null;
 }
 
 export async function generateMetadata({ params }) {
@@ -52,9 +42,12 @@ export async function generateMetadata({ params }) {
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) return { title: 'Vehicle Not Found' };
 
+  const { year, make, model, price } = vehicle.vehicleDetails || {};
+  const priceStr = price ? ` for ${new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(price)}` : "";
+
   return {
-    title: `${vehicle.vehicleDetails?.year} ${vehicle.vehicleDetails?.make} ${vehicle.vehicleDetails?.model} | Ahaaq Auto Exchange`,
-    description: `View details for the ${vehicle.vehicleDetails?.year} ${vehicle.vehicleDetails?.make} ${vehicle.vehicleDetails?.model} at Ahaaq Auto Exchange in Jacksonville, FL.`,
+    title: `${year} ${make} ${model} for Sale in Jacksonville, FL${priceStr} | Ahaaq Auto Exchange`,
+    description: `Check out this ${year} ${make} ${model} available now at Ahaaq Auto Exchange in Jacksonville. ${vehicle.vehicleDetails?.mileage?.toLocaleString()} miles, ${vehicle.vehicleDetails?.transmission || "Automatic"}. Best used car deals in Jacksonville!`,
   };
 }
 
@@ -69,6 +62,31 @@ export default async function VehiclePage({ params }) {
   const { title, content, featuredImage, vehicleDetails, galleryImages } = vehicle;
   const { make, model, year, price, mileage, vin, bodyType, fuelType, transmission } = vehicleDetails || {};
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": `${year} ${make} ${model}`,
+    "image": featuredImage?.node?.sourceUrl || "https://ahhaqautoexchange.net/placeholder-car.jpg",
+    "description": `Premium ${year} ${make} ${model} with ${mileage?.toLocaleString()} miles. Available at Ahaaq Auto Exchange in Jacksonville, FL.`,
+    "brand": {
+      "@type": "Brand",
+      "name": make
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://ahhaqautoexchange.net/inventory/${slug}`,
+      "priceCurrency": "USD",
+      "price": price || 0,
+      "priceValidUntil": new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0],
+      "itemCondition": "https://schema.org/UsedCondition",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "AutoDealer",
+        "name": "Ahaaq Auto Exchange"
+      }
+    }
+  };
+
   const formatPrice = (amount) => {
     if (!amount) return "Call for Price";
     return new Intl.NumberFormat("en-US", {
@@ -80,13 +98,17 @@ export default async function VehiclePage({ params }) {
 
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <Navbar />
 
       <div className="pt-40 lg:pt-48 pb-24 px-8">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb / Back */}
           <Link href="/inventory" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-bold text-xs tracking-widest uppercase transition-colors mb-12">
-            <ArrowLeft size={16} /> BACK TO INVENTORY
+            <ArrowLeft size={16} /> USED CAR INVENTORY JACKSONVILLE
           </Link>
 
           <div className="flex flex-col lg:flex-row gap-16">
@@ -205,6 +227,8 @@ export default async function VehiclePage({ params }) {
                   </li>
                 </ul>
               </div>
+
+              <VehicleContactForm vehicleTitle={title} />
             </div>
           </div>
         </div>

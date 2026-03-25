@@ -9,6 +9,12 @@ import { getVehicles } from "@/lib/graphql";
 import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Quality Used Cars for Sale in Jacksonville, FL | Ahaaq Auto Exchange",
+  description: "Browse our premium collection of used cars, SUVs, and luxury vehicles in Jacksonville, FL. Expert financing, trade-ins, and unbeatable service at Ahaaq Auto Exchange.",
+  keywords: "used cars Jacksonville, luxury cars Jacksonville, car dealership Jacksonville FL, auto exchange Jacksonville, pre-owned vehicles Jacksonville",
+};
+
 export default async function Home() {
   const vehicles = await getVehicles(6);
   
@@ -49,20 +55,28 @@ export default async function Home() {
         "closes": "16:00"
       }
     ],
+    "areaServed": {
+      "@type": "City",
+      "name": "Jacksonville",
+      "sameAs": "https://en.wikipedia.org/wiki/Jacksonville,_Florida"
+    },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Luxury Car Inventory",
+      "name": "Luxury Car Inventory in Jacksonville",
       "itemListElement": vehicles.map((v, i) => ({
-        "@type": "Product",
+        "@type": "ListItem",
         "position": i + 1,
-        "name": v.title,
-        "description": `${v.vehicleDetails?.year} ${v.vehicleDetails?.make} ${v.vehicleDetails?.model} available in Jacksonville`,
-        "url": `https://ahhaqautoexchange.net/inventory/${v.slug}`,
-        "offers": {
-          "@type": "Offer",
-          "price": v.vehicleDetails?.price || 0,
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock"
+        "item": {
+          "@type": "Product",
+          "name": v.title,
+          "description": `${v.vehicleDetails?.year} ${v.vehicleDetails?.make} ${v.vehicleDetails?.model} available at Ahaaq Auto Exchange Jacksonville`,
+          "url": `https://ahhaqautoexchange.net/inventory/${v.slug}`,
+          "offers": {
+            "@type": "Offer",
+            "price": v.vehicleDetails?.price || 0,
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          }
         }
       }))
     }
@@ -82,7 +96,7 @@ export default async function Home() {
         {/* Background Image with Gradient Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[20s] hover:scale-110"
-          style={{ backgroundImage: `url('/images/jacksonville-luxury-cars-hero.jpg')` }}
+          style={{ backgroundImage: `url('/images/new-hero-banner.jpg')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/70 to-transparent" />
         
@@ -93,8 +107,8 @@ export default async function Home() {
             </div>
             
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] uppercase">
-              DRIVEN BY <br/>
-              <span className="text-zinc-400">PERFECTION.</span>
+              QUALITY USED CARS <br/>
+              <span className="text-zinc-400 text-5xl md:text-7xl">JACKSONVILLE, FL</span>
             </h1>
             
             <p className="text-lg md:text-xl text-zinc-300 font-medium max-w-xl leading-relaxed">
@@ -119,7 +133,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-sm font-bold tracking-[0.2em] text-zinc-500 uppercase">Featured Collection</h2>
-            <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900">QUALITY CARS,<br/>UNBEATABLE PRICES</h3>
+            <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900">QUALITY CARS IN JACKSONVILLE,<br/>UNBEATABLE PRICES</h3>
           </div>
 
           {vehicles?.length > 0 ? (
@@ -143,6 +157,20 @@ export default async function Home() {
       </section>
 
       <AboutSection />
+      
+      {/* Search Engine Optimization Content Section */}
+      <section className="py-24 bg-zinc-50 px-8">
+        <div className="max-w-4xl mx-auto prose prose-zinc prose-lg">
+          <h2 className="text-3xl font-black tracking-tight text-zinc-900 uppercase mb-8">Your Trusted Used Car Dealer in Jacksonville, Florida</h2>
+          <p className="text-zinc-700 leading-relaxed font-medium">
+            Looking for a reliable <Link href="/inventory" className="text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-900 font-bold transition-all">used car in Jacksonville</Link>? Ahaaq Auto Exchange is your premier destination for high-quality pre-owned vehicles. Located conveniently on Beach Blvd, we serve our local Jacksonville community with a curated selection of luxury cars, SUVs, and efficient imports.
+          </p>
+          <p className="text-zinc-700 leading-relaxed font-medium mt-6">
+            Our commitment to quality means every vehicle in our inventory undergoes a rigorous inspection. Whether you&apos;re searching for a Lexus SUV to navigate the Florida coast or a reliable Toyota for your daily commute, our expert team is here to help you find the perfect match. We offer <Link href="/finance" className="text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-900 font-bold transition-all">flexible financing solutions</Link> tailored to your needs, including zero-down options and competitive rates for all credit profiles.
+          </p>
+        </div>
+      </section>
+
       <Testimonials />
       <Footer />
 

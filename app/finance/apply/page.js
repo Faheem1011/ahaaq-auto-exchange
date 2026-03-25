@@ -1,17 +1,61 @@
-"use client";
-
+import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { ShieldCheck, CheckCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
-import { ShieldCheck, CheckCircle } from "lucide-react";
 
 export default function FinanceApply() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    ssn: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    yearsAtAddress: "",
+    employer: "",
+    jobTitle: "",
+    monthlyIncome: ""
+  });
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    // Here we would integrate with CRM or backend
+    setLoading(true);
+    
+    const supabase = createClient();
+    const { error } = await supabase.from('finance_applications').insert([{
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      ssn: formData.ssn,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zip_code: formData.zipCode,
+      years_at_address: parseInt(formData.yearsAtAddress) || 0,
+      employer: formData.employer,
+      job_title: formData.jobTitle,
+      monthly_income: parseFloat(formData.monthlyIncome) || 0,
+      status: 'pending'
+    }]);
+
+    if (!error) {
+      setSubmitted(true);
+    } else {
+      console.error('Error submitting application:', error);
+      alert('There was an error submitting your application. Please try again.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -45,23 +89,59 @@ export default function FinanceApply() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">First Name *</label>
-                  <input required type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Last Name *</label>
-                  <input required type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Email Address *</label>
-                  <input required type="email" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    type="email" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Phone Number *</label>
-                  <input required type="tel" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    type="tel" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-zinc-700">Social Security Number *</label>
-                  <input required type="password" placeholder="XXX-XX-XXXX" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="ssn"
+                    value={formData.ssn}
+                    onChange={handleChange}
+                    type="password" 
+                    placeholder="XXX-XX-XXXX" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
               </div>
             </div>
@@ -72,23 +152,57 @@ export default function FinanceApply() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-zinc-700">Street Address *</label>
-                  <input required type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">City *</label>
-                  <input required type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">State *</label>
-                  <input required type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Zip Code *</label>
-                  <input required type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="zipCode"
+                    value={formData.zipCode}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Years at Address</label>
-                  <input type="number" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    name="yearsAtAddress"
+                    value={formData.yearsAtAddress}
+                    onChange={handleChange}
+                    type="number" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
               </div>
             </div>
@@ -99,15 +213,34 @@ export default function FinanceApply() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Employer Name</label>
-                  <input type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    name="employer"
+                    value={formData.employer}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700">Job Title</label>
-                  <input type="text" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    name="jobTitle"
+                    value={formData.jobTitle}
+                    onChange={handleChange}
+                    type="text" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-sm font-bold text-zinc-700">Gross Monthly Income *</label>
-                  <input required type="number" className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" />
+                  <input 
+                    required 
+                    name="monthlyIncome"
+                    value={formData.monthlyIncome}
+                    onChange={handleChange}
+                    type="number" 
+                    className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+                  />
                 </div>
               </div>
             </div>
@@ -119,8 +252,12 @@ export default function FinanceApply() {
                   By submitting this application, I authorize Ahaaq Auto Exchange to investigate my credit history and obtain credit reports. I also consent to receive communications regarding my application via SMS, email, or phone. (Privacy Notice & Terms)
                 </p>
               </div>
-              <button type="submit" className="w-full py-4 bg-zinc-950 text-white font-bold rounded-lg hover:bg-zinc-800 transition-colors tracking-widest uppercase">
-                Submit Application
+              <button 
+                disabled={loading}
+                type="submit" 
+                className="w-full py-4 bg-zinc-950 text-white font-bold rounded-lg hover:bg-zinc-800 transition-colors tracking-widest uppercase disabled:opacity-50"
+              >
+                {loading ? "Submitting..." : "Submit Application"}
               </button>
             </div>
           </form>

@@ -2,8 +2,8 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect } from "react";
-import { ArrowRight, Calculator as CalcIcon } from "lucide-react";
+import { useState } from "react";
+import { Calculator as CalcIcon } from "lucide-react";
 
 export default function PaymentCalculator() {
   const [price, setPrice] = useState(50000);
@@ -14,40 +14,42 @@ export default function PaymentCalculator() {
   const [apr, setApr] = useState(4.99);
   const [term, setTerm] = useState(60);
 
-  const [monthly, setMonthly] = useState(0);
-  const [biweekly, setBiweekly] = useState(0);
-  const [weekly, setWeekly] = useState(0);
-  const [totalFinanced, setTotalFinanced] = useState(0);
-
-  useEffect(() => {
-    // Calculate principal
+  // Derived state (calculated on every render)
+  const calculatePayments = () => {
     const p0 = Number(price) - Number(downPayment) - (Number(tradeValue) - Number(tradePayoff));
     const tax = (Number(taxRate) / 100) * Number(price);
     const principal = p0 + tax;
+    const totalFinancedValue = principal > 0 ? principal : 0;
 
-    setTotalFinanced(principal > 0 ? principal : 0);
+    let monthlyValue = 0;
+    let biweeklyValue = 0;
+    let weeklyValue = 0;
 
-    // Calculate monthly payment
     if (principal > 0 && term > 0) {
       if (apr > 0) {
         const r = (Number(apr) / 100) / 12;
         const n = Number(term);
         const m = (r * principal) / (1 - Math.pow(1 + r, -n));
-        setMonthly(m);
-        setBiweekly(m / 2);
-        setWeekly(m / 4);
+        monthlyValue = m;
+        biweeklyValue = m / 2;
+        weeklyValue = m / 4;
       } else {
         const m = principal / Number(term);
-        setMonthly(m);
-        setBiweekly(m / 2);
-        setWeekly(m / 4);
+        monthlyValue = m;
+        biweeklyValue = m / 2;
+        weeklyValue = m / 4;
       }
-    } else {
-      setMonthly(0);
-      setBiweekly(0);
-      setWeekly(0);
     }
-  }, [price, downPayment, tradeValue, tradePayoff, taxRate, apr, term]);
+
+    return {
+      monthly: monthlyValue,
+      biweekly: biweeklyValue,
+      weekly: weeklyValue,
+      totalFinanced: totalFinancedValue
+    };
+  };
+
+  const { monthly, biweekly, weekly, totalFinanced } = calculatePayments();
 
   const formatCurrency = (val) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
