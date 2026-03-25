@@ -87,4 +87,9 @@ CREATE TABLE IF NOT EXISTS public.vehicles (
 );
 ALTER TABLE public.vehicles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Enable read for all" ON public.vehicles FOR SELECT USING (true);
-CREATE POLICY "Enable all for authenticated users" ON public.vehicles ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Enable all for authenticated users" 
+  ON public.vehicles
+  FOR ALL
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
