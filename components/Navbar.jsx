@@ -20,7 +20,7 @@ export default function Navbar() {
       {/* Main Nav */}
       <div className="flex justify-between items-center py-4 px-8">
         <Link href="/">
-          <Logo className="w-40" />
+          <Logo className="w-56 h-14" />
         </Link>
         <div className="hidden md:flex gap-8 font-medium text-sm tracking-wide text-zinc-600">
           <Link href="/" className="hover:text-zinc-900 transition-colors">HOME</Link>

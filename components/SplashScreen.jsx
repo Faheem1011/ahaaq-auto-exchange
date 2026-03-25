@@ -42,7 +42,7 @@ export default function SplashScreen({ children }) {
             <div className="relative z-10 flex flex-col items-center">
               {/* Phase 1: Impact Logo */}
               <motion.div
-                className="relative w-48 h-16 mb-8"
+                className="relative w-72 h-32 mb-12"
                 initial={{ scale: 0, opacity: 0, y: 50 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{
