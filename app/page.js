@@ -23,7 +23,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
     "name": "Ahaaq Auto Exchange",
-    "image": "https://ahhaqautoexchange.net/images/Jacksonville-ahaaq-hero-banner.png",
+    "image": "https://ahhaqautoexchange.net/images/Jacksonville-ahaaq-hero-banner.webp",
     "@id": "https://ahhaqautoexchange.net",
     "url": "https://ahhaqautoexchange.net",
     "telephone": "+19045029709",
@@ -96,7 +96,7 @@ export default async function Home() {
         {/* Background Image with Gradient Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[20s] hover:scale-110"
-          style={{ backgroundImage: `url('/images/Jacksonville-ahaaq-hero-banner.png')` }}
+          style={{ backgroundImage: `url('/images/Jacksonville-ahaaq-hero-banner.webp')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/70 to-transparent" />
         

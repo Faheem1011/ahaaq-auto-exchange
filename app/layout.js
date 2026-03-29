@@ -29,6 +29,7 @@ export const metadata = {
 
 import SplashScreen from "@/components/SplashScreen";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import SmokeCursor from "@/components/SmokeCursor"; // Exhaust effects
 import Script from "next/script";
 
 export default function RootLayout({ children }) {
@@ -59,6 +60,7 @@ export default function RootLayout({ children }) {
         )}
       </head>
       <body className="font-['Inter'] bg-[#FAFAFA] text-zinc-900 antialiased">
+        <SmokeCursor />
         <SplashScreen>
           {children}
         </SplashScreen>
