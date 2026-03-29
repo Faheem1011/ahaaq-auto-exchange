@@ -4,7 +4,7 @@ export async function POST(req) {
   try {
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
     const { platform, access_token, config } = await req.json();
