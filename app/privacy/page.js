@@ -34,8 +34,8 @@ export default function PrivacyPage() {
           <p>
             If you have any questions about this Privacy Policy, please contact us at:<br />
             <strong>Ahaaq Auto Exchange</strong><br />
-            7749 Normandy Blvd, Jacksonville, FL 32221<br />
-            Email: info@ahhaqautoexchange.net
+            8310 Beach Blvd Suite 2, Jacksonville FL 32216<br />
+            Email: Ahaaqautoexchange@yahoo.com
           </p>
         </div>
       </section>

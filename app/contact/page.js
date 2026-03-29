@@ -82,7 +82,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-2">Phone</h4>
-                    <p className="text-zinc-600 text-lg">+1 904 502 9709<br /><span className="text-sm text-zinc-400">Ask for Bobby Ali</span></p>
+                    <p className="text-zinc-600 text-lg"><a href="https://wa.me/19045029709" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-500 transition-colors">+1 904 502 9709</a><br /><span className="text-sm text-zinc-400">💬 Tap to WhatsApp Bobby Ali</span></p>
                   </div>
                 </div>
 

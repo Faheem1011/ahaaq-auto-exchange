@@ -13,7 +13,7 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-4">
           <span>Bobby Ali</span>
-          <span className="flex items-center gap-2 font-bold text-white"><Phone size={12} /> +1 904 502 9709</span>
+          <a href="https://wa.me/19045029709" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-bold text-white hover:text-emerald-400 transition-colors"><Phone size={12} /> +1 904 502 9709</a>
         </div>
       </div>
 

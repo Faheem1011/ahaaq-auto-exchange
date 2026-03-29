@@ -41,7 +41,7 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-3">
               <Phone size={18} className="text-zinc-400" />
-              <span>+1 904 502 9709</span>
+              <a href="https://wa.me/19045029709" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">+1 904 502 9709</a>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} className="text-zinc-400" />

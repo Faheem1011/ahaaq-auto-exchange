@@ -9,7 +9,7 @@ import Link from 'next/link';
 const faqs = [
   {
     question: "Where is Ahaaq Auto Exchange located in Jacksonville?",
-    answer: "We are conveniently located at 7749 Normandy Blvd, Jacksonville, FL 32221. Our dealership is easily accessible for residents across Jacksonville, Orange Park, and the surrounding areas."
+    answer: "We are conveniently located at 8310 Beach Blvd Suite 2, Jacksonville, FL 32216. Our dealership is easily accessible for residents across Jacksonville, Orange Park, and the surrounding areas."
   },
   {
     question: "Do you offer financing for bad credit in Jacksonville?",
@@ -69,11 +69,11 @@ export default function FAQPage() {
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="border border-zinc-200 rounded-2xl overflow-hidden transition-all duration-300"
             >
-              <button 
+              <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="w-full flex items-center justify-between p-6 text-left hover:bg-zinc-50 transition-colors"
               >
@@ -84,11 +84,10 @@ export default function FAQPage() {
                   <Plus className="text-zinc-900 shrink-0" size={20} />
                 )}
               </button>
-              
-              <div 
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                }`}
+
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
               >
                 <div className="p-6 pt-0 text-zinc-600 font-medium leading-relaxed border-t border-zinc-100 bg-white">
                   {faq.answer}

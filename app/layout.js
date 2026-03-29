@@ -1,9 +1,6 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Ahaaq Auto Exchange | Premium Luxury Car Dealership in Jacksonville, FL",
@@ -31,6 +28,7 @@ export const metadata = {
 };
 
 import SplashScreen from "@/components/SplashScreen";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Script from "next/script";
 
 export default function RootLayout({ children }) {
@@ -39,6 +37,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
         {GA_MEASUREMENT_ID !== "G-XXXXXXXXXX" && (
           <>
             <Script
@@ -56,10 +58,11 @@ export default function RootLayout({ children }) {
           </>
         )}
       </head>
-      <body className={`${inter.className} bg-[#FAFAFA] text-zinc-900 antialiased`}>
+      <body className="font-['Inter'] bg-[#FAFAFA] text-zinc-900 antialiased">
         <SplashScreen>
           {children}
         </SplashScreen>
+        <WhatsAppFloat />
         <SpeedInsights />
         <Analytics />
       </body>
