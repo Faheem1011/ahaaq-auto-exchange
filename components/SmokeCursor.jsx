@@ -22,24 +22,25 @@ export default function SmokeCursor() {
 
     const createParticle = (x, y) => {
       const angle = Math.random() * Math.PI * 2;
-      const velocity = Math.random() * 2;
+      const velocity = Math.random() * 1.5;
       return {
         x,
         y,
-        size: Math.random() * 15 + 10,
+        size: Math.random() * 20 + 20, // Initial size larger but softer
         speedX: Math.cos(angle) * velocity,
-        speedY: Math.sin(angle) * velocity - 0.5, // Natural upward drift
-        color: `rgba(${100 + Math.random() * 50}, ${100 + Math.random() * 50}, ${100 + Math.random() * 50}, ${Math.random() * 0.2 + 0.1})`,
+        speedY: Math.sin(angle) * velocity - 0.3, 
+        // Darker, more "asphalt" gray, lower base alpha
+        color: { r: 60, g: 60, b: 65 }, 
         life: 1,
-        decay: Math.random() * 0.015 + 0.005,
+        decay: Math.random() * 0.04 + 0.03, // Much faster decay (shorter life)
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.05,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
       };
     };
 
     const handleMouseMove = (e) => {
-      // Spawn particles slightly behind or at the cursor
-      for (let i = 0; i < 4; i++) {
+      // Significantly reduced spawn rate (only 1 particle occasionally)
+      if (Math.random() > 0.6) {
         particles.push(createParticle(e.clientX, e.clientY));
       }
     };
@@ -52,29 +53,34 @@ export default function SmokeCursor() {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.life -= p.decay;
-        p.size += 0.8;
+        p.size += 1.5; // Quick expansion
         p.x += p.speedX;
         p.y += p.speedY;
         p.rotation += p.rotationSpeed;
+
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          i--;
+          continue;
+        }
 
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rotation);
         
-        // Draw a soft smoke cloud using multiple overlapping arcs or just one with globalAlpha
-        ctx.globalAlpha = p.life;
+        // Use a soft radial gradient instead of a hard circle
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size);
+        const alpha = p.life * 0.15; // Extremely subtle
+        gradient.addColorStop(0, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${alpha})`);
+        gradient.addColorStop(0.5, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${alpha * 0.4})`);
+        gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
         ctx.beginPath();
-        // Use a slightly irregular shape (ellipse/multi-arc) for more "smoke" look
         ctx.arc(0, 0, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = gradient;
         ctx.fill();
         
         ctx.restore();
-
-        if (p.life <= 0) {
-          particles.splice(i, 1);
-          i--;
-        }
       }
 
       requestAnimationFrame(animate);
