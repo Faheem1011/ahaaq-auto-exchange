@@ -30,16 +30,16 @@ export default async function Home() {
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "8310 Beach Blvd Suite 2",
+      "streetAddress": "6615 N Main St",
       "addressLocality": "Jacksonville",
       "addressRegion": "FL",
-      "postalCode": "32216",
+      "postalCode": "32208",
       "addressCountry": "US"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 30.2869,
-      "longitude": -81.5658
+      "latitude": 30.3879,
+      "longitude": -81.6528
     },
     "openingHoursSpecification": [
       {
@@ -163,7 +163,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto prose prose-zinc prose-lg">
           <h2 className="text-3xl font-black tracking-tight text-zinc-900 uppercase mb-8">Your Trusted Used Car Dealer in Jacksonville, Florida</h2>
           <p className="text-zinc-700 leading-relaxed font-medium">
-            Looking for a reliable <Link href="/inventory" className="text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-900 font-bold transition-all">used car in Jacksonville</Link>? Ahaaq Auto Exchange is your premier destination for high-quality pre-owned vehicles. Located conveniently on Beach Blvd, we serve our local Jacksonville community with a curated selection of luxury cars, SUVs, and efficient imports.
+            Looking for a reliable <Link href="/inventory" className="text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-900 font-bold transition-all">used car in Jacksonville</Link>? Ahaaq Auto Exchange is your premier destination for high-quality pre-owned vehicles. Located conveniently on N Main St, we serve our local Jacksonville community with a curated selection of luxury cars, SUVs, and efficient imports.
           </p>
           <p className="text-zinc-700 leading-relaxed font-medium mt-6">
             Our commitment to quality means every vehicle in our inventory undergoes a rigorous inspection. Whether you&apos;re searching for a Lexus SUV to navigate the Florida coast or a reliable Toyota for your daily commute, our expert team is here to help you find the perfect match. We offer <Link href="/finance" className="text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-900 font-bold transition-all">flexible financing solutions</Link> tailored to your needs, including zero-down options and competitive rates for all credit profiles.

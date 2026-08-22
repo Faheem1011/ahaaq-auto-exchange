@@ -72,7 +72,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-2">Location</h4>
-                    <p className="text-zinc-600 text-lg">8310 Beach Blvd<br />Suite 2<br />Jacksonville, FL 32216</p>
+                    <p className="text-zinc-600 text-lg">6615 N Main St<br />Jacksonville, FL 32208</p>
                   </div>
                 </div>
 

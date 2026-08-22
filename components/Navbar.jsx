@@ -8,7 +8,7 @@ export default function Navbar() {
       {/* Top Bar for Contact Info */}
       <div className="hidden md:flex justify-between items-center py-2 px-8 bg-zinc-900 text-zinc-300 text-xs tracking-wide">
         <div className="flex items-center gap-6">
-          <span className="flex items-center gap-2"><MapPin size={12} /> 8310 Beach Blvd Suite 2, Jacksonville FL 32216</span>
+          <span className="flex items-center gap-2"><MapPin size={12} /> 6615 N Main St, Jacksonville FL 32208</span>
           <span className="flex items-center gap-2"><Mail size={12} /> Ahaaqautoexchange@yahoo.com</span>
         </div>
         <div className="flex items-center gap-4">

@@ -37,7 +37,7 @@ export default function Footer() {
           <ul className="space-y-4 text-sm font-medium text-zinc-500">
             <li className="flex items-start gap-3">
               <MapPin size={18} className="text-zinc-400 shrink-0" />
-              <span>8310 Beach Blvd Suite 2, <br/>Jacksonville FL 32216</span>
+              <span>6615 N Main St, <br/>Jacksonville FL 32208</span>
             </li>
             <li className="flex items-center gap-3">
               <Phone size={18} className="text-zinc-400" />

@@ -339,7 +339,7 @@ export default async function VehiclePage({ params }) {
                   </div>
                   <p className="text-xs font-bold text-zinc-500 leading-tight">
                     Visit us in Jacksonville at <br />
-                    <span className="text-zinc-900">8310 Beach Blvd Suite 2, Jacksonville, FL 32216</span>
+                    <span className="text-zinc-900">6615 N Main St, Jacksonville, FL 32208</span>
                   </p>
                 </div>
               </div>

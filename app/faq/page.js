@@ -9,7 +9,7 @@ import Link from 'next/link';
 const faqs = [
   {
     question: "Where is Ahaaq Auto Exchange located in Jacksonville?",
-    answer: "We are conveniently located at 8310 Beach Blvd Suite 2, Jacksonville, FL 32216. Our dealership is easily accessible for residents across Jacksonville, Orange Park, and the surrounding areas."
+    answer: "We are conveniently located at 6615 N Main St, Jacksonville, FL 32208. Our dealership is easily accessible for residents across Jacksonville, Northside, and the surrounding areas."
   },
   {
     question: "Do you offer financing for bad credit in Jacksonville?",
