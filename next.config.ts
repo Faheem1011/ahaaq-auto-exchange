@@ -1,15 +1,33 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'duzuzlbvjaxbidrblwbh.supabase.co',
-        port: '',
-        pathname: '/storage/v1/object/public/**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ahhaqautoexchange.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'backend.ahhaqautoexchange.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
       },
     ],
   },

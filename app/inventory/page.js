@@ -2,48 +2,60 @@ import { createClient } from '@/utils/supabase/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import VehicleCard from '@/components/VehicleCard';
-import { Filter, Search } from 'lucide-react';
+import { localVehicles } from '@/lib/localVehicles';
+import { Search } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Luxury Vehicle Inventory | Ahaaq Auto Exchange Jacksonville',
-  description: 'Browse our exclusive collection of high-quality pre-owned luxury vehicles including Lexus, Toyota, BMW, and Mercedes-Benz in Jacksonville, FL.',
+  title: 'Quality Used Cars & Luxury Vehicles for Sale | Jacksonville, FL | Ahaaq Auto Exchange',
+  description: 'Browse our complete inventory of quality used cars, sedans, SUVs, and luxury imports in Jacksonville, FL. Guaranteed financing, clean titles, and certified inspection.',
 };
 
 export default async function InventoryPage() {
-  const supabase = await createClient();
-  const { data: supabaseData, error } = await supabase.from('vehicles').select('*').order('created_at', { ascending: false });
+  let vehicles = [];
 
-  if (error) {
-    console.error('Error fetching from Supabase:', error);
-  }
+  try {
+    const supabase = await createClient();
+    const { data: supabaseData, error } = await supabase
+      .from('vehicles')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  // Map supabase vehicles
-  const mappedSupabaseVehicles = (supabaseData || []).map(v => ({
-    id: v.id,
-    slug: v.id, // URL slug is the UUID
-    title: `${v.year} ${v.make} ${v.model}`,
-    featuredImage: {
-      node: {
-        sourceUrl: v.images?.[0] || null
-      }
-    },
-    vehicleDetails: {
-      make: v.make,
-      model: v.model,
-      year: v.year,
-      price: v.price,
-      mileage: v.mileage,
-      vin: v.vin
+    if (!error && supabaseData && supabaseData.length > 0) {
+      vehicles = supabaseData.map(v => ({
+        id: v.id,
+        slug: v.slug || v.id,
+        title: `${v.year} ${v.make} ${v.model}`,
+        status: v.status || 'available',
+        tags: v.tags || [],
+        featuredImage: {
+          node: {
+            sourceUrl: v.images?.[0] || '/placeholder-car.jpg',
+            altText: `${v.year} ${v.make} ${v.model}`
+          }
+        },
+        vehicleDetails: {
+          make: v.make,
+          model: v.model,
+          year: v.year,
+          price: v.price,
+          mileage: v.mileage,
+          vin: v.vin,
+          status: v.status || 'available',
+          tags: v.tags || [],
+          bodyType: v.body_type || 'Sedan',
+          transmission: v.transmission || 'Automatic',
+          fuelType: v.fuel_type || 'Gasoline'
+        }
+      }));
+    } else {
+      vehicles = localVehicles;
     }
-  }));
-
-  // Get vehicles from Supabase only
-  const allVehicles = mappedSupabaseVehicles;
-
-  // Optional: Remove duplicates by ID/slug if necessary
-  const uniqueVehicles = Array.from(new Map(allVehicles.map(v => [v.id, v])).values());
+  } catch (err) {
+    console.error('Error loading inventory:', err);
+    vehicles = localVehicles;
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -54,33 +66,26 @@ export default async function InventoryPage() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="space-y-4">
-              <h1 className="text-sm font-bold tracking-[0.3em] text-zinc-500 uppercase">Our Collection</h1>
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-zinc-900 leading-none">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] font-bold tracking-[0.25em] text-zinc-600 uppercase">
+                Jacksonville, FL • Live Inventory
+              </div>
+              <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-zinc-900 leading-none">
                 PREMIUM <br/>
-                <span className="text-zinc-400 uppercase">INVENTORY</span>
-              </h2>
+                <span className="text-zinc-400 uppercase">COLLECTION</span>
+              </h1>
             </div>
             
-            {/* Minimalist Search/Filter Placeholder */}
-            <div className="flex gap-4">
-              <div className="relative group">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
-                <input 
-                  type="text" 
-                  placeholder="Search vehicles..." 
-                  className="pl-12 pr-6 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-zinc-900/5 focus:border-zinc-900 transition-all text-sm font-medium w-64 uppercase tracking-widest"
-                />
-              </div>
-              <button className="flex items-center gap-2 px-6 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm font-black tracking-widest text-zinc-900 hover:bg-zinc-100 transition-all uppercase">
-                <Filter size={18} /> Filter
-              </button>
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 bg-zinc-50 px-4 py-3 rounded-2xl border border-zinc-200">
+                {vehicles.length} Vehicles in Stock
+              </span>
             </div>
           </div>
 
           {/* Grid */}
-          {uniqueVehicles?.length > 0 ? (
+          {vehicles?.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-              {uniqueVehicles.map((vehicle) => (
+              {vehicles.map((vehicle) => (
                 <VehicleCard key={vehicle?.id || vehicle?.slug} vehicle={vehicle} />
               ))}
             </div>

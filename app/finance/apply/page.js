@@ -44,10 +44,12 @@ export default function FinanceApply() {
       city: formData.city,
       state: formData.state,
       zip_code: formData.zipCode,
+      zip: formData.zipCode,
       years_at_address: parseInt(formData.yearsAtAddress) || 0,
       employer: formData.employer,
       job_title: formData.jobTitle,
       monthly_income: parseFloat(formData.monthlyIncome) || 0,
+      income: parseFloat(formData.monthlyIncome) || 0,
       status: 'pending'
     }]);
 

@@ -7,10 +7,14 @@ import { CarFront, CheckCircle } from "lucide-react";
 export default function TradeInForm() {
   const [formData, setFormData] = useState({
     vin: "",
+    vehicleYear: "",
+    vehicleMake: "",
+    vehicleModel: "",
     mileage: "",
     condition: "Excellent (Like New)",
     name: "",
-    email: ""
+    email: "",
+    phone: ""
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -26,10 +30,14 @@ export default function TradeInForm() {
     const supabase = createClient();
     const { error } = await supabase.from('trade_in_submissions').insert([{
       vin: formData.vin,
+      vehicle_year: parseInt(formData.vehicleYear) || null,
+      vehicle_make: formData.vehicleMake || null,
+      vehicle_model: formData.vehicleModel || null,
       mileage: parseInt(formData.mileage) || 0,
       condition: formData.condition,
       name: formData.name,
       email: formData.email,
+      phone: formData.phone || null,
       status: 'pending'
     }]);
 
@@ -57,8 +65,8 @@ export default function TradeInForm() {
       {/* Vehicle Info */}
       <div className="space-y-6">
         <h2 className="text-xl font-bold text-zinc-900 border-b border-zinc-200 pb-2 uppercase tracking-wide">Vehicle Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2 md:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="space-y-2 md:col-span-3">
             <label className="text-sm font-bold text-zinc-700">VIN (17 Characters) *</label>
             <input 
               required 
@@ -68,10 +76,43 @@ export default function TradeInForm() {
               type="text" 
               maxLength={17} 
               className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 font-mono uppercase" 
-              placeholder="ENTER YOUR VIN" 
+              placeholder="ENTER 17-DIGIT VIN" 
             />
           </div>
           <div className="space-y-2">
+            <label className="text-sm font-bold text-zinc-700">Year</label>
+            <input 
+              name="vehicleYear"
+              value={formData.vehicleYear}
+              onChange={handleChange}
+              type="number" 
+              className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+              placeholder="E.G. 2018" 
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-zinc-700">Make</label>
+            <input 
+              name="vehicleMake"
+              value={formData.vehicleMake}
+              onChange={handleChange}
+              type="text" 
+              className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+              placeholder="E.G. TOYOTA" 
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-zinc-700">Model</label>
+            <input 
+              name="vehicleModel"
+              value={formData.vehicleModel}
+              onChange={handleChange}
+              type="text" 
+              className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+              placeholder="E.G. CAMRY" 
+            />
+          </div>
+          <div className="space-y-2 md:col-span-2">
             <label className="text-sm font-bold text-zinc-700">Exact Mileage *</label>
             <input 
               required 
@@ -103,7 +144,7 @@ export default function TradeInForm() {
       {/* Contact Info */}
       <div className="space-y-6">
         <h2 className="text-xl font-bold text-zinc-900 border-b border-zinc-200 pb-2 uppercase tracking-wide">Contact Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-bold text-zinc-700">Name *</label>
             <input 
@@ -126,6 +167,18 @@ export default function TradeInForm() {
               type="email" 
               className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
               placeholder="EMAIL ADDRESS" 
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-zinc-700">Phone Number *</label>
+            <input 
+              required 
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              type="tel" 
+              className="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900" 
+              placeholder="(904) 555-0199" 
             />
           </div>
         </div>
