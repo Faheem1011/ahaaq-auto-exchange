@@ -68,16 +68,16 @@ export default function BodyShopEstimatePage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-40 pb-16 px-6 md:px-8 bg-zinc-950 text-white">
+      <section className="pt-40 pb-16 px-6 md:px-8 bg-black text-white">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <span className="px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-black uppercase tracking-widest border border-amber-500/30">
+          <span className="px-3.5 py-1.5 rounded-full bg-white/10 text-white text-[10px] font-black uppercase tracking-widest border border-white/15">
             Free Collision &amp; Body Appraisal
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white leading-tight">
             Request A Body Shop <br />
-            <span className="text-amber-400">Damage Estimate</span>
+            <span className="text-zinc-400">Damage Estimate</span>
           </h1>
-          <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto font-medium">
+          <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto font-normal">
             Fill out your vehicle and damage details below. Our certified estimators will review your submission and provide an itemized repair appraisal.
           </p>
         </div>
@@ -86,24 +86,24 @@ export default function BodyShopEstimatePage() {
       {/* Form Container */}
       <section className="py-20 px-6 md:px-8 max-w-4xl mx-auto">
         {submittedResult ? (
-          <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-10 md:p-14 text-center space-y-6 shadow-xl">
-            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+          <div className="bg-[#FAFAFA] border border-zinc-200 rounded-3xl p-10 md:p-14 text-center space-y-6 shadow-xl">
+            <div className="w-16 h-16 rounded-full bg-zinc-100 text-zinc-900 flex items-center justify-center mx-auto border border-zinc-200">
               <CheckCircle2 size={36} />
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Estimate Request Received</span>
-              <h2 className="text-3xl font-black uppercase tracking-tight text-zinc-900">
+              <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Estimate Request Received</span>
+              <h2 className="text-3xl font-black uppercase tracking-tight text-zinc-950">
                 Thank You, {formData.customerName}!
               </h2>
-              <p className="text-zinc-600 text-sm max-w-lg mx-auto font-medium">
+              <p className="text-zinc-600 text-sm max-w-lg mx-auto font-normal">
                 Your body shop estimate request has been submitted to our collision specialists at <strong>6615 N Main St, Jacksonville</strong>.
               </p>
             </div>
 
             <div className="p-6 bg-white rounded-2xl border border-zinc-200 inline-block text-left space-y-2 min-w-[280px]">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block">Estimate Reference Number</span>
-              <span className="text-2xl font-mono font-black text-amber-600 block">{submittedResult.estimateNumber}</span>
+              <span className="text-2xl font-mono font-black text-zinc-950 block">{submittedResult.estimateNumber}</span>
               <span className="text-xs text-zinc-500 block">Save this number to reference your appraisal when speaking with our team.</span>
             </div>
 
@@ -112,23 +112,23 @@ export default function BodyShopEstimatePage() {
                 href="https://wa.me/19045029709"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all shadow-lg flex items-center gap-2"
+                className="px-8 py-4 bg-zinc-950 hover:bg-zinc-800 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all shadow-lg"
               >
                 Send Photos via WhatsApp
               </a>
               <Link
                 href="/body-shop"
-                className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all"
+                className="px-8 py-4 bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 rounded-full font-black text-xs uppercase tracking-widest transition-all"
               >
                 Back to Body Shop
               </Link>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-zinc-50 border border-zinc-200 rounded-3xl p-8 md:p-12 shadow-sm space-y-10">
+          <form onSubmit={handleSubmit} className="bg-[#FAFAFA] border border-zinc-200 rounded-3xl p-8 md:p-12 shadow-sm space-y-10">
             
             {errorMsg && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-700 font-bold flex items-center gap-2">
+              <div className="p-4 bg-zinc-100 border border-zinc-300 rounded-2xl text-xs text-zinc-900 font-bold flex items-center gap-2">
                 <AlertCircle size={16} /> {errorMsg}
               </div>
             )}
@@ -136,8 +136,8 @@ export default function BodyShopEstimatePage() {
             {/* Step 1: Customer Info */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 pb-2 border-b border-zinc-200">
-                <span className="w-6 h-6 rounded-full bg-zinc-900 text-white text-xs font-black flex items-center justify-center">1</span>
-                <h3 className="text-base font-black uppercase tracking-wider text-zinc-900">Your Contact Details</h3>
+                <span className="w-6 h-6 rounded-full bg-zinc-950 text-white text-xs font-black flex items-center justify-center">1</span>
+                <h3 className="text-base font-black uppercase tracking-wider text-zinc-950">Your Contact Details</h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -150,7 +150,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.customerName}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -162,7 +162,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.customerPhone}
                     onChange={handleChange}
                     placeholder="(904) 502-9709"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -173,7 +173,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.customerEmail}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
               </div>
@@ -182,8 +182,8 @@ export default function BodyShopEstimatePage() {
             {/* Step 2: Vehicle Details */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 pb-2 border-b border-zinc-200">
-                <span className="w-6 h-6 rounded-full bg-zinc-900 text-white text-xs font-black flex items-center justify-center">2</span>
-                <h3 className="text-base font-black uppercase tracking-wider text-zinc-900">Vehicle Information</h3>
+                <span className="w-6 h-6 rounded-full bg-zinc-950 text-white text-xs font-black flex items-center justify-center">2</span>
+                <h3 className="text-base font-black uppercase tracking-wider text-zinc-950">Vehicle Information</h3>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -195,7 +195,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.vehicleYear}
                     onChange={handleChange}
                     placeholder="2018"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -206,7 +206,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.vehicleMake}
                     onChange={handleChange}
                     placeholder="Toyota"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -217,7 +217,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.vehicleModel}
                     onChange={handleChange}
                     placeholder="Camry SE"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -228,7 +228,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.vehicleVin}
                     onChange={handleChange}
                     placeholder="17-Digit VIN"
-                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 uppercase"
+                    className="w-full p-3 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950 uppercase"
                   />
                 </div>
               </div>
@@ -237,8 +237,8 @@ export default function BodyShopEstimatePage() {
             {/* Step 3: Damage & Insurance */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 pb-2 border-b border-zinc-200">
-                <span className="w-6 h-6 rounded-full bg-zinc-900 text-white text-xs font-black flex items-center justify-center">3</span>
-                <h3 className="text-base font-black uppercase tracking-wider text-zinc-900">Damage &amp; Insurance Details</h3>
+                <span className="w-6 h-6 rounded-full bg-zinc-950 text-white text-xs font-black flex items-center justify-center">3</span>
+                <h3 className="text-base font-black uppercase tracking-wider text-zinc-950">Damage &amp; Insurance Details</h3>
               </div>
 
               <div className="space-y-4">
@@ -251,7 +251,7 @@ export default function BodyShopEstimatePage() {
                     value={formData.damageDescription}
                     onChange={handleChange}
                     placeholder="E.g., Front bumper cracked, left fender dented, headlight broken from minor parking collision..."
-                    className="w-full p-3.5 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                    className="w-full p-3.5 bg-white border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-950"
                   />
                 </div>
 
@@ -300,8 +300,8 @@ export default function BodyShopEstimatePage() {
             </div>
 
             {/* Direct Photo Tips Banner */}
-            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 space-y-1">
-              <strong className="block font-black uppercase text-[11px]">📸 Photo Tip For Faster Estimates:</strong>
+            <div className="p-4 bg-zinc-100 rounded-2xl border border-zinc-200 text-xs text-zinc-700 space-y-1">
+              <strong className="block font-black uppercase text-[11px] text-zinc-950">Photo Tip For Faster Estimates:</strong>
               <p>
                 You can attach damage photos directly via WhatsApp to <strong>(904) 502-9709</strong> after submitting this form. Include wide angles and close-up views of scratches and dents.
               </p>
@@ -310,7 +310,7 @@ export default function BodyShopEstimatePage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 font-black text-xs uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-amber-950/30 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-5 bg-zinc-950 hover:bg-zinc-800 text-white font-black text-xs uppercase tracking-widest rounded-2xl transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? "Submitting Request..." : "Submit Body Shop Estimate Request"}
             </button>

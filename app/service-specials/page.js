@@ -64,16 +64,16 @@ export default async function ServiceSpecialsPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-40 pb-20 px-6 md:px-8 bg-zinc-950 text-white text-center relative">
+      <section className="pt-40 pb-20 px-6 md:px-8 bg-black text-white text-center relative">
         <div className="max-w-4xl mx-auto space-y-4">
-          <span className="px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-black uppercase tracking-widest border border-amber-500/30">
+          <span className="px-3.5 py-1.5 rounded-full bg-white/10 text-white text-[10px] font-black uppercase tracking-widest border border-white/15">
             Exclusive Dealership &amp; Workshop Savings
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white leading-tight">
             Auto Service Specials <br />
-            <span className="text-amber-400">&amp; Repair Coupons</span>
+            <span className="text-zinc-400">&amp; Repair Coupons</span>
           </h1>
-          <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto font-medium">
+          <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto font-normal">
             Present these coupons on your smartphone or mention the promo code when scheduling your service appointment in Jacksonville, FL.
           </p>
         </div>
@@ -85,12 +85,12 @@ export default async function ServiceSpecialsPage() {
           {displayList.map((item) => (
             <div
               key={item.id}
-              className="bg-zinc-50 border-2 border-dashed border-zinc-300 rounded-3xl p-8 hover:border-amber-500 hover:bg-white hover:shadow-2xl transition-all relative flex flex-col justify-between space-y-6"
+              className="bg-[#FAFAFA] border-2 border-dashed border-zinc-300 rounded-3xl p-8 hover:border-black hover:bg-white hover:shadow-xl transition-all relative flex flex-col justify-between space-y-6"
             >
               {/* Coupon Header */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 bg-zinc-950 text-amber-400 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                  <span className="px-3 py-1 bg-zinc-950 text-white rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
                     <Tag size={11} /> {item.tag}
                   </span>
                   <span className="text-xs text-zinc-400 font-mono flex items-center gap-1">
@@ -99,31 +99,31 @@ export default async function ServiceSpecialsPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-3xl md:text-4xl font-black tracking-tight text-emerald-600 block">
+                  <span className="text-3xl md:text-4xl font-black tracking-tight text-zinc-950 block">
                     {item.discount_headline}
                   </span>
-                  <h3 className="text-xl font-black uppercase tracking-tight text-zinc-900">
+                  <h3 className="text-xl font-black uppercase tracking-tight text-zinc-950">
                     {item.title}
                   </h3>
                 </div>
 
-                <p className="text-xs text-zinc-600 leading-relaxed font-medium">
+                <p className="text-xs text-zinc-600 leading-relaxed font-normal">
                   {item.description}
                 </p>
 
                 {item.promo_code && (
                   <div className="p-3 bg-zinc-100 rounded-xl inline-block border border-zinc-200">
                     <span className="text-[10px] font-bold text-zinc-500 uppercase block">Coupon Code</span>
-                    <span className="text-sm font-mono font-black text-zinc-900">{item.promo_code}</span>
+                    <span className="text-sm font-mono font-black text-zinc-950">{item.promo_code}</span>
                   </div>
                 )}
               </div>
 
               {/* Action */}
-              <div className="pt-4 border-t border-zinc-200/60 space-y-2">
+              <div className="pt-4 border-t border-zinc-200 space-y-2">
                 <Link
                   href={`/book-service?promo=${item.promo_code || ''}`}
-                  className="w-full py-3.5 bg-zinc-950 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest text-center transition-colors block"
+                  className="w-full py-3.5 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl text-xs font-black uppercase tracking-widest text-center transition-colors block"
                 >
                   Schedule With This Coupon →
                 </Link>

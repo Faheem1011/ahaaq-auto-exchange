@@ -1,70 +1,92 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, LayoutDashboard } from "lucide-react";
 import AdminTabs from "@/components/admin/AdminTabs";
+import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
 
-  // Fetch all core datasets concurrently
-  const [
-    { data: vehicles },
-    { data: contactSubmissions },
-    { data: financingLeads },
-    { data: tradeIns },
-    { data: preQuals },
-    { data: serviceBookings },
-    { data: bodyShopEstimates },
-    { data: workOrders }
-  ] = await Promise.all([
-    supabase.from("vehicles").select("*").order("created_at", { ascending: false }),
-    supabase.from("contact_submissions").select("*").order("created_at", { ascending: false }),
-    supabase.from("financing_leads").select("*").order("created_at", { ascending: false }),
-    supabase.from("trade_in_submissions").select("*").order("created_at", { ascending: false }),
-    supabase.from("finance_pre_qualifications").select("*").order("created_at", { ascending: false }),
-    supabase.from("service_bookings").select("*").order("created_at", { ascending: false }),
-    supabase.from("body_shop_estimates").select("*").order("created_at", { ascending: false }),
-    supabase.from("work_orders").select("*").order("created_at", { ascending: false })
-  ]);
+  // Safely fetch all core datasets with individual fallbacks so one missing table never breaks the dashboard
+  let vehicles = [];
+  let contactSubmissions = [];
+  let financingLeads = [];
+  let tradeIns = [];
+  let preQuals = [];
+  let serviceBookings = [];
+  let bodyShopEstimates = [];
+  let workOrders = [];
+  let serviceSpecials = [];
+
+  try {
+    const results = await Promise.allSettled([
+      supabase.from("vehicles").select("*").order("created_at", { ascending: false }),
+      supabase.from("contact_submissions").select("*").order("created_at", { ascending: false }),
+      supabase.from("financing_leads").select("*").order("created_at", { ascending: false }),
+      supabase.from("trade_in_submissions").select("*").order("created_at", { ascending: false }),
+      supabase.from("finance_pre_qualifications").select("*").order("created_at", { ascending: false }),
+      supabase.from("service_bookings").select("*").order("created_at", { ascending: false }),
+      supabase.from("body_shop_estimates").select("*").order("created_at", { ascending: false }),
+      supabase.from("work_orders").select("*").order("created_at", { ascending: false }),
+      supabase.from("service_specials").select("*").order("display_order", { ascending: true })
+    ]);
+
+    if (results[0].status === "fulfilled" && results[0].value.data) vehicles = results[0].value.data;
+    if (results[1].status === "fulfilled" && results[1].value.data) contactSubmissions = results[1].value.data;
+    if (results[2].status === "fulfilled" && results[2].value.data) financingLeads = results[2].value.data;
+    if (results[3].status === "fulfilled" && results[3].value.data) tradeIns = results[3].value.data;
+    if (results[4].status === "fulfilled" && results[4].value.data) preQuals = results[4].value.data;
+    if (results[5].status === "fulfilled" && results[5].value.data) serviceBookings = results[5].value.data;
+    if (results[6].status === "fulfilled" && results[6].value.data) bodyShopEstimates = results[6].value.data;
+    if (results[7].status === "fulfilled" && results[7].value.data) workOrders = results[7].value.data;
+    if (results[8].status === "fulfilled" && results[8].value.data) serviceSpecials = results[8].value.data;
+  } catch (err) {
+    console.error("Admin dashboard data fetch error:", err);
+  }
 
   return (
-    <div className="min-h-screen bg-zinc-950 pt-32 pb-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+    <div className="min-h-screen bg-black pt-28 pb-20 px-4 sm:px-6 md:px-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+        
+        {/* Top Control Bar */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-zinc-800">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase tracking-widest mb-2 border border-white/10">
-              Automotive Business Command Center
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-black uppercase tracking-widest mb-3 border border-white/15">
+              <LayoutDashboard size={12} /> Ultimate Dealership Command Center
             </div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-              AHAQ Auto &amp; Workshop Management
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase">
+              AHAQ Auto Management
             </h1>
-            <p className="text-zinc-400 text-sm">
-              Live vehicle inventory, service appointments, work order tracking, collision estimates, and Credit Acceptance financing.
+            <p className="text-zinc-400 text-xs sm:text-sm max-w-2xl mt-1">
+              Live control over vehicles, service bookings, real-time repair tracking, collision appraisals, Credit Acceptance financing leads, and social marketing.
             </p>
           </div>
           
-          <Link
-            href="/admin/add"
-            className="bg-white text-black hover:bg-zinc-200 px-6 py-3.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-2xl text-sm shrink-0"
-          >
-            <Plus className="w-4 h-4" />
-            Add Vehicle
-          </Link>
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              href="/admin/add"
+              className="bg-white text-black hover:bg-zinc-200 px-6 py-3 rounded-xl font-black uppercase text-xs tracking-wider transition-all flex items-center justify-center gap-2 shadow-2xl"
+            >
+              <Plus className="w-4 h-4" />
+              Add Vehicle
+            </Link>
+            <AdminLogoutButton />
+          </div>
         </div>
 
-        {/* Tabbed Interface */}
+        {/* Tabbed Interface with Ultimate Control */}
         <AdminTabs 
-          vehicles={vehicles || []} 
-          contactSubmissions={contactSubmissions || []}
-          financingLeads={financingLeads || []}
-          tradeIns={tradeIns || []}
-          preQuals={preQuals || []}
-          serviceBookings={serviceBookings || []}
-          bodyShopEstimates={bodyShopEstimates || []}
-          workOrders={workOrders || []}
+          vehicles={vehicles} 
+          contactSubmissions={contactSubmissions}
+          financingLeads={financingLeads}
+          tradeIns={tradeIns}
+          preQuals={preQuals}
+          serviceBookings={serviceBookings}
+          bodyShopEstimates={bodyShopEstimates}
+          workOrders={workOrders}
+          serviceSpecials={serviceSpecials}
         />
       </div>
     </div>

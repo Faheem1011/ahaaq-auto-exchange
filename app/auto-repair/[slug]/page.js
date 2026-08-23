@@ -206,16 +206,16 @@ export default async function AutoRepairServicePage({ params }) {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-40 pb-20 px-6 md:px-8 bg-zinc-950 text-white relative">
+      <section className="pt-40 pb-20 px-6 md:px-8 bg-black text-white relative">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="space-y-3 max-w-3xl">
-            <span className="px-3.5 py-1.5 rounded-full bg-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest border border-blue-500/30">
+            <span className="px-3.5 py-1.5 rounded-full bg-white/10 text-white text-[10px] font-black uppercase tracking-widest border border-white/15">
               Jacksonville Mechanical Service • 6615 N Main St
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white leading-tight">
               {service.title}
             </h1>
-            <p className="text-lg text-zinc-300 font-medium leading-relaxed">
+            <p className="text-lg text-zinc-300 font-normal leading-relaxed">
               {service.desc}
             </p>
           </div>
@@ -223,13 +223,13 @@ export default async function AutoRepairServicePage({ params }) {
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <Link
               href={`/book-service?service=${resolvedParams.slug}`}
-              className="px-8 py-4.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-blue-950/40 flex items-center gap-2"
+              className="px-8 py-4 bg-white text-black hover:bg-zinc-200 rounded-full font-black text-xs uppercase tracking-widest transition-all shadow-xl flex items-center gap-2"
             >
               <Wrench size={16} /> Book This Service Online
             </Link>
             <a
               href="tel:+19045029709"
-              className="px-8 py-4.5 bg-white/10 hover:bg-white/20 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all border border-white/20 flex items-center gap-2"
+              className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-700 rounded-full font-black text-xs uppercase tracking-widest transition-all flex items-center gap-2"
             >
               <Phone size={16} /> Call (904) 502-9709
             </a>
@@ -242,20 +242,20 @@ export default async function AutoRepairServicePage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           
           {/* Symptoms Checklist */}
-          <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-8 space-y-6">
+          <div className="bg-[#FAFAFA] border border-zinc-200 rounded-3xl p-8 space-y-6">
             <div className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-widest text-amber-600 flex items-center gap-1.5">
+              <span className="text-xs font-black uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
                 <AlertCircle size={14} /> Warning Signs
               </span>
-              <h2 className="text-2xl font-black uppercase tracking-tight text-zinc-900">
+              <h2 className="text-2xl font-black uppercase tracking-tight text-zinc-950">
                 Common Symptoms You Need This Service
               </h2>
             </div>
 
             <ul className="space-y-3">
               {service.symptoms.map((sym, i) => (
-                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm font-medium text-zinc-700">
-                  <div className="w-5 h-5 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm font-normal text-zinc-700">
+                  <div className="w-5 h-5 rounded-full bg-zinc-200 text-zinc-900 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
                     !
                   </div>
                   <span>{sym}</span>
@@ -267,18 +267,18 @@ export default async function AutoRepairServicePage({ params }) {
           {/* Inspection Procedure */}
           <div className="bg-white border border-zinc-200 rounded-3xl p-8 space-y-6 shadow-sm">
             <div className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 flex items-center gap-1.5">
+              <span className="text-xs font-black uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
                 <ShieldCheck size={14} /> Certified Inspection
               </span>
-              <h2 className="text-2xl font-black uppercase tracking-tight text-zinc-900">
+              <h2 className="text-2xl font-black uppercase tracking-tight text-zinc-950">
                 What Our Technicians Check
               </h2>
             </div>
 
             <ul className="space-y-3">
               {service.checklist.map((chk, i) => (
-                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm font-medium text-zinc-700">
-                  <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm font-normal text-zinc-700">
+                  <CheckCircle2 size={16} className="text-zinc-900 shrink-0 mt-0.5" />
                   <span>{chk}</span>
                 </li>
               ))}
@@ -288,15 +288,15 @@ export default async function AutoRepairServicePage({ params }) {
         </div>
 
         {/* Special Coupon Card */}
-        <div className="p-8 bg-gradient-to-r from-zinc-950 to-zinc-900 text-white rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="p-8 bg-zinc-950 text-white rounded-3xl border border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-1.5 text-center md:text-left">
-            <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-black uppercase tracking-widest border border-amber-500/30">
+            <span className="px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-black uppercase tracking-widest border border-white/15">
               Special Discount
             </span>
             <h3 className="text-2xl font-black uppercase tracking-tight text-white">
               {service.couponText}
             </h3>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-zinc-400 font-normal">
               Mention this offer when booking or checking in your vehicle at our Jacksonville workshop.
             </p>
           </div>
@@ -304,7 +304,7 @@ export default async function AutoRepairServicePage({ params }) {
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href={`/book-service?service=${resolvedParams.slug}`}
-              className="px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg"
+              className="px-6 py-3.5 bg-white hover:bg-zinc-200 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg"
             >
               Claim &amp; Schedule
             </Link>

@@ -30,6 +30,7 @@ export const metadata = {
 import SplashScreen from "@/components/SplashScreen";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import SmokeCursor from "@/components/SmokeCursor"; // Exhaust effects
+import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 
 export default function RootLayout({ children }) {
@@ -64,6 +65,7 @@ export default function RootLayout({ children }) {
         <SplashScreen>
           {children}
         </SplashScreen>
+        <CookieConsent />
         <WhatsAppFloat />
         <SpeedInsights />
         <Analytics />

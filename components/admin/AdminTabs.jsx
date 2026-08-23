@@ -23,7 +23,8 @@ import {
   MessageCircle,
   Wrench,
   Shield,
-  Plus
+  Plus,
+  Tag
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import SocialPostHistory from "./SocialPostHistory";
@@ -36,6 +37,7 @@ const TABS = [
   { id: "service_bookings", label: "Service Appointments", icon: Wrench },
   { id: "work_orders", label: "Work Orders / Tracker", icon: Clock },
   { id: "body_shop", label: "Body Shop Estimates", icon: Shield },
+  { id: "specials", label: "Specials & Coupons", icon: Tag },
   { id: "finance", label: "Financing Leads", icon: FileText },
   { id: "inquiries", label: "Inquiries", icon: MessageSquare },
   { id: "tradeins", label: "Trade-Ins", icon: CarFront },
@@ -54,22 +56,24 @@ export default function AdminTabs({
   preQuals: initialPreQuals = [],
   serviceBookings: initialServiceBookings = [],
   bodyShopEstimates: initialBodyShopEstimates = [],
-  workOrders: initialWorkOrders = []
+  workOrders: initialWorkOrders = [],
+  serviceSpecials: initialSpecials = []
 }) {
   const supabase = createClient();
   const [activeTab, setActiveTab] = useState("inventory");
 
   // State for dynamic items
-  const [vehicles, setVehicles] = useState(initialVehicles);
-  const [contacts, setContacts] = useState(initialContacts);
+  const [vehicles, setVehicles] = useState(initialVehicles || []);
+  const [contacts, setContacts] = useState(initialContacts || []);
   const [financingLeads, setFinancingLeads] = useState(
-    initialFinancingLeads && initialFinancingLeads.length > 0 ? initialFinancingLeads : initialFinance
+    initialFinancingLeads && initialFinancingLeads.length > 0 ? initialFinancingLeads : (initialFinance || [])
   );
-  const [tradeIns, setTradeIns] = useState(initialTradeIns);
-  const [preQuals, setPreQuals] = useState(initialPreQuals);
+  const [tradeIns, setTradeIns] = useState(initialTradeIns || []);
+  const [preQuals, setPreQuals] = useState(initialPreQuals || []);
   const [serviceBookings, setServiceBookings] = useState(initialServiceBookings || []);
   const [bodyShopEstimates, setBodyShopEstimates] = useState(initialBodyShopEstimates || []);
   const [workOrders, setWorkOrders] = useState(initialWorkOrders || []);
+  const [specials, setSpecials] = useState(initialSpecials || []);
 
   // Filters & UI States
   const [inventorySearch, setInventorySearch] = useState("");
@@ -205,8 +209,12 @@ export default function AdminTabs({
           const Icon = tab.icon;
           let count = null;
           if (tab.id === "inventory") count = vehicles.length;
+          if (tab.id === "service_bookings") count = serviceBookings.length;
+          if (tab.id === "work_orders") count = workOrders.length;
+          if (tab.id === "body_shop") count = bodyShopEstimates.length;
+          if (tab.id === "specials") count = specials.length;
+          if (tab.id === "finance") count = financingLeads.length;
           if (tab.id === "inquiries") count = contacts.length;
-          if (tab.id === "finance") count = finance.length;
           if (tab.id === "tradeins") count = tradeIns.length;
           if (tab.id === "prequal") count = preQuals.length;
 
@@ -841,6 +849,42 @@ export default function AdminTabs({
                       </div>
 
                       <div className="flex items-center gap-2">
+                        <button
+                          onClick={async () => {
+                            const trackingCode = `TRK-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+                            const workOrderNumber = `AHAQ-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+                            const { data: newWo, error } = await supabase.from("work_orders").insert([{
+                              work_order_number: workOrderNumber,
+                              tracking_code: trackingCode,
+                              customer_name: est.customer_name,
+                              customer_phone: est.customer_phone,
+                              customer_email: est.customer_email,
+                              vehicle_title: `${est.vehicle_year || ''} ${est.vehicle_make || ''} ${est.vehicle_model || ''}`.trim() || 'Customer Collision Vehicle',
+                              vehicle_vin: est.vehicle_vin,
+                              department: 'body_shop',
+                              primary_concern: est.damage_description,
+                              status: 'checked_in',
+                              progress_percentage: 15,
+                              technician_name: 'Master Collision Specialist',
+                              bay_number: 'Body Bay 1',
+                              public_status_notes: 'Vehicle checked in at body shop. Digital laser alignment and damage assessment underway.'
+                            }]).select('*').single();
+
+                            if (!error && newWo) {
+                              setWorkOrders(prev => [newWo, ...prev]);
+                              await supabase.from("body_shop_estimates").update({ status: 'in_repair' }).eq("id", est.id);
+                              setBodyShopEstimates(prev => prev.map(item => item.id === est.id ? { ...item, status: 'in_repair' } : item));
+                              alert(`Converted to Collision Work Order #${workOrderNumber} (Tracking Code: ${trackingCode})!`);
+                              setActiveTab("work_orders");
+                            } else {
+                              alert("Error creating work order: " + (error?.message || "Unknown error"));
+                            }
+                          }}
+                          className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 border border-zinc-700"
+                        >
+                          <Plus size={13} /> Convert to Work Order
+                        </button>
+
                         <select
                           value={est.status || "pending_review"}
                           onChange={(e) => handleLeadStatusChange("body_shop_estimates", est.id, e.target.value, setBodyShopEstimates)}
@@ -868,7 +912,7 @@ export default function AdminTabs({
                         <span className="text-zinc-500 font-bold uppercase block text-[10px]">Contact Info</span>
                         <div className="flex items-center gap-2">
                           <span className="text-white font-bold">{est.customer_phone}</span>
-                          <a href={`https://wa.me/${est.customer_phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold text-[10px] hover:underline flex items-center gap-0.5">
+                          <a href={`https://wa.me/${est.customer_phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white font-bold text-[10px] hover:underline flex items-center gap-0.5">
                             <MessageCircle size={12} /> WhatsApp
                           </a>
                         </div>
@@ -878,14 +922,14 @@ export default function AdminTabs({
                       <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
                         <span className="text-zinc-500 font-bold uppercase block text-[10px]">Vehicle &amp; Drivability</span>
                         <p className="text-white font-bold">{est.vehicle_year} {est.vehicle_make} {est.vehicle_model}</p>
-                        <p className={est.is_drivable ? "text-emerald-400 font-bold text-[10px]" : "text-red-400 font-bold text-[10px]"}>
+                        <p className={est.is_drivable ? "text-zinc-300 font-bold text-[10px]" : "text-zinc-500 font-bold text-[10px]"}>
                           {est.is_drivable ? "✓ Vehicle is Drivable" : "⚠ Not Drivable / Needs Towing"}
                         </p>
                       </div>
 
                       <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
                         <span className="text-zinc-500 font-bold uppercase block text-[10px]">Damage Description</span>
-                        <p className="text-zinc-300 leading-relaxed font-medium">{est.damage_description}</p>
+                        <p className="text-zinc-300 leading-relaxed font-normal">{est.damage_description}</p>
                       </div>
                     </div>
                   </div>
@@ -896,8 +940,76 @@ export default function AdminTabs({
         )}
 
         {/* ══════════════════════════════════════════════════════════════ */}
-        {/* 3. FINANCE APPLICATIONS TAB                                   */}
+        {/* SPECIALS & COUPONS MANAGER TAB                                 */}
         {/* ══════════════════════════════════════════════════════════════ */}
+        {activeTab === "specials" && (
+          <div className="p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                  <Tag className="text-white" size={20} /> Service Coupons &amp; Specials Manager
+                </h2>
+                <p className="text-zinc-400 text-xs">Live control over customer discounts displayed on /service-specials.</p>
+              </div>
+              <span className="text-xs font-bold px-3 py-1 bg-zinc-800 text-zinc-300 rounded-full w-fit">
+                {specials.length} Active Coupons
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {specials.map((sp) => (
+                <div key={sp.id} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="px-3 py-1 bg-zinc-900 text-white rounded-full text-[10px] font-black uppercase tracking-widest border border-zinc-800">
+                      {sp.tag}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={async () => {
+                          const newActive = !sp.is_active;
+                          const { error } = await supabase.from("service_specials").update({ is_active: newActive }).eq("id", sp.id);
+                          if (!error) {
+                            setSpecials(prev => prev.map(item => item.id === sp.id ? { ...item, is_active: newActive } : item));
+                          }
+                        }}
+                        className={`text-[10px] font-bold uppercase px-3 py-1 rounded-full border transition-all ${
+                          sp.is_active ? "bg-white text-black border-white" : "bg-zinc-900 text-zinc-500 border-zinc-800"
+                        }`}
+                      >
+                        {sp.is_active ? "🟢 Live on Site" : "⚪ Hidden"}
+                      </button>
+                      <button
+                        onClick={async () => {
+                          if (!confirm(`Delete coupon "${sp.title}"?`)) return;
+                          const { error } = await supabase.from("service_specials").delete().eq("id", sp.id);
+                          if (!error) {
+                            setSpecials(prev => prev.filter(item => item.id !== sp.id));
+                          }
+                        }}
+                        className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-2xl font-black text-white block">{sp.discount_headline}</span>
+                    <h3 className="text-base font-bold text-zinc-200 mt-0.5">{sp.title}</h3>
+                    <p className="text-xs text-zinc-400 mt-1">{sp.description}</p>
+                  </div>
+
+                  {sp.promo_code && (
+                    <div className="p-2.5 bg-zinc-900 rounded-xl border border-zinc-800 inline-block font-mono text-xs text-white">
+                      Code: <strong>{sp.promo_code}</strong>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ══════════════════════════════════════════════════════════════ */}
         {/* 3. CREDIT ACCEPTANCE & FINANCING LEADS TAB                     */}
         {/* ══════════════════════════════════════════════════════════════ */}
