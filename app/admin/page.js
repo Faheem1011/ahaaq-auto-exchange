@@ -14,13 +14,19 @@ export default async function AdminDashboard() {
     { data: contactSubmissions },
     { data: financingLeads },
     { data: tradeIns },
-    { data: preQuals }
+    { data: preQuals },
+    { data: serviceBookings },
+    { data: bodyShopEstimates },
+    { data: workOrders }
   ] = await Promise.all([
     supabase.from("vehicles").select("*").order("created_at", { ascending: false }),
     supabase.from("contact_submissions").select("*").order("created_at", { ascending: false }),
     supabase.from("financing_leads").select("*").order("created_at", { ascending: false }),
     supabase.from("trade_in_submissions").select("*").order("created_at", { ascending: false }),
-    supabase.from("finance_pre_qualifications").select("*").order("created_at", { ascending: false })
+    supabase.from("finance_pre_qualifications").select("*").order("created_at", { ascending: false }),
+    supabase.from("service_bookings").select("*").order("created_at", { ascending: false }),
+    supabase.from("body_shop_estimates").select("*").order("created_at", { ascending: false }),
+    supabase.from("work_orders").select("*").order("created_at", { ascending: false })
   ]);
 
   return (
@@ -30,13 +36,13 @@ export default async function AdminDashboard() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase tracking-widest mb-2 border border-white/10">
-              Dealership Command Center
+              Automotive Business Command Center
             </div>
             <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-              Ahaaq Auto Management
+              AHAQ Auto &amp; Workshop Management
             </h1>
             <p className="text-zinc-400 text-sm">
-              Live inventory control, customer inquiries, finance applications, and social automation.
+              Live vehicle inventory, service appointments, work order tracking, collision estimates, and Credit Acceptance financing.
             </p>
           </div>
           
@@ -56,6 +62,9 @@ export default async function AdminDashboard() {
           financingLeads={financingLeads || []}
           tradeIns={tradeIns || []}
           preQuals={preQuals || []}
+          serviceBookings={serviceBookings || []}
+          bodyShopEstimates={bodyShopEstimates || []}
+          workOrders={workOrders || []}
         />
       </div>
     </div>

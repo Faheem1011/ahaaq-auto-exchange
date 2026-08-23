@@ -20,7 +20,10 @@ import {
   Mail,
   QrCode,
   Save,
-  MessageCircle
+  MessageCircle,
+  Wrench,
+  Shield,
+  Plus
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import SocialPostHistory from "./SocialPostHistory";
@@ -30,8 +33,11 @@ import SocialPostButton from "./SocialPostButton";
 
 const TABS = [
   { id: "inventory", label: "Inventory", icon: Car },
-  { id: "inquiries", label: "Inquiries", icon: MessageSquare },
+  { id: "service_bookings", label: "Service Appointments", icon: Wrench },
+  { id: "work_orders", label: "Work Orders / Tracker", icon: Clock },
+  { id: "body_shop", label: "Body Shop Estimates", icon: Shield },
   { id: "finance", label: "Financing Leads", icon: FileText },
+  { id: "inquiries", label: "Inquiries", icon: MessageSquare },
   { id: "tradeins", label: "Trade-Ins", icon: CarFront },
   { id: "prequal", label: "Pre-Qualify", icon: ShieldCheck },
   { id: "compose", label: "Compose Post", icon: PenSquare },
@@ -45,7 +51,10 @@ export default function AdminTabs({
   financingLeads: initialFinancingLeads = [],
   financeApps: initialFinance = [],
   tradeIns: initialTradeIns = [],
-  preQuals: initialPreQuals = []
+  preQuals: initialPreQuals = [],
+  serviceBookings: initialServiceBookings = [],
+  bodyShopEstimates: initialBodyShopEstimates = [],
+  workOrders: initialWorkOrders = []
 }) {
   const supabase = createClient();
   const [activeTab, setActiveTab] = useState("inventory");
@@ -58,6 +67,9 @@ export default function AdminTabs({
   );
   const [tradeIns, setTradeIns] = useState(initialTradeIns);
   const [preQuals, setPreQuals] = useState(initialPreQuals);
+  const [serviceBookings, setServiceBookings] = useState(initialServiceBookings || []);
+  const [bodyShopEstimates, setBodyShopEstimates] = useState(initialBodyShopEstimates || []);
+  const [workOrders, setWorkOrders] = useState(initialWorkOrders || []);
 
   // Filters & UI States
   const [inventorySearch, setInventorySearch] = useState("");
@@ -511,6 +523,370 @@ export default function AdminTabs({
 
                     <div className="bg-zinc-900/60 rounded-xl p-4 text-xs text-zinc-300 leading-relaxed border border-zinc-800">
                       {c.message}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {/* SERVICE APPOINTMENTS TAB                                       */}
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {activeTab === "service_bookings" && (
+          <div className="p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                  <Wrench className="text-emerald-400" size={20} /> Service Appointments
+                </h2>
+                <p className="text-zinc-400 text-xs">Customer scheduled mechanical repair and maintenance bookings.</p>
+              </div>
+              <span className="text-xs font-bold px-3 py-1 bg-zinc-800 text-zinc-300 rounded-full w-fit">
+                {serviceBookings.length} Bookings
+              </span>
+            </div>
+
+            {serviceBookings.length === 0 ? (
+              <div className="py-16 text-center text-zinc-500 text-sm bg-zinc-950 border border-zinc-800 rounded-2xl">
+                No service bookings received yet. Online appointment submissions from /book-service will appear here.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {serviceBookings.map((b) => (
+                  <div key={b.id} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition-all space-y-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-lg">{b.customer_name}</h3>
+                          <span className="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black uppercase font-mono">
+                            {b.booking_number}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-400 text-[10px] uppercase font-bold">
+                            {b.service_type.replace(/_/g, ' ')}
+                          </span>
+                        </div>
+                        <p className="text-xs text-zinc-400">
+                          Scheduled: <strong className="text-white">{b.preferred_date} ({b.preferred_time})</strong> • Submitted: {new Date(b.created_at).toLocaleString()}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={async () => {
+                            const trackingCode = `TRK-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+                            const workOrderNumber = `AHAQ-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+                            const { data: newWo, error } = await supabase.from("work_orders").insert([{
+                              work_order_number: workOrderNumber,
+                              tracking_code: trackingCode,
+                              booking_id: b.id,
+                              customer_name: b.customer_name,
+                              customer_phone: b.customer_phone,
+                              customer_email: b.customer_email,
+                              vehicle_title: `${b.vehicle_year || ''} ${b.vehicle_make || ''} ${b.vehicle_model || ''}`.trim() || 'Customer Vehicle',
+                              vehicle_vin: b.vehicle_vin,
+                              department: b.service_type === 'body_shop' ? 'body_shop' : (b.service_type === 'window_tinting' ? 'tinting' : 'mechanical'),
+                              primary_concern: b.symptoms,
+                              status: 'checked_in',
+                              progress_percentage: 15,
+                              technician_name: 'Certified Technician',
+                              bay_number: 'Bay 1',
+                              public_status_notes: 'Vehicle checked in at workshop. Multi-point inspection underway.'
+                            }]).select('*').single();
+
+                            if (!error && newWo) {
+                              setWorkOrders(prev => [newWo, ...prev]);
+                              await supabase.from("service_bookings").update({ status: 'confirmed' }).eq("id", b.id);
+                              setServiceBookings(prev => prev.map(item => item.id === b.id ? { ...item, status: 'confirmed' } : item));
+                              alert(`Converted to Work Order #${workOrderNumber} (Tracking Code: ${trackingCode})!`);
+                              setActiveTab("work_orders");
+                            } else {
+                              alert("Error creating work order: " + (error?.message || "Unknown error"));
+                            }
+                          }}
+                          className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5"
+                        >
+                          <Plus size={13} /> Convert to Work Order
+                        </button>
+
+                        <select
+                          value={b.status || "pending"}
+                          onChange={(e) => handleLeadStatusChange("service_bookings", b.id, e.target.value, setServiceBookings)}
+                          className="text-xs font-bold px-3 py-1.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white"
+                        >
+                          <option value="pending">🟡 Pending</option>
+                          <option value="confirmed">🟢 Confirmed</option>
+                          <option value="in_progress">🔵 In Progress</option>
+                          <option value="completed">💎 Completed</option>
+                          <option value="cancelled">⚪ Cancelled</option>
+                        </select>
+
+                        <button
+                          onClick={() => handleDeleteLead("service_bookings", b.id, setServiceBookings)}
+                          className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                      <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
+                        <span className="text-zinc-500 font-bold uppercase block text-[10px]">Customer Contact</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-white font-bold">{b.customer_phone}</span>
+                          <a href={`https://wa.me/${b.customer_phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold text-[10px] hover:underline flex items-center gap-0.5">
+                            <MessageCircle size={12} /> WhatsApp
+                          </a>
+                        </div>
+                        {b.customer_email && <p className="text-zinc-400">{b.customer_email}</p>}
+                      </div>
+
+                      <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
+                        <span className="text-zinc-500 font-bold uppercase block text-[10px]">Vehicle</span>
+                        <p className="text-white font-bold">{b.vehicle_year} {b.vehicle_make} {b.vehicle_model}</p>
+                        {b.vehicle_mileage && <p className="text-zinc-400">{b.vehicle_mileage.toLocaleString()} miles</p>}
+                      </div>
+
+                      <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
+                        <span className="text-zinc-500 font-bold uppercase block text-[10px]">Symptoms / Request</span>
+                        <p className="text-zinc-300 leading-relaxed font-medium">{b.symptoms || "Standard service request."}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {/* WORK ORDERS & SHOP TRACKER TAB                                 */}
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {activeTab === "work_orders" && (
+          <div className="p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                  <Clock className="text-emerald-400" size={20} /> Active Work Orders &amp; Repair Tracker
+                </h2>
+                <p className="text-zinc-400 text-xs">Live workshop job cards. Updates reflect immediately on customer tracker (/service/track).</p>
+              </div>
+              <span className="text-xs font-bold px-3 py-1 bg-zinc-800 text-zinc-300 rounded-full w-fit">
+                {workOrders.length} Jobs
+              </span>
+            </div>
+
+            {workOrders.length === 0 ? (
+              <div className="py-16 text-center text-zinc-500 text-sm bg-zinc-950 border border-zinc-800 rounded-2xl">
+                No active work orders. Convert appointments from the Service Appointments tab or create a new job card.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {workOrders.map((wo) => (
+                  <div key={wo.id} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition-all space-y-5">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-lg">{wo.vehicle_title}</h3>
+                          <span className="px-2.5 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-emerald-400 font-mono text-[10px] font-bold">
+                            {wo.work_order_number}
+                          </span>
+                          <span className="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold">
+                            Tracking: {wo.tracking_code}
+                          </span>
+                        </div>
+                        <p className="text-xs text-zinc-400">
+                          Customer: <strong className="text-white">{wo.customer_name}</strong> • Phone: {wo.customer_phone} • Bay: <strong>{wo.bay_number || 'Bay 1'}</strong>
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={wo.status || "checked_in"}
+                          onChange={async (e) => {
+                            const newStatus = e.target.value;
+                            const stageProgMap = {
+                              checked_in: 15,
+                              inspection: 30,
+                              estimate_pending: 45,
+                              approved: 55,
+                              in_progress: 75,
+                              quality_control: 90,
+                              ready_for_pickup: 98,
+                              completed: 100
+                            };
+                            const newProg = stageProgMap[newStatus] || 50;
+                            const { error } = await supabase.from("work_orders").update({
+                              status: newStatus,
+                              progress_percentage: newProg,
+                              updated_at: new Date().toISOString()
+                            }).eq("id", wo.id);
+                            if (!error) {
+                              setWorkOrders(prev => prev.map(item => item.id === wo.id ? { ...item, status: newStatus, progress_percentage: newProg } : item));
+                            }
+                          }}
+                          className="text-xs font-bold px-3 py-1.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white"
+                        >
+                          <option value="checked_in">🚗 Checked In</option>
+                          <option value="inspection">🔍 Inspection</option>
+                          <option value="estimate_pending">📋 Estimate Pending</option>
+                          <option value="approved">✅ Approved</option>
+                          <option value="in_progress">⚙️ In Progress</option>
+                          <option value="quality_control">🧪 Quality Control</option>
+                          <option value="ready_for_pickup">🎉 Ready for Pickup</option>
+                          <option value="completed">💎 Completed</option>
+                        </select>
+
+                        <button
+                          onClick={() => handleDeleteLead("work_orders", wo.id, setWorkOrders)}
+                          className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar Display */}
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between text-xs text-zinc-400">
+                        <span>Current Stage: <strong className="text-white uppercase">{wo.status?.replace(/_/g, ' ')}</strong></span>
+                        <span className="text-emerald-400 font-bold">{wo.progress_percentage || 15}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-zinc-900 rounded-full overflow-hidden">
+                        <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${wo.progress_percentage || 15}%` }} />
+                      </div>
+                    </div>
+
+                    {/* Technician Notes & Customer View */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Public Status Update (Visible to Customer)</label>
+                        <input
+                          type="text"
+                          defaultValue={wo.public_status_notes || ""}
+                          placeholder="E.g., Brake rotors resurfaced. Ready for pickup at 4 PM."
+                          onBlur={async (e) => {
+                            await supabase.from("work_orders").update({ public_status_notes: e.target.value, updated_at: new Date().toISOString() }).eq("id", wo.id);
+                          }}
+                          className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-600 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Total Estimate Amount ($)</label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          defaultValue={wo.total_amount || ""}
+                          placeholder="Total Amount in USD"
+                          onBlur={async (e) => {
+                            const val = parseFloat(e.target.value) || 0;
+                            await supabase.from("work_orders").update({ total_amount: val, updated_at: new Date().toISOString() }).eq("id", wo.id);
+                            setWorkOrders(prev => prev.map(item => item.id === wo.id ? { ...item, total_amount: val } : item));
+                          }}
+                          className="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-600 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {/* BODY SHOP ESTIMATES TAB                                        */}
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {activeTab === "body_shop" && (
+          <div className="p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                  <Shield className="text-amber-400" size={20} /> Body Shop &amp; Collision Estimates
+                </h2>
+                <p className="text-zinc-400 text-xs">Customer accident damage photo appraisals and collision quote requests.</p>
+              </div>
+              <span className="text-xs font-bold px-3 py-1 bg-zinc-800 text-zinc-300 rounded-full w-fit">
+                {bodyShopEstimates.length} Estimates
+              </span>
+            </div>
+
+            {bodyShopEstimates.length === 0 ? (
+              <div className="py-16 text-center text-zinc-500 text-sm bg-zinc-950 border border-zinc-800 rounded-2xl">
+                No body shop estimates received yet. Submissions from /body-shop/estimate will appear here.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {bodyShopEstimates.map((est) => (
+                  <div key={est.id} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition-all space-y-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-lg">{est.customer_name}</h3>
+                          <span className="px-2.5 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-mono font-bold">
+                            {est.estimate_number}
+                          </span>
+                          {est.insurance_involved && (
+                            <span className="px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 text-[10px] font-bold">
+                              Insurance: {est.insurance_company || 'Claim'}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-zinc-400">
+                          Vehicle: <strong className="text-white">{est.vehicle_year} {est.vehicle_make} {est.vehicle_model}</strong> • Submitted: {new Date(est.created_at).toLocaleString()}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={est.status || "pending_review"}
+                          onChange={(e) => handleLeadStatusChange("body_shop_estimates", est.id, e.target.value, setBodyShopEstimates)}
+                          className="text-xs font-bold px-3 py-1.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white"
+                        >
+                          <option value="pending_review">🟡 Pending Review</option>
+                          <option value="estimate_prepared">📋 Estimate Prepared</option>
+                          <option value="customer_approved">✅ Customer Approved</option>
+                          <option value="in_repair">⚙️ In Repair</option>
+                          <option value="completed">💎 Completed</option>
+                          <option value="cancelled">⚪ Cancelled</option>
+                        </select>
+
+                        <button
+                          onClick={() => handleDeleteLead("body_shop_estimates", est.id, setBodyShopEstimates)}
+                          className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                      <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
+                        <span className="text-zinc-500 font-bold uppercase block text-[10px]">Contact Info</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-white font-bold">{est.customer_phone}</span>
+                          <a href={`https://wa.me/${est.customer_phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold text-[10px] hover:underline flex items-center gap-0.5">
+                            <MessageCircle size={12} /> WhatsApp
+                          </a>
+                        </div>
+                        {est.customer_email && <p className="text-zinc-400">{est.customer_email}</p>}
+                      </div>
+
+                      <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
+                        <span className="text-zinc-500 font-bold uppercase block text-[10px]">Vehicle &amp; Drivability</span>
+                        <p className="text-white font-bold">{est.vehicle_year} {est.vehicle_make} {est.vehicle_model}</p>
+                        <p className={est.is_drivable ? "text-emerald-400 font-bold text-[10px]" : "text-red-400 font-bold text-[10px]"}>
+                          {est.is_drivable ? "✓ Vehicle is Drivable" : "⚠ Not Drivable / Needs Towing"}
+                        </p>
+                      </div>
+
+                      <div className="p-3 bg-zinc-900/60 rounded-xl border border-zinc-800 space-y-1">
+                        <span className="text-zinc-500 font-bold uppercase block text-[10px]">Damage Description</span>
+                        <p className="text-zinc-300 leading-relaxed font-medium">{est.damage_description}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
