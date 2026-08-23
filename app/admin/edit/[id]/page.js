@@ -157,9 +157,9 @@ export default function EditVehicle({ params }) {
         ? formData.tagsString.split(',').map(t => t.trim()).filter(Boolean)
         : [];
 
-      // Auto generate slug if empty
-      const finalSlug = formData.slug.trim() || 
-        `${formData.year}-${formData.make.toLowerCase()}-${formData.model.toLowerCase()}`.replace(/[^a-z0-9]/g, '-');
+      // Auto generate slug if empty & clean
+      const rawSlug = formData.slug.trim() || `${formData.year}-${formData.make}-${formData.model}`;
+      const finalSlug = rawSlug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
       // 2. Update Supabase record
       const updatePayload = {

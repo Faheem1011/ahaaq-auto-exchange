@@ -29,9 +29,11 @@ export default function VehicleCard({ vehicle }) {
   const isPending = status === "pending";
   const isPriceDrop = status === "price_drop";
 
+  const safeSlug = (slug || '').trim().replace(/\s+/g, '-');
+
   return (
     <Link 
-      href={`/inventory/${slug}`} 
+      href={`/inventory/${safeSlug}`} 
       className={`group relative flex flex-col bg-white border rounded-3xl overflow-hidden transition-all duration-300 ${
         isSold 
           ? "border-red-900/30 hover:border-red-600/50 shadow-lg shadow-red-950/5 hover:shadow-red-900/15" 

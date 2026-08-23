@@ -89,9 +89,9 @@ export default function AddVehicle() {
         ? formData.tagsString.split(',').map(t => t.trim()).filter(Boolean)
         : [];
 
-      // Auto slug if empty
-      const finalSlug = formData.slug.trim() || 
-        `${formData.year}-${formData.make.toLowerCase()}-${formData.model.toLowerCase()}`.replace(/[^a-z0-9]/g, '-');
+      // Auto slug if empty & clean
+      const rawSlug = formData.slug.trim() || `${formData.year}-${formData.make}-${formData.model}`;
+      const finalSlug = rawSlug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
       // 2. Insert into Supabase DB
       const { error: dbError } = await supabase.from('vehicles').insert([

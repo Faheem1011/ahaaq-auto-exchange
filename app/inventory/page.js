@@ -25,7 +25,7 @@ export default async function InventoryPage() {
     if (!error && supabaseData && supabaseData.length > 0) {
       vehicles = supabaseData.map(v => ({
         id: v.id,
-        slug: v.slug || v.id,
+        slug: (v.slug || v.id || '').trim().replace(/\s+/g, '-'),
         title: `${v.year} ${v.make} ${v.model}`,
         status: v.status || 'available',
         tags: v.tags || [],

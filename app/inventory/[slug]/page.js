@@ -10,23 +10,52 @@ import VehicleContactForm from '@/components/VehicleContactForm';
 import { localVehicles } from '@/lib/localVehicles';
 
 async function getVehicleBySlug(slug) {
+  if (!slug) return null;
+  const rawSlug = decodeURIComponent(slug).trim();
+  const normalizedSlug = rawSlug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(rawSlug);
+
   try {
     const supabase = await createClient();
     
-    // 1. Try querying Supabase by custom slug first or UUID id
-    const { data: vList } = await supabase
-      .from('vehicles')
-      .select('*')
-      .or(`slug.eq."${slug}",id.eq."${slug}"`)
-      .limit(1);
-    
-    const v = vList?.[0];
+    // 1. Try querying Supabase with appropriate condition based on format
+    let query = supabase.from('vehicles').select('*');
+    if (isUuid) {
+      query = query.or(`id.eq.${rawSlug},slug.eq.${rawSlug}`);
+    } else {
+      query = query.or(`slug.eq.${normalizedSlug},slug.eq.${rawSlug},slug.ilike.${normalizedSlug}`);
+    }
+
+    const { data: vList, error } = await query.limit(1);
+
+    if (error) {
+      console.warn('Supabase getVehicleBySlug query warning:', error.message);
+    }
+
+    let v = vList?.[0];
+
+    // Fallback: check all supabase vehicles if direct query didn't match (e.g. legacy spaced slug)
+    if (!v) {
+      const { data: allV } = await supabase.from('vehicles').select('*');
+      if (allV && allV.length > 0) {
+        v = allV.find(item => {
+          const itemSlug = (item.slug || '').toLowerCase().replace(/\s+/g, '-');
+          return (
+            item.id === rawSlug ||
+            item.slug === rawSlug ||
+            itemSlug === normalizedSlug ||
+            itemSlug.includes(normalizedSlug) ||
+            normalizedSlug.includes(itemSlug)
+          );
+        });
+      }
+    }
     
     if (v) {
       return {
         id: v.id,
         title: `${v.year} ${v.make} ${v.model}`,
-        slug: v.slug || v.id,
+        slug: (v.slug || v.id || '').replace(/\s+/g, '-'),
         status: v.status || 'available',
         tags: v.tags || [],
         content: v.description ? `<p>${v.description}</p>` : '<p>Clean title, fully inspected vehicle ready for immediate delivery.</p>',
@@ -54,8 +83,18 @@ async function getVehicleBySlug(slug) {
     console.error('Error in getVehicleBySlug:', err);
   }
 
-  // 2. Fallback to localVehicles (matching slug or id)
-  const local = localVehicles.find(item => item.slug === slug || item.id === slug);
+  // 2. Fallback to localVehicles (matching slug, id, or normalized variations)
+  const local = localVehicles.find(item => {
+    const itemSlug = (item.slug || '').toLowerCase().replace(/\s+/g, '-');
+    return (
+      item.id === rawSlug ||
+      item.slug === rawSlug ||
+      itemSlug === normalizedSlug ||
+      itemSlug.includes(normalizedSlug) ||
+      normalizedSlug.includes(itemSlug)
+    );
+  });
+
   if (local) {
     return {
       ...local,
