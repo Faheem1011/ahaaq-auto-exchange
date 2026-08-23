@@ -29,7 +29,36 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api.qrserver.com',
+        pathname: '/**',
+      },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/financing',
+        destination: '/finance',
+        permanent: true,
+      },
+      {
+        source: '/apply',
+        destination: '/finance/apply',
+        permanent: true,
+      },
+      {
+        source: '/credit-application',
+        destination: '/finance/apply',
+        permanent: true,
+      },
+      {
+        source: '/apply-online',
+        destination: '/finance/apply',
+        permanent: true,
+      },
+    ];
   },
 };
 

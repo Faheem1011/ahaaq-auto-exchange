@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { ShieldCheck, CheckCircle } from "lucide-react";
+import FinancingCtaModal from "@/components/FinancingCtaModal";
 
 export default function PreQualify() {
   const [formData, setFormData] = useState({
@@ -63,9 +64,18 @@ export default function PreQualify() {
 
         {submitted ? (
           <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-12 text-center space-y-6">
-            <CheckCircle className="w-16 h-16 text-zinc-900 mx-auto" />
-            <h2 className="text-3xl font-black text-zinc-900 uppercase">Pre-Qualification Complete!</h2>
-            <p className="text-zinc-600 font-medium">Great news! You pre-qualify for financing. A member of our concierge team will reach out with your specific rates and terms.</p>
+            <CheckCircle className="w-16 h-16 text-emerald-600 mx-auto" />
+            <h2 className="text-3xl font-black text-zinc-900 uppercase">Pre-Qualification Received!</h2>
+            <p className="text-zinc-600 font-medium max-w-xl mx-auto">
+              Your pre-qualification information has been safely received. Our finance team will review your buying power. Ready to complete your full Credit Acceptance approval online?
+            </p>
+            <div className="pt-2 flex justify-center max-w-md mx-auto">
+              <FinancingCtaModal 
+                buttonText="Complete Credit Acceptance Approval (DCX3C)"
+                buttonClassName="w-full py-4.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-emerald-950/30 flex items-center justify-center gap-2 cursor-pointer"
+                source="prequal_completed"
+              />
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-8 bg-zinc-50 border border-zinc-200 p-8 md:p-12 rounded-3xl">

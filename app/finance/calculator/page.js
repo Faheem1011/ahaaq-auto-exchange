@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import { Calculator as CalcIcon } from "lucide-react";
+import FinancingCtaModal from "@/components/FinancingCtaModal";
 
 export default function PaymentCalculator() {
   const [price, setPrice] = useState(50000);
@@ -147,6 +148,14 @@ export default function PaymentCalculator() {
             <div className="pt-4 border-t border-zinc-800 flex justify-between items-center">
               <span className="text-zinc-500 font-bold uppercase tracking-wider text-sm">Amount Financed</span>
               <span className="font-bold text-zinc-300">{formatCurrency(totalFinanced)}</span>
+            </div>
+
+            <div className="pt-2">
+              <FinancingCtaModal 
+                buttonText="Apply for Financing on These Terms"
+                buttonClassName="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-zinc-950 font-black text-xs uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-emerald-950/40 flex items-center justify-center gap-2 cursor-pointer"
+                source="payment_calculator"
+              />
             </div>
 
             <p className="text-[11px] text-zinc-600 leading-relaxed pt-4">

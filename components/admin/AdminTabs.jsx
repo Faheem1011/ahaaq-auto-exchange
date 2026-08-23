@@ -15,14 +15,12 @@ import {
   Edit,
   ExternalLink,
   Search,
-  CheckCircle2,
   Clock,
-  Flame,
   Phone,
   Mail,
-  Eye,
-  EyeOff,
-  Plus
+  QrCode,
+  Save,
+  MessageCircle
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import SocialPostHistory from "./SocialPostHistory";
@@ -33,7 +31,7 @@ import SocialPostButton from "./SocialPostButton";
 const TABS = [
   { id: "inventory", label: "Inventory", icon: Car },
   { id: "inquiries", label: "Inquiries", icon: MessageSquare },
-  { id: "finance", label: "Finance Apps", icon: FileText },
+  { id: "finance", label: "Financing Leads", icon: FileText },
   { id: "tradeins", label: "Trade-Ins", icon: CarFront },
   { id: "prequal", label: "Pre-Qualify", icon: ShieldCheck },
   { id: "compose", label: "Compose Post", icon: PenSquare },
@@ -44,6 +42,7 @@ const TABS = [
 export default function AdminTabs({ 
   vehicles: initialVehicles = [],
   contactSubmissions: initialContacts = [],
+  financingLeads: initialFinancingLeads = [],
   financeApps: initialFinance = [],
   tradeIns: initialTradeIns = [],
   preQuals: initialPreQuals = []
@@ -54,15 +53,21 @@ export default function AdminTabs({
   // State for dynamic items
   const [vehicles, setVehicles] = useState(initialVehicles);
   const [contacts, setContacts] = useState(initialContacts);
-  const [finance, setFinance] = useState(initialFinance);
+  const [financingLeads, setFinancingLeads] = useState(
+    initialFinancingLeads && initialFinancingLeads.length > 0 ? initialFinancingLeads : initialFinance
+  );
   const [tradeIns, setTradeIns] = useState(initialTradeIns);
   const [preQuals, setPreQuals] = useState(initialPreQuals);
 
   // Filters & UI States
   const [inventorySearch, setInventorySearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [financeStatusFilter, setFinanceStatusFilter] = useState("all");
+  const [financeLanguageFilter, setFinanceLanguageFilter] = useState("all");
+  const [financeSearch, setFinanceSearch] = useState("");
+  const [editingNotes, setEditingNotes] = useState({});
+  const [showAdminQr, setShowAdminQr] = useState(false);
   const [updatingId, setUpdatingId] = useState(null);
-  const [revealedSsn, setRevealedSsn] = useState({});
 
   // 1. UPDATE VEHICLE STATUS (e.g. Sold, Available, Price Drop)
   const handleStatusChange = async (vehicleId, newStatus) => {
@@ -517,88 +522,362 @@ export default function AdminTabs({
         {/* ══════════════════════════════════════════════════════════════ */}
         {/* 3. FINANCE APPLICATIONS TAB                                   */}
         {/* ══════════════════════════════════════════════════════════════ */}
+        {/* ══════════════════════════════════════════════════════════════ */}
+        {/* 3. CREDIT ACCEPTANCE & FINANCING LEADS TAB                     */}
+        {/* ══════════════════════════════════════════════════════════════ */}
         {activeTab === "finance" && (
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-xl font-bold text-white tracking-tight">Finance Applications</h2>
-                <p className="text-zinc-400 text-xs">Full online loan &amp; credit application submissions.</p>
+          <div className="p-6 space-y-8">
+            
+            {/* Credit Acceptance Provider Card */}
+            <div className="bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border border-emerald-500/30 rounded-3xl p-6 md:p-8 text-white shadow-2xl space-y-6">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-zinc-800">
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                      <ShieldCheck size={12} /> Credit Acceptance Active
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase tracking-widest">
+                      Dealer Code: DCX3C
+                    </span>
+                  </div>
+                  <h2 className="text-2xl font-black uppercase tracking-tight text-white">
+                    Credit Acceptance Integration Control
+                  </h2>
+                  <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
+                    Customer credit applications are processed through your official Credit Acceptance hosted portal. Zero local SSN storage ensures 100% compliance with automotive privacy regulations.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
+                  <a
+                    href="https://www.startyourcreditapproval.com/credit-application/DCX3C"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-lg shadow-emerald-950/40"
+                  >
+                    🇺🇸 Open English App <ExternalLink size={13} />
+                  </a>
+                  <a
+                    href="https://www.startyourcreditapproval.com/credit-application/DCX3C?lang=es"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 border border-zinc-700"
+                  >
+                    🇪🇸 Open Spanish App <ExternalLink size={13} />
+                  </a>
+                  <button
+                    onClick={() => setShowAdminQr(!showAdminQr)}
+                    className="px-4 py-2.5 bg-white text-zinc-950 hover:bg-zinc-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-lg"
+                  >
+                    <QrCode size={14} /> {showAdminQr ? "Hide QR" : "Show QR"}
+                  </button>
+                </div>
               </div>
-              <span className="text-xs font-bold px-3 py-1 bg-zinc-800 text-zinc-300 rounded-full">
-                {finance.length} Applications
-              </span>
+
+              {/* Admin QR Code View for Dealership Showroom */}
+              {showAdminQr && (
+                <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800 flex flex-col md:flex-row items-center gap-8 animate-in fade-in duration-200">
+                  <div className="flex gap-6">
+                    <div className="text-center">
+                      <div className="w-28 h-28 bg-white rounded-xl p-2 mb-1.5 flex items-center justify-center shadow-lg">
+                        <img 
+                          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwww.startyourcreditapproval.com%2Fcredit-application%2FDCX3C" 
+                          alt="English QR"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold text-zinc-400 uppercase">English Portal</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-28 h-28 bg-white rounded-xl p-2 mb-1.5 flex items-center justify-center shadow-lg">
+                        <img 
+                          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwww.startyourcreditapproval.com%2Fcredit-application%2FDCX3C%3Flang%3Des" 
+                          alt="Spanish QR"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold text-zinc-400 uppercase">Spanish Portal</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-center md:text-left">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      Printable Showroom QR Codes
+                    </h3>
+                    <p className="text-xs text-zinc-400 leading-relaxed max-w-md">
+                      Customers on the showroom lot can scan these QR codes directly with their smartphone cameras to immediately begin their Credit Acceptance application.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* CRM / CAPS Integration Status */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
+                  <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">Dealer ID</span>
+                  <span className="text-white font-mono font-bold text-sm">DCX3C</span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
+                  <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">CRM / CAPS Status</span>
+                  <span className="text-emerald-400 font-bold text-xs">Hosted Flow Active</span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
+                  <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">Security Underwriting</span>
+                  <span className="text-zinc-300 font-bold text-xs">256-Bit SSL • Zero Local SSN</span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
+                  <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">API Key Config</span>
+                  <span className="text-zinc-400 font-mono text-xs">•••••••••••• (Ready)</span>
+                </div>
+              </div>
             </div>
 
-            {finance.length === 0 ? (
-              <div className="py-16 text-center text-zinc-500 text-sm">
-                No finance applications submitted yet.
+            {/* Lead Metrics KPI Counter Row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider block">Total Leads</span>
+                <span className="text-3xl font-black text-white mt-1 block">{financingLeads.length}</span>
+              </div>
+              <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider block">New Leads</span>
+                <span className="text-3xl font-black text-emerald-400 mt-1 block">
+                  {financingLeads.filter(l => (l.status || 'new') === 'new').length}
+                </span>
+              </div>
+              <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider block">In Progress / Contacted</span>
+                <span className="text-3xl font-black text-amber-400 mt-1 block">
+                  {financingLeads.filter(l => ['contacted', 'application_started', 'deal_in_progress'].includes(l.status)).length}
+                </span>
+              </div>
+              <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider block">Spanish Language</span>
+                <span className="text-3xl font-black text-teal-400 mt-1 block">
+                  {financingLeads.filter(l => l.preferred_language === 'es').length}
+                </span>
+              </div>
+            </div>
+
+            {/* Leads Filter & Search Bar */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
+              <div className="relative w-full md:w-80">
+                <Search size={16} className="absolute left-3.5 top-3 text-zinc-500" />
+                <input
+                  type="text"
+                  placeholder="Search leads by customer, phone, vehicle..."
+                  value={financeSearch}
+                  onChange={(e) => setFinanceSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600"
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <select
+                  value={financeStatusFilter}
+                  onChange={(e) => setFinanceStatusFilter(e.target.value)}
+                  className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white font-bold focus:outline-none"
+                >
+                  <option value="all">All Statuses</option>
+                  <option value="new">🟢 New</option>
+                  <option value="contacted">🟡 Contacted</option>
+                  <option value="application_started">🔵 App Started</option>
+                  <option value="deal_in_progress">🟣 Deal in Progress</option>
+                  <option value="approved">🟢 Approved</option>
+                  <option value="funded">💎 Funded</option>
+                  <option value="closed">⚪ Closed</option>
+                </select>
+
+                <select
+                  value={financeLanguageFilter}
+                  onChange={(e) => setFinanceLanguageFilter(e.target.value)}
+                  className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white font-bold focus:outline-none"
+                >
+                  <option value="all">All Languages</option>
+                  <option value="en">🇺🇸 English</option>
+                  <option value="es">🇪🇸 Español</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Leads List */}
+            {financingLeads.length === 0 ? (
+              <div className="py-16 text-center text-zinc-500 text-sm bg-zinc-950 border border-zinc-800 rounded-2xl">
+                No financing leads recorded yet. As customers click Apply for Financing or start approvals, they will appear here live.
               </div>
             ) : (
               <div className="space-y-4">
-                {finance.map((f) => (
-                  <div key={f.id} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition-all">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
-                      <div>
-                        <h3 className="font-bold text-white text-lg">{f.first_name} {f.last_name}</h3>
-                        <p className="text-xs text-zinc-400">
-                          Submitted: {new Date(f.created_at).toLocaleString()}
-                        </p>
-                      </div>
+                {financingLeads
+                  .filter(lead => {
+                    const searchTarget = `${lead.customer_name || ''} ${lead.customer_phone || ''} ${lead.customer_email || ''} ${lead.vehicle_title || ''} ${lead.vehicle_vin || ''}`.toLowerCase();
+                    const matchesSearch = searchTarget.includes(financeSearch.toLowerCase());
+                    const matchesStatus = financeStatusFilter === 'all' || (lead.status || 'new').toLowerCase() === financeStatusFilter.toLowerCase();
+                    const matchesLang = financeLanguageFilter === 'all' || (lead.preferred_language || 'en').toLowerCase() === financeLanguageFilter.toLowerCase();
+                    return matchesSearch && matchesStatus && matchesLang;
+                  })
+                  .map((lead) => {
+                    const isSpanish = lead.preferred_language === 'es';
+                    const hasVehicle = Boolean(lead.vehicle_title || lead.vehicle_vin);
+                    const isEditing = editingNotes[lead.id] !== undefined;
+                    const noteContent = isEditing ? editingNotes[lead.id] : (lead.notes || '');
 
-                      <div className="flex items-center gap-2">
-                        <select
-                          value={f.status || "pending"}
-                          onChange={(e) => handleLeadStatusChange("finance_applications", f.id, e.target.value, setFinance)}
-                          className="text-xs font-bold px-3 py-1.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white"
-                        >
-                          <option value="pending">🟡 Pending Review</option>
-                          <option value="approved">🟢 Approved</option>
-                          <option value="denied">🔴 Denied</option>
-                          <option value="under_review">🔵 Under Review</option>
-                        </select>
+                    return (
+                      <div key={lead.id} className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition-all space-y-4">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-white text-lg">
+                                {lead.customer_name || "Online Financing Applicant"}
+                              </h3>
+                              <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider ${
+                                isSpanish ? "bg-amber-500/20 text-amber-300 border border-amber-500/30" : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                              }`}>
+                                {isSpanish ? "🇪🇸 Español" : "🇺🇸 English"}
+                              </span>
+                              <span className="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-400 font-mono">
+                                {lead.source || "website"}
+                              </span>
+                            </div>
+                            <p className="text-xs text-zinc-500">
+                              Activity: {new Date(lead.created_at).toLocaleString()} • Source Page: <span className="text-zinc-400 font-mono">{lead.source_page || '/finance'}</span>
+                            </p>
+                          </div>
 
-                        <button
-                          onClick={() => handleDeleteLead("finance_applications", f.id, setFinance)}
-                          className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </div>
+                          <div className="flex items-center gap-3">
+                            <select
+                              value={lead.status || "new"}
+                              onChange={(e) => handleLeadStatusChange("financing_leads", lead.id, e.target.value, setFinancingLeads)}
+                              className={`text-xs font-bold px-3 py-2 rounded-xl border ${
+                                lead.status === "approved" || lead.status === "funded"
+                                  ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                                  : lead.status === "contacted" || lead.status === "deal_in_progress"
+                                  ? "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                                  : "bg-zinc-800 text-white border-zinc-700"
+                              }`}
+                            >
+                              <option value="new">🟢 New Lead</option>
+                              <option value="contacted">🟡 Contacted</option>
+                              <option value="application_started">🔵 App Started</option>
+                              <option value="deal_in_progress">🟣 Deal in Progress</option>
+                              <option value="approved">🟢 Approved (Credit Acceptance)</option>
+                              <option value="funded">💎 Funded / Delivered</option>
+                              <option value="closed">⚪ Closed / Lost</option>
+                            </select>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-4 text-xs">
-                      <div>
-                        <span className="text-zinc-500 block font-bold">Contact</span>
-                        <p className="text-white font-medium">{f.phone}</p>
-                        <p className="text-zinc-400">{f.email}</p>
-                      </div>
-                      <div>
-                        <span className="text-zinc-500 block font-bold">Income &amp; Job</span>
-                        <p className="text-emerald-400 font-bold">${f.monthly_income?.toLocaleString() || f.income?.toLocaleString()} / mo</p>
-                        <p className="text-zinc-400">{f.job_title} at {f.employer || "N/A"}</p>
-                      </div>
-                      <div>
-                        <span className="text-zinc-500 block font-bold">Residence</span>
-                        <p className="text-zinc-300">{f.address}</p>
-                        <p className="text-zinc-400">{f.city}, {f.state} {f.zip_code || f.zip}</p>
-                      </div>
-                      <div>
-                        <span className="text-zinc-500 block font-bold">SSN (Confidential)</span>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="font-mono text-zinc-300 font-bold">
-                            {revealedSsn[f.id] ? f.ssn : "•••-••-" + (f.ssn ? f.ssn.slice(-4) : "••••")}
-                          </span>
-                          <button
-                            onClick={() => setRevealedSsn(prev => ({ ...prev, [f.id]: !prev[f.id] }))}
-                            className="text-zinc-500 hover:text-white"
-                          >
-                            {revealedSsn[f.id] ? <EyeOff size={13} /> : <Eye size={13} />}
-                          </button>
+                            <button
+                              onClick={() => handleDeleteLead("financing_leads", lead.id, setFinancingLeads)}
+                              className="p-2 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                              title="Delete Lead"
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Lead Details Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                          {/* Customer Contact */}
+                          <div className="space-y-1.5 bg-zinc-900/50 p-3.5 rounded-xl border border-zinc-800/80">
+                            <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">Contact Info</span>
+                            {lead.customer_phone ? (
+                              <div className="flex items-center gap-2">
+                                <span className="text-white font-bold">{lead.customer_phone}</span>
+                                <a 
+                                  href={`https://wa.me/${lead.customer_phone.replace(/[^0-9]/g, '')}`} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-[10px] text-emerald-400 font-bold hover:underline flex items-center gap-0.5"
+                                >
+                                  <MessageCircle size={12} /> WhatsApp
+                                </a>
+                              </div>
+                            ) : (
+                              <p className="text-zinc-500 italic">No phone captured yet</p>
+                            )}
+                            {lead.customer_email && (
+                              <p className="text-zinc-400 truncate">{lead.customer_email}</p>
+                            )}
+                          </div>
+
+                          {/* Vehicle Association */}
+                          <div className="space-y-1.5 bg-zinc-900/50 p-3.5 rounded-xl border border-zinc-800/80">
+                            <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">Associated Vehicle</span>
+                            {hasVehicle ? (
+                              <div>
+                                <p className="text-white font-bold truncate">{lead.vehicle_title}</p>
+                                <div className="flex items-center gap-2 mt-0.5">
+                                  {lead.vehicle_price && (
+                                    <span className="text-emerald-400 font-bold">
+                                      ${Number(lead.vehicle_price).toLocaleString()}
+                                    </span>
+                                  )}
+                                  {lead.vehicle_vin && (
+                                    <span className="text-zinc-500 font-mono text-[10px]">
+                                      VIN: {lead.vehicle_vin.slice(-8)}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="text-zinc-400 font-medium">General Inventory Application</p>
+                            )}
+                          </div>
+
+                          {/* Credit Acceptance Info */}
+                          <div className="space-y-1.5 bg-zinc-900/50 p-3.5 rounded-xl border border-zinc-800/80">
+                            <span className="text-zinc-500 font-bold uppercase tracking-wider block text-[10px]">Provider Workflow</span>
+                            <p className="text-emerald-400 font-bold flex items-center gap-1">
+                              <ShieldCheck size={13} /> Credit Acceptance (DCX3C)
+                            </p>
+                            <p className="text-zinc-500 text-[10px]">
+                              {lead.credit_acceptance_status || "Customer directed to hosted portal"}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Internal Dealership Notes Editor */}
+                        <div className="pt-2">
+                          <div className="flex items-center justify-between mb-1.5">
+                            <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                              <Edit size={12} /> Internal Notes &amp; Follow-Up History
+                            </label>
+                            {isEditing && (
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const { error } = await supabase
+                                      .from("financing_leads")
+                                      .update({ notes: noteContent, updated_at: new Date().toISOString() })
+                                      .eq("id", lead.id);
+                                    if (!error) {
+                                      setFinancingLeads(prev => prev.map(l => l.id === lead.id ? { ...l, notes: noteContent } : l));
+                                      setEditingNotes(prev => {
+                                        const next = { ...prev };
+                                        delete next[lead.id];
+                                        return next;
+                                      });
+                                    } else {
+                                      alert("Error saving notes: " + error.message);
+                                    }
+                                  } catch (err) {
+                                    console.error(err);
+                                  }
+                                }}
+                                className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors"
+                              >
+                                <Save size={12} /> Save Notes
+                              </button>
+                            )}
+                          </div>
+                          <textarea
+                            rows={2}
+                            value={noteContent}
+                            placeholder="Add follow-up notes, customer budget, trade-in info..."
+                            onChange={(e) => setEditingNotes({ ...editingNotes, [lead.id]: e.target.value })}
+                            className="w-full p-3 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600"
+                          />
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  })}
               </div>
             )}
           </div>

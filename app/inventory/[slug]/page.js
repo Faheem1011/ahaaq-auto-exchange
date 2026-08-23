@@ -8,6 +8,7 @@ import ImageGalleryClient from '@/components/ImageGalleryClient';
 import { createClient } from '@/utils/supabase/server';
 import VehicleContactForm from '@/components/VehicleContactForm';
 import { localVehicles } from '@/lib/localVehicles';
+import FinancingCtaModal from '@/components/FinancingCtaModal';
 
 async function getVehicleBySlug(slug) {
   if (!slug) return null;
@@ -365,9 +366,12 @@ export default async function VehiclePage({ params }) {
                       <Link href="#contact" className="block w-full py-5 bg-zinc-900 hover:bg-zinc-800 text-white text-center rounded-2xl font-black tracking-widest text-xs transition-all border border-zinc-900">
                         INQUIRE NOW
                       </Link>
-                      <Link href="/finance/apply" className="block w-full py-5 bg-white hover:bg-zinc-100 text-zinc-900 text-center rounded-2xl font-black tracking-widest text-xs transition-all border border-zinc-200">
-                        APPLY FOR FINANCING
-                      </Link>
+                      <FinancingCtaModal 
+                        vehicle={vehicle} 
+                        buttonText="APPLY FOR FINANCING" 
+                        buttonClassName="block w-full py-5 bg-white hover:bg-zinc-100 text-zinc-900 text-center rounded-2xl font-black tracking-widest text-xs transition-all border border-zinc-200 cursor-pointer"
+                        source="vehicle_detail"
+                      />
                     </>
                   )}
                 </div>

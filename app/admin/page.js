@@ -12,13 +12,13 @@ export default async function AdminDashboard() {
   const [
     { data: vehicles },
     { data: contactSubmissions },
-    { data: financeApps },
+    { data: financingLeads },
     { data: tradeIns },
     { data: preQuals }
   ] = await Promise.all([
     supabase.from("vehicles").select("*").order("created_at", { ascending: false }),
     supabase.from("contact_submissions").select("*").order("created_at", { ascending: false }),
-    supabase.from("finance_applications").select("*").order("created_at", { ascending: false }),
+    supabase.from("financing_leads").select("*").order("created_at", { ascending: false }),
     supabase.from("trade_in_submissions").select("*").order("created_at", { ascending: false }),
     supabase.from("finance_pre_qualifications").select("*").order("created_at", { ascending: false })
   ]);
@@ -53,7 +53,7 @@ export default async function AdminDashboard() {
         <AdminTabs 
           vehicles={vehicles || []} 
           contactSubmissions={contactSubmissions || []}
-          financeApps={financeApps || []}
+          financingLeads={financingLeads || []}
           tradeIns={tradeIns || []}
           preQuals={preQuals || []}
         />
