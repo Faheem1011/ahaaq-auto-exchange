@@ -204,7 +204,7 @@ export default function AdminTabs({
   return (
     <div>
       {/* Navigation Tab Bar */}
-      <div className="flex flex-wrap gap-1 bg-zinc-900 border border-zinc-800 rounded-2xl p-1.5 mb-8">
+      <div className="flex overflow-x-auto no-scrollbar sm:flex-wrap gap-1 bg-zinc-900 border border-zinc-800 rounded-2xl p-1.5 mb-6 sm:mb-8 scroll-smooth overscroll-x-contain">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           let count = null;
@@ -222,7 +222,7 @@ export default function AdminTabs({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 min-w-[130px] flex items-center justify-center gap-2 py-3 px-3 rounded-xl text-xs font-bold transition-all ${
+              className={`shrink-0 sm:shrink sm:flex-1 min-w-[120px] sm:min-w-[130px] flex items-center justify-center gap-2 py-2.5 sm:py-3 px-3 rounded-xl text-xs font-bold transition-all ${
                 activeTab === tab.id
                   ? "bg-white text-zinc-950 shadow-xl"
                   : "text-zinc-400 hover:text-white hover:bg-zinc-800/60"

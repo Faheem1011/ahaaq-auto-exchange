@@ -178,44 +178,44 @@ export default async function VehiclePage({ params }) {
       />
       <Navbar />
 
-      <div className="pt-40 lg:pt-48 pb-24 px-8">
+      <div className="pt-28 sm:pt-36 lg:pt-44 pb-20 px-4 sm:px-6 md:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb / Back */}
-          <Link href="/inventory" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-bold text-xs tracking-widest uppercase transition-colors mb-8">
+          <Link href="/inventory" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-bold text-xs tracking-widest uppercase transition-colors mb-6 sm:mb-8">
             <ArrowLeft size={16} /> USED CAR INVENTORY JACKSONVILLE
           </Link>
 
           {/* FANCY SOLD BANNER (IF SOLD) */}
           {isSold && (
-            <div className="mb-10 bg-gradient-to-r from-red-950 via-rose-900 to-red-950 border-2 border-red-500/40 rounded-3xl p-6 md:p-8 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="mb-8 sm:mb-10 bg-gradient-to-r from-red-950 via-rose-900 to-red-950 border-2 border-red-500/40 rounded-3xl p-5 sm:p-8 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-red-600/30 border border-red-400/50 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-8 h-8 text-red-300" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-red-600/30 border border-red-400/50 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-6 h-6 sm:w-8 sm:h-8 text-red-300" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-red-600 text-white text-[11px] font-black tracking-widest uppercase">
+                    <span className="px-3 py-1 rounded-full bg-red-600 text-white text-[10px] sm:text-[11px] font-black tracking-widest uppercase">
                       SOLD OUT
                     </span>
                     <span className="text-xs text-red-200 font-bold uppercase tracking-wider">
                       Delivered to Jacksonville Driver
                     </span>
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black tracking-tight mt-1 text-white uppercase">
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-black tracking-tight mt-1 text-white uppercase">
                     This {year} {make} {model} has been sold
                   </h2>
                 </div>
               </div>
               <Link 
                 href="/inventory"
-                className="px-8 py-4 bg-white text-zinc-950 hover:bg-zinc-100 rounded-full font-black text-xs uppercase tracking-widest transition-all shrink-0 shadow-lg"
+                className="w-full sm:w-auto px-8 py-3.5 sm:py-4 bg-white text-zinc-950 hover:bg-zinc-100 rounded-full font-black text-xs uppercase tracking-widest transition-all shrink-0 shadow-lg text-center"
               >
                 Browse Available Cars
               </Link>
             </div>
           )}
 
-          <div className="flex flex-col lg:flex-row gap-16">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             {/* Left: Media & Gallery */}
             <div className="lg:w-2/3 space-y-8">
               <div className="relative aspect-[16/9] bg-zinc-100 rounded-[2rem] overflow-hidden shadow-2xl border border-zinc-100">

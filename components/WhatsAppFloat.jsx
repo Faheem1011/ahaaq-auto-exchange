@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 
 const WHATSAPP_NUMBER = "19045029709";
 const WHATSAPP_MESSAGE = encodeURIComponent(
-  "Hi Bobby! I'm interested in a vehicle from Ahaaq Auto Exchange."
+  "Hi Bobby! I'm interested in a vehicle / service from Ahaaq Auto Exchange."
 );
 
 const WhatsAppIcon = ({ size = 24 }) => (
@@ -16,22 +16,22 @@ const WhatsAppIcon = ({ size = 24 }) => (
 
 export default function WhatsAppFloat() {
   const [showTooltip, setShowTooltip] = useState(true);
-
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-3">
-      {/* Tooltip / CTA */}
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2 pointer-events-auto">
+      {/* Tooltip / CTA — Hidden on mobile to prevent obscuring content, visible on tablet/desktop */}
       {showTooltip && (
-        <div className="relative bg-white rounded-2xl shadow-2xl shadow-zinc-900/20 border border-zinc-100 px-5 py-3 max-w-[240px] animate-fade-in">
+        <div className="hidden sm:block relative bg-zinc-950 text-white rounded-2xl shadow-2xl border border-zinc-800 px-4 py-2.5 max-w-[220px] animate-fade-in">
           <button
             onClick={() => setShowTooltip(false)}
-            className="absolute -top-2 -right-2 bg-zinc-200 rounded-full p-0.5 hover:bg-zinc-300 transition-colors"
+            className="absolute -top-1.5 -right-1.5 bg-zinc-800 rounded-full p-0.5 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors"
+            aria-label="Close tooltip"
           >
-            <X size={12} className="text-zinc-600" />
+            <X size={11} />
           </button>
-          <p className="text-sm text-zinc-700 font-medium leading-snug">
-            💬 Chat with <strong>Bobby</strong> on WhatsApp for the best deals!
+          <p className="text-xs text-zinc-300 font-normal leading-tight">
+            Chat with <strong>Bobby</strong> on WhatsApp for quick inquiries!
           </p>
         </div>
       )}
@@ -41,19 +41,19 @@ export default function WhatsAppFloat() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-110 transition-all duration-300"
-        aria-label="Chat on WhatsApp"
+        className="group relative w-12 h-12 sm:w-14 sm:h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 transition-all duration-300 active:scale-95"
+        aria-label="Chat on WhatsApp with Bobby Ali"
       >
-        <WhatsAppIcon size={30} />
-        {/* Pulse ring */}
-        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+        <WhatsAppIcon size={24} />
+        {/* Subtle Pulse ring */}
+        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20 pointer-events-none" />
       </a>
 
       <style jsx>{`
         @keyframes fade-in {
           from {
             opacity: 0;
-            transform: translateY(8px);
+            transform: translateY(6px);
           }
           to {
             opacity: 1;
@@ -61,7 +61,7 @@ export default function WhatsAppFloat() {
           }
         }
         .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
+          animation: fade-in 0.25s ease-out;
         }
       `}</style>
     </div>

@@ -61,22 +61,22 @@ export default async function InventoryPage() {
     <main className="min-h-screen bg-white">
       <Navbar />
 
-      <div className="pt-40 lg:pt-48 pb-24 px-8">
+      <div className="pt-28 sm:pt-36 lg:pt-44 pb-20 px-4 sm:px-6 md:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-            <div className="space-y-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6 sm:gap-8">
+            <div className="space-y-3 sm:space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] font-bold tracking-[0.25em] text-zinc-600 uppercase">
                 Jacksonville, FL • Live Inventory
               </div>
-              <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-zinc-900 leading-none">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-zinc-900 leading-none">
                 PREMIUM <br/>
                 <span className="text-zinc-400 uppercase">COLLECTION</span>
               </h1>
             </div>
             
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 bg-zinc-50 px-4 py-3 rounded-2xl border border-zinc-200">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 bg-zinc-50 px-4 py-2.5 sm:py-3 rounded-2xl border border-zinc-200">
                 {vehicles.length} Vehicles in Stock
               </span>
             </div>
