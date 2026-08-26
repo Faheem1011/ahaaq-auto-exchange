@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
+  metadataBase: new URL("https://ahhaqautoexchange.net"),
   title: "Ahaaq Auto Exchange | Premium Luxury Car Dealership in Jacksonville, FL",
   description: "Jacksonville's premier auto exchange for luxury pre-owned vehicles. Featuring a curated selection of Toyota, Lexus, Mercedes-Benz, and BMW. Best prices and quality guaranteed in North Florida.",
   keywords: ["Ahaaq Auto Exchange", "luxury car dealer Jacksonville FL", "used cars Jacksonville", "premium auto exchange Florida", "Lexus dealer Jacksonville", "BMW Jacksonville FL"],

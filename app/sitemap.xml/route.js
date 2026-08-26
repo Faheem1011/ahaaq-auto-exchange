@@ -1,5 +1,7 @@
 import { getVehicles } from "@/lib/graphql";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const vehicles = await getVehicles(100);
   const baseUrl = "https://ahhaqautoexchange.net";

@@ -96,6 +96,11 @@ async function getVehicleBySlug(slug) {
 
 async function testAll() {
   const slugsToTest = [
+    '2012-ford-escape-xlt',
+    '2012-ford-escape',
+    '2012 ford escape',
+    '2012 ford escape xlt',
+    'fb3043f7-6609-429f-a382-5c231b6e7a58',
     '2012-hyundai-santa-fe',
     '2012-hyundai-santa%20fe',
     '2012-hyundai-santa fe',
