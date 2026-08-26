@@ -71,7 +71,6 @@ import Script from "next/script";
 
 export default function RootLayout({ children }) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-XXXXXXXXXX";
-  const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-2258356814887246";
 
   return (
     <html lang="en">
@@ -81,10 +80,9 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
         {/* Google AdSense Verification & Auto Ads */}
-        <Script
-          id="google-adsense"
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
-          strategy="afterInteractive"
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2258356814887246"
           crossOrigin="anonymous"
         />
         {GA_MEASUREMENT_ID !== "G-XXXXXXXXXX" && (
