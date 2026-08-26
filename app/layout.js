@@ -51,6 +51,7 @@ export const metadata = {
     images: ["/images/Jacksonville-ahaaq-hero-banner.webp"],
   },
   other: {
+    "google-adsense-account": "ca-pub-2258356814887246",
     "geo.region": "US-FL",
     "geo.placename": "Jacksonville, Florida",
     "geo.position": "30.3879;-81.6528",
@@ -66,7 +67,7 @@ import Script from "next/script";
 
 export default function RootLayout({ children }) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-XXXXXXXXXX";
-  const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "";
+  const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-2258356814887246";
 
   return (
     <html lang="en">
@@ -75,15 +76,13 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
           rel="stylesheet"
         />
-        {/* Google AdSense Script */}
-        {ADSENSE_CLIENT_ID && (
-          <Script
-            id="google-adsense"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-          />
-        )}
+        {/* Google AdSense Verification & Auto Ads */}
+        <Script
+          id="google-adsense"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+        />
         {GA_MEASUREMENT_ID !== "G-XXXXXXXXXX" && (
           <>
             <Script
