@@ -3,14 +3,13 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Wrench, Shield, Sparkles, Car, Clock, CheckCircle2, AlertCircle, MessageSquare } from "lucide-react";
+import { Wrench, Sparkles, Car, Clock, CheckCircle2, AlertCircle, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 const SERVICE_CATEGORIES = [
   { id: "auto_repair", label: "Mechanical Auto Repair", icon: Wrench, desc: "Diagnostics, brakes, engine, AC, suspension, electrical" },
   { id: "maintenance", label: "Routine Maintenance", icon: Car, desc: "Synthetic oil change, fluid flushes, filters, safety inspection" },
   { id: "diagnostics", label: "Check Engine Light & Diagnostics", icon: Wrench, desc: "Computer OBD-II scan, misfire & sensor troubleshooting" },
-  { id: "body_shop", label: "Body Shop & Collision Appraisal", icon: Shield, desc: "Accident damage, bumpers, panel repair, paint matching" },
   { id: "window_tinting", label: "Ceramic Window Tinting", icon: Sparkles, desc: "High-heat rejection ceramic/carbon film installation" }
 ];
 
@@ -87,7 +86,7 @@ export default function BookServicePage() {
             <span className="text-zinc-400">&amp; Repair Online</span>
           </h1>
           <p className="text-zinc-400 text-xs sm:text-sm max-w-xl mx-auto font-normal">
-            Book certified mechanical repairs, scheduled maintenance, body shop appraisals, or window tinting at <strong>6615 N Main St, Jacksonville, FL</strong>.
+            Book certified mechanical repairs, scheduled maintenance, or window tinting at <strong>6615 N Main St, Jacksonville, FL</strong>.
           </p>
         </div>
       </section>

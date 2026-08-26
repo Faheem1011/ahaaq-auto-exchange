@@ -418,8 +418,8 @@ export default async function VehiclePage({ params }) {
                   <Link href="/auto-repair" className="text-[11px] font-bold text-zinc-700 bg-white px-3 py-1.5 rounded-lg border border-zinc-200 hover:border-zinc-400 transition-colors">
                     Auto Repair 32208
                   </Link>
-                  <Link href="/body-shop" className="text-[11px] font-bold text-zinc-700 bg-white px-3 py-1.5 rounded-lg border border-zinc-200 hover:border-zinc-400 transition-colors">
-                    Collision Body Shop Jax
+                  <Link href="/window-tinting" className="text-[11px] font-bold text-zinc-700 bg-white px-3 py-1.5 rounded-lg border border-zinc-200 hover:border-zinc-400 transition-colors">
+                    Window Tinting Jax
                   </Link>
                 </div>
               </div>

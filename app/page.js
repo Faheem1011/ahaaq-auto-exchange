@@ -3,14 +3,14 @@ import VehicleCard from "@/components/VehicleCard";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import { getVehicles } from "@/lib/graphql";
-import { ArrowRight, MapPin, Wrench, Shield, Sparkles, Car, Clock, CheckCircle2, Banknote } from "lucide-react";
+import { ArrowRight, MapPin, Wrench, Sparkles, Car, Clock, CheckCircle2, Banknote } from "lucide-react";
 import Link from "next/link";
 import AdBanner from "@/components/AdBanner";
 
 export const metadata = {
-  title: "AHAQ Auto Exchange | Used Cars, Auto Repair & Body Shop | Jacksonville, FL",
-  description: "Jacksonville's premier all-in-one automotive center: quality pre-owned vehicles, certified mechanical auto repair, full collision body shop, and window tinting at 6615 N Main St.",
-  keywords: "used cars Jacksonville FL, auto repair Jacksonville, mechanic Jacksonville FL, body shop Jacksonville, collision repair Jacksonville, window tint Jacksonville",
+  title: "AHAQ Auto Exchange | Used Cars, Auto Repair & Window Tinting | Jacksonville, FL",
+  description: "Jacksonville's premier all-in-one automotive center: quality pre-owned vehicles, certified mechanical auto repair, and window tinting at 6615 N Main St.",
+  keywords: "used cars Jacksonville FL, auto repair Jacksonville, mechanic Jacksonville FL, window tint Jacksonville",
 };
 
 export default async function Home() {
@@ -54,7 +54,7 @@ export default async function Home() {
       }
     ],
     "areaServed": "Jacksonville, FL",
-    "description": "Complete automotive center in Jacksonville, FL offering quality used car sales, certified mechanical repairs, body shop collision restoration, and window tinting."
+    "description": "Complete automotive center in Jacksonville, FL offering quality used car sales, certified mechanical repairs, and window tinting."
   };
 
   return (
@@ -89,7 +89,7 @@ export default async function Home() {
             </h1>
             
             <p className="text-base sm:text-lg md:text-xl text-zinc-300 font-normal max-w-2xl leading-relaxed">
-              Quality pre-owned vehicles, certified mechanical auto repair, full collision body shop services, and professional window tinting — all under one roof in Jacksonville.
+              Quality pre-owned vehicles, certified mechanical auto repair, and professional window tinting — all under one roof in Jacksonville.
             </p>
             
             <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -105,12 +105,6 @@ export default async function Home() {
                 className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all border border-zinc-700 shadow-xl flex items-center gap-2"
               >
                 <Wrench size={16} /> Book Service
-              </Link>
-              <Link 
-                href="/body-shop/estimate" 
-                className="px-8 py-4 bg-transparent text-white border border-white/20 backdrop-blur-sm rounded-full font-black text-xs uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2"
-              >
-                <Shield size={16} /> Body Estimate
               </Link>
             </div>
 
@@ -142,7 +136,7 @@ export default async function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════ */}
-      {/* 2. FOUR CORE DIVISIONS GRID                                    */}
+      {/* 2. THREE CORE DIVISIONS GRID                                   */}
       {/* ══════════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-black text-white px-6 md:px-8 border-t border-zinc-900">
         <div className="max-w-7xl mx-auto space-y-16">
@@ -152,11 +146,11 @@ export default async function Home() {
               Everything Your Vehicle Needs In Jacksonville
             </h2>
             <p className="text-zinc-400 text-sm font-normal">
-              From purchasing your next reliable car to factory-spec mechanical maintenance, collision restoration, and premium ceramic tinting.
+              From purchasing your next reliable car to factory-spec mechanical maintenance and premium ceramic tinting.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Division 1: Dealership */}
             <div className="bg-zinc-950 border border-zinc-800/80 rounded-3xl p-8 hover:border-white/30 transition-all flex flex-col justify-between group space-y-6">
@@ -212,41 +206,14 @@ export default async function Home() {
               </Link>
             </div>
 
-            {/* Division 3: Body Shop */}
-            <div className="bg-zinc-950 border border-zinc-800/80 rounded-3xl p-8 hover:border-white/30 transition-all flex flex-col justify-between group space-y-6">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center">
-                  <Shield size={24} />
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block">Division 03</span>
-                  <h3 className="text-xl font-black uppercase tracking-tight text-white mt-1">Body Shop &amp; Paint</h3>
-                </div>
-                <p className="text-xs text-zinc-400 leading-relaxed font-normal">
-                  Complete collision repairs, bumper &amp; fender replacement, scratch removal, paint matching, and insurance claim coordination.
-                </p>
-                <ul className="space-y-1.5 text-xs text-zinc-300 font-medium">
-                  <li className="flex items-center gap-1.5"><CheckCircle2 size={13} className="text-zinc-400" /> Precision Frame Alignment</li>
-                  <li className="flex items-center gap-1.5"><CheckCircle2 size={13} className="text-zinc-400" /> Computer Color-Matched Refinish</li>
-                  <li className="flex items-center gap-1.5"><CheckCircle2 size={13} className="text-zinc-400" /> Digital Damage Photo Estimates</li>
-                </ul>
-              </div>
-              <Link 
-                href="/body-shop" 
-                className="w-full py-3 bg-zinc-900 group-hover:bg-white group-hover:text-black text-white font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors block border border-zinc-800"
-              >
-                Body Shop Services →
-              </Link>
-            </div>
-
-            {/* Division 4: Window Tinting */}
+            {/* Division 3: Window Tinting */}
             <div className="bg-zinc-950 border border-zinc-800/80 rounded-3xl p-8 hover:border-white/30 transition-all flex flex-col justify-between group space-y-6">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center">
                   <Sparkles size={24} />
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block">Division 04</span>
+                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block">Division 03</span>
                   <h3 className="text-xl font-black uppercase tracking-tight text-white mt-1">Window Tinting</h3>
                 </div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-normal">
@@ -373,9 +340,9 @@ export default async function Home() {
               </p>
             </div>
             <div className="p-7 bg-[#FAFAFA] rounded-2xl border border-zinc-200 space-y-3">
-              <h3 className="text-base font-bold text-zinc-900 uppercase">Mechanical Repair &amp; Collision Center</h3>
+              <h3 className="text-base font-bold text-zinc-900 uppercase">Mechanical Repair &amp; Service Center</h3>
               <p>
-                Whether you need a routine synthetic oil change, complete brake replacement, engine check light diagnosis, or collision bodywork restoration after an accident, our certified Jacksonville workshop is equipped with modern diagnostic scan tools and refinishing bays.
+                Whether you need a routine synthetic oil change, complete brake replacement, engine check light diagnosis, or scheduled automotive maintenance, our certified Jacksonville workshop is equipped with modern diagnostic scan tools and expert repair technicians.
               </p>
             </div>
           </div>

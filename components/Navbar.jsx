@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
-import { Phone, MapPin, Wrench, Shield, Sparkles, Menu, X, Clock, ChevronDown, Tag } from "lucide-react";
+import { Phone, MapPin, Wrench, Sparkles, Menu, X, Clock, ChevronDown, Tag } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -113,17 +113,6 @@ export default function Navbar() {
                     <Wrench size={13} className="text-zinc-400" /> Auto Repair &amp; Service
                   </div>
                   <p className="text-[10px] text-zinc-400 normal-case font-normal pl-5 mt-0.5">Diagnostics, brakes, engines &amp; A/C</p>
-                </Link>
-
-                <Link
-                  href="/body-shop"
-                  onClick={() => setServicesDropdownOpen(false)}
-                  className="p-2.5 rounded-xl hover:bg-zinc-900 transition-colors block text-left group"
-                >
-                  <div className="flex items-center gap-2 font-bold text-xs text-white group-hover:text-white uppercase">
-                    <Shield size={13} className="text-zinc-400" /> Body Shop &amp; Collision
-                  </div>
-                  <p className="text-[10px] text-zinc-400 normal-case font-normal pl-5 mt-0.5">Accident repairs &amp; paint matching</p>
                 </Link>
 
                 <Link
@@ -238,13 +227,6 @@ export default function Navbar() {
               className="block text-sm font-bold uppercase tracking-wider text-zinc-200 hover:text-white py-1.5 active:text-white"
             >
               Auto Repair &amp; Diagnostics
-            </Link>
-            <Link
-              href="/body-shop"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-bold uppercase tracking-wider text-zinc-200 hover:text-white py-1.5 active:text-white"
-            >
-              Collision &amp; Body Shop
             </Link>
             <Link
               href="/window-tinting"

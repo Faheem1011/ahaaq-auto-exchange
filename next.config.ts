@@ -58,6 +58,16 @@ const nextConfig: NextConfig = {
         destination: '/finance/apply',
         permanent: true,
       },
+      {
+        source: '/body-shop',
+        destination: '/auto-repair',
+        permanent: true,
+      },
+      {
+        source: '/body-shop/:path*',
+        destination: '/book-service',
+        permanent: true,
+      },
     ];
   },
 };

@@ -60,7 +60,7 @@ export default async function AdminDashboard() {
               AHAQ Auto Management
             </h1>
             <p className="text-zinc-400 text-xs sm:text-sm max-w-2xl mt-1">
-              Live control over vehicles, service bookings, real-time repair tracking, collision appraisals, Credit Acceptance financing leads, and social marketing.
+              Live control over vehicles, service bookings, real-time repair tracking, Credit Acceptance financing leads, and social marketing.
             </p>
           </div>
           

@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Phone, Facebook, Instagram, Twitter, Wrench, Shield, Car, Clock, MessageSquare, Cookie } from "lucide-react";
+import { MapPin, Phone, Facebook, Instagram, Twitter, Wrench, Car, Clock, MessageSquare, Cookie } from "lucide-react";
 import Logo from "./Logo";
 import Link from "next/link";
 
@@ -22,10 +22,10 @@ export default function Footer() {
               Jacksonville Automotive Hub
             </span>
             <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">
-              Cars, Repairs &amp; Body Shop Services Under One Roof
+              Cars, Repairs &amp; Window Tinting Under One Roof
             </h3>
             <p className="text-xs text-zinc-400 max-w-xl font-normal">
-              Convenient automotive sales, certified mechanical repairs, collision restoration, and ceramic window tinting for Jacksonville, Orange Park, and North Florida drivers.
+              Convenient automotive sales, certified mechanical repairs, and ceramic window tinting for Jacksonville, Orange Park, and North Florida drivers.
             </p>
           </div>
 
@@ -35,12 +35,6 @@ export default function Footer() {
               className="px-6 py-3 bg-white hover:bg-zinc-200 text-black text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center gap-1.5 shadow-lg"
             >
               <Wrench size={13} /> Book Service Online
-            </Link>
-            <Link
-              href="/body-shop/estimate"
-              className="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center gap-1.5 border border-zinc-800"
-            >
-              <Shield size={13} /> Free Body Estimate
             </Link>
             <Link
               href="/service/track"
@@ -58,7 +52,7 @@ export default function Footer() {
           <div className="space-y-6">
             <Logo className="w-44 brightness-0 invert opacity-90" />
             <p className="text-zinc-400 text-xs leading-relaxed font-normal">
-              <strong>AHAQ Auto Exchange</strong> is Jacksonville&apos;s full-service automotive destination. We combine quality pre-owned vehicle sales with a certified mechanical workshop, collision body shop, and professional window tinting center.
+              <strong>AHAQ Auto Exchange</strong> is Jacksonville&apos;s full-service automotive destination. We combine quality pre-owned vehicle sales with a certified mechanical workshop and professional window tinting center.
             </p>
             <div className="flex gap-3">
               <a href="#" className="p-2.5 bg-zinc-900 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors" aria-label="Facebook"><Facebook size={16} /></a>
@@ -84,17 +78,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Col 3: Dealership, Body Shop & Tint */}
+          {/* Col 3: Dealership & Tint */}
           <div className="space-y-4">
             <h4 className="font-bold text-xs tracking-widest uppercase text-white flex items-center gap-1.5">
-              <Car size={13} className="text-zinc-400" /> Dealership &amp; Body Shop
+              <Car size={13} className="text-zinc-400" /> Dealership &amp; Window Tint
             </h4>
             <ul className="space-y-2.5 text-xs font-medium text-zinc-400">
               <li><Link href="/inventory" className="hover:text-white transition-colors">Browse Quality Used Cars</Link></li>
               <li><Link href="/finance" className="hover:text-white transition-colors">Credit Acceptance Financing (DCX3C)</Link></li>
               <li><Link href="/sell-your-car" className="hover:text-white transition-colors">Sell Your Car / Instant Cash Offer</Link></li>
-              <li><Link href="/body-shop" className="hover:text-white transition-colors">Collision &amp; Body Shop Repair</Link></li>
-              <li><Link href="/body-shop/estimate" className="hover:text-white transition-colors">Digital Damage Photo Estimate</Link></li>
               <li><Link href="/window-tinting" className="hover:text-white transition-colors">Ceramic &amp; Carbon Window Tinting</Link></li>
               <li><Link href="/service/track" className="hover:text-white transition-colors">Track Repair Work Order</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About AHAQ Auto Exchange</Link></li>

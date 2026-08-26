@@ -4,8 +4,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   metadataBase: new URL("https://ahhaqautoexchange.net"),
-  title: "Ahaaq Auto Exchange | Quality Used Cars, Auto Repair & Body Shop | Jacksonville, FL",
-  description: "Jacksonville's premier dealership for quality pre-owned vehicles, certified mechanical auto repair, full collision body shop, and window tinting at 6615 N Main St, Jacksonville, FL 32208.",
+  title: "Ahaaq Auto Exchange | Quality Used Cars, Auto Repair & Window Tinting | Jacksonville, FL",
+  description: "Jacksonville's premier dealership for quality pre-owned vehicles, certified mechanical auto repair, and window tinting at 6615 N Main St, Jacksonville, FL 32208.",
   keywords: [
     "Ahaaq Auto Exchange",
     "used cars Jacksonville FL",
@@ -14,7 +14,7 @@ export const metadata = {
     "cheap cars Jacksonville under 5000",
     "buy here pay here Jacksonville",
     "auto repair Jacksonville FL",
-    "body shop Jacksonville",
+    "window tinting Jacksonville",
     "used car dealership North Main St Jacksonville"
   ],
   authors: [{ name: "Ahaaq Auto Exchange" }],

@@ -10,7 +10,6 @@ export async function GET() {
     { path: "", priority: "1.0", changefreq: "daily" },
     { path: "/inventory", priority: "0.9", changefreq: "daily" },
     { path: "/auto-repair", priority: "0.85", changefreq: "weekly" },
-    { path: "/body-shop", priority: "0.85", changefreq: "weekly" },
     { path: "/window-tinting", priority: "0.85", changefreq: "weekly" },
     { path: "/book-service", priority: "0.8", changefreq: "weekly" },
     { path: "/sell-your-car", priority: "0.8", changefreq: "weekly" },

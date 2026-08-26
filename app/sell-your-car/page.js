@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TradeInForm from "@/components/TradeInForm";
-import { Banknote, ShieldCheck, Clock } from "lucide-react";
+import { Banknote, Clock } from "lucide-react";
 
 export const metadata = {
   title: "Sell Your Car in Jacksonville, FL | Fast Cash Offer | AHAQ Auto Exchange",
@@ -51,16 +51,6 @@ export default function SellYourCarPage() {
                 <div className="space-y-1">
                   <h3 className="font-bold text-sm text-zinc-950 uppercase">Fast 15-Minute Appraisals</h3>
                   <p className="text-xs text-zinc-500 font-normal">Submit your vehicle details online, receive your preliminary offer, and finalize in person with instant payment.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 p-5 bg-[#FAFAFA] rounded-2xl border border-zinc-200">
-                <div className="w-12 h-12 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0">
-                  <ShieldCheck size={24} />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="font-bold text-sm text-zinc-950 uppercase">We Handle All Loan Payoffs</h3>
-                  <p className="text-xs text-zinc-500 font-normal">Still have an active bank loan or lease? We handle all payoff paperwork directly with your lender.</p>
                 </div>
               </div>
             </div>
