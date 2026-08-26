@@ -4,27 +4,57 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   metadataBase: new URL("https://ahhaqautoexchange.net"),
-  title: "Ahaaq Auto Exchange | Premium Luxury Car Dealership in Jacksonville, FL",
-  description: "Jacksonville's premier auto exchange for luxury pre-owned vehicles. Featuring a curated selection of Toyota, Lexus, Mercedes-Benz, and BMW. Best prices and quality guaranteed in North Florida.",
-  keywords: ["Ahaaq Auto Exchange", "luxury car dealer Jacksonville FL", "used cars Jacksonville", "premium auto exchange Florida", "Lexus dealer Jacksonville", "BMW Jacksonville FL"],
+  title: "Ahaaq Auto Exchange | Quality Used Cars, Auto Repair & Body Shop | Jacksonville, FL",
+  description: "Jacksonville's premier dealership for quality pre-owned vehicles, certified mechanical auto repair, full collision body shop, and window tinting at 6615 N Main St, Jacksonville, FL 32208.",
+  keywords: [
+    "Ahaaq Auto Exchange",
+    "used cars Jacksonville FL",
+    "cars for sale Jacksonville 32208",
+    "used SUVs Jacksonville FL",
+    "cheap cars Jacksonville under 5000",
+    "buy here pay here Jacksonville",
+    "auto repair Jacksonville FL",
+    "body shop Jacksonville",
+    "used car dealership North Main St Jacksonville"
+  ],
+  authors: [{ name: "Ahaaq Auto Exchange" }],
+  creator: "Ahaaq Auto Exchange",
+  publisher: "Ahaaq Auto Exchange",
+  formatDetection: {
+    email: false,
+    address: true,
+    telephone: true,
+  },
   alternates: {
     canonical: "https://ahhaqautoexchange.net",
   },
   openGraph: {
-    title: "Ahaaq Auto Exchange | Jacksonville's Luxury Car Destination",
-    description: "Find your next luxury vehicle at Ahaaq Auto Exchange. Quality inspected, market-leading prices.",
+    title: "Ahaaq Auto Exchange | Quality Used Cars & Auto Repair | Jacksonville, FL",
+    description: "Find quality used vehicles and certified auto service in Jacksonville, FL. Guaranteed financing approval & top-dollar trade-ins at 6615 N Main St.",
     url: "https://ahhaqautoexchange.net",
     siteName: "Ahaaq Auto Exchange",
     images: [
       {
-        url: "/images/jacksonville-luxury-cars-hero.jpg",
+        url: "/images/Jacksonville-ahaaq-hero-banner.webp",
         width: 1200,
         height: 630,
-        alt: "Luxury vehicles at Ahaaq Auto Exchange Jacksonville",
+        alt: "Ahaaq Auto Exchange Dealership in Jacksonville, FL",
       },
     ],
     locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ahaaq Auto Exchange | Quality Used Cars in Jacksonville, FL",
+    description: "Browse affordable used cars, SUVs, and trucks for sale with guaranteed financing in Jacksonville, FL.",
+    images: ["/images/Jacksonville-ahaaq-hero-banner.webp"],
+  },
+  other: {
+    "geo.region": "US-FL",
+    "geo.placename": "Jacksonville, Florida",
+    "geo.position": "30.3879;-81.6528",
+    "ICBM": "30.3879, -81.6528",
   },
 };
 
@@ -35,7 +65,8 @@ import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 
 export default function RootLayout({ children }) {
-  const GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // User to replace with their GA4 ID
+  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-XXXXXXXXXX";
+  const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "";
 
   return (
     <html lang="en">
@@ -44,6 +75,15 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
           rel="stylesheet"
         />
+        {/* Google AdSense Script */}
+        {ADSENSE_CLIENT_ID && (
+          <Script
+            id="google-adsense"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+          />
+        )}
         {GA_MEASUREMENT_ID !== "G-XXXXXXXXXX" && (
           <>
             <Script

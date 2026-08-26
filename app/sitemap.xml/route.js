@@ -7,40 +7,56 @@ export async function GET() {
   const baseUrl = "https://ahhaqautoexchange.net";
 
   const staticPages = [
-    "",
-    "/inventory",
-    "/finance",
-    "/about",
-    "/contact",
-    "/faq",
-    "/finance/calculator",
-    "/finance/trade-in",
-    "/finance/apply",
-    "/finance/pre-qualify",
+    { path: "", priority: "1.0", changefreq: "daily" },
+    { path: "/inventory", priority: "0.9", changefreq: "daily" },
+    { path: "/auto-repair", priority: "0.85", changefreq: "weekly" },
+    { path: "/body-shop", priority: "0.85", changefreq: "weekly" },
+    { path: "/window-tinting", priority: "0.85", changefreq: "weekly" },
+    { path: "/book-service", priority: "0.8", changefreq: "weekly" },
+    { path: "/sell-your-car", priority: "0.8", changefreq: "weekly" },
+    { path: "/service-specials", priority: "0.8", changefreq: "weekly" },
+    { path: "/finance", priority: "0.8", changefreq: "weekly" },
+    { path: "/finance/apply", priority: "0.8", changefreq: "weekly" },
+    { path: "/finance/pre-qualify", priority: "0.8", changefreq: "weekly" },
+    { path: "/finance/trade-in", priority: "0.8", changefreq: "weekly" },
+    { path: "/finance/calculator", priority: "0.7", changefreq: "monthly" },
+    { path: "/about", priority: "0.7", changefreq: "monthly" },
+    { path: "/contact", priority: "0.7", changefreq: "monthly" },
+    { path: "/faq", priority: "0.6", changefreq: "monthly" },
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
       ${staticPages
         .map((page) => {
           return `
             <url>
-              <loc>${baseUrl}${page}</loc>
+              <loc>${baseUrl}${page.path}</loc>
               <lastmod>${new Date().toISOString()}</lastmod>
-              <changefreq>daily</changefreq>
-              <priority>${page === "" ? "1.0" : "0.8"}</priority>
+              <changefreq>${page.changefreq}</changefreq>
+              <priority>${page.priority}</priority>
             </url>
           `;
         })
         .join("")}
       ${vehicles
         .map((vehicle) => {
+          const featuredImg = vehicle.featuredImage?.node?.sourceUrl || vehicle.galleryImages?.[0];
+          const imgXml = featuredImg ? `
+            <image:image>
+              <image:loc>${featuredImg.startsWith('http') ? featuredImg : `${baseUrl}${featuredImg}`}</image:loc>
+              <image:title>${vehicle.title} Jacksonville FL</image:title>
+              <image:caption>${vehicle.title} available at Ahaaq Auto Exchange in Jacksonville, FL</image:caption>
+            </image:image>
+          ` : '';
+
           return `
             <url>
               <loc>${baseUrl}/inventory/${vehicle.slug}</loc>
-              <lastmod>${new Date(vehicle.updatedAt || new Date()).toISOString()}</lastmod>
-              <changefreq>weekly</changefreq>
-              <priority>0.7</priority>
+              <lastmod>${new Date().toISOString()}</lastmod>
+              <changefreq>daily</changefreq>
+              <priority>0.8</priority>
+              ${imgXml}
             </url>
           `;
         })
