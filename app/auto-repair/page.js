@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Wrench, Gauge, Disc, Zap, Flame, Wind, Battery, Activity, ShieldCheck, Phone, Clock } from "lucide-react";
+import AdBanner from "@/components/AdBanner";
 
 export const metadata = {
   title: "Certified Auto Repair & Mechanic in Jacksonville, FL | AHAQ Auto Exchange",
@@ -150,6 +151,11 @@ export default function AutoRepairHub() {
               </Link>
             );
           })}
+        </div>
+
+        {/* AdSense / Local Special Banner */}
+        <div className="mt-14">
+          <AdBanner variant="horizontal" />
         </div>
       </section>
 

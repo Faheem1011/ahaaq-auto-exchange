@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { getVehicles } from "@/lib/graphql";
 import { ArrowRight, MapPin, Wrench, Shield, Sparkles, Car, Clock, CheckCircle2, Banknote } from "lucide-react";
 import Link from "next/link";
+import AdBanner from "@/components/AdBanner";
 
 export const metadata = {
   title: "AHAQ Auto Exchange | Used Cars, Auto Repair & Body Shop | Jacksonville, FL",
@@ -309,6 +310,11 @@ export default async function Home() {
             >
               <Banknote size={15} /> Value Your Trade
             </Link>
+          </div>
+
+          {/* Strategic AdSense / Dealer Spotlight Banner */}
+          <div className="w-full mt-12">
+            <AdBanner variant="horizontal" />
           </div>
         </div>
       </section>
