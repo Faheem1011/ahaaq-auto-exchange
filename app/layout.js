@@ -50,7 +50,11 @@ export const metadata = {
     description: "Browse affordable used cars, SUVs, and trucks for sale with guaranteed financing in Jacksonville, FL.",
     images: ["/images/Jacksonville-ahaaq-hero-banner.webp"],
   },
+  verification: {
+    google: "gcCSZztvw757mEkZh-eTf_-3Ldbd76nlAXYZnBRJeiE",
+  },
   other: {
+    "google-site-verification": "gcCSZztvw757mEkZh-eTf_-3Ldbd76nlAXYZnBRJeiE",
     "google-adsense-account": "ca-pub-2258356814887246",
     "geo.region": "US-FL",
     "geo.placename": "Jacksonville, Florida",
