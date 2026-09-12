@@ -4,9 +4,18 @@ import TradeInForm from "@/components/TradeInForm";
 import { Banknote, ShieldCheck, Clock } from "lucide-react";
 
 export const metadata = {
-  title: "Sell Your Car in Jacksonville, FL | Cash Offer Today | Ahaaq Auto Exchange",
-  description: "Get a certified cash offer for your car in Jacksonville. We buy all makes and models at Ahaaq Auto Exchange. Enter your VIN and get an appraisal in minutes.",
-  keywords: "sell my car Jacksonville, trade in car Jacksonville FL, car appraisal Jacksonville, cash for cars Jacksonville",
+  title: "Value Your Trade-In | Instant Vehicle Appraisal | Jacksonville, FL | Ahaaq Auto Exchange",
+  description: "Get top trade-in value for your current vehicle at Ahaaq Auto Exchange in Jacksonville, FL. Fast online appraisals applied directly to your pre-owned purchase.",
+  keywords: "trade in car Jacksonville FL, value my trade Jacksonville, car appraisal Jacksonville, trade in value used cars Jacksonville",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/finance/trade-in",
+  },
+  openGraph: {
+    title: "Value Your Trade-In | Jacksonville, FL | Ahaaq Auto Exchange",
+    description: "Get top dollar trade-in value towards your next pre-owned vehicle in Jacksonville, FL.",
+    url: "https://ahhaqautoexchange.net/finance/trade-in",
+    siteName: "Ahaaq Auto Exchange",
+  },
 };
 
 export default function ValueTrade() {

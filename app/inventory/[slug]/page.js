@@ -37,18 +37,22 @@ async function getVehicleBySlug(slug) {
 
     let v = vList?.[0];
 
-    // Fallback: check all supabase vehicles if direct query didn't match (e.g. legacy spaced slug)
+    // Fallback: check all supabase vehicles if direct query didn't match (e.g. legacy spaced slug or keyword variations)
     if (!v) {
       const { data: allV } = await supabase.from('vehicles').select('*');
       if (allV && allV.length > 0) {
         v = allV.find(item => {
           const itemSlug = (item.slug || '').toLowerCase().replace(/\s+/g, '-');
+          const itemTitleSlug = `${item.year}-${item.make}-${item.model}`.toLowerCase().replace(/\s+/g, '-');
           return (
             item.id === rawSlug ||
             item.slug === rawSlug ||
             itemSlug === normalizedSlug ||
             itemSlug.includes(normalizedSlug) ||
-            normalizedSlug.includes(itemSlug)
+            normalizedSlug.includes(itemSlug) ||
+            itemTitleSlug.includes(normalizedSlug) ||
+            normalizedSlug.includes(itemTitleSlug) ||
+            (item.year && normalizedSlug.includes(String(item.year)) && normalizedSlug.includes((item.make || '').toLowerCase()) && normalizedSlug.includes((item.model || '').toLowerCase().split(' ')[0]))
           );
         });
       }
@@ -89,12 +93,17 @@ async function getVehicleBySlug(slug) {
   // 2. Fallback to localVehicles (matching slug, id, or normalized variations)
   const local = localVehicles.find(item => {
     const itemSlug = (item.slug || '').toLowerCase().replace(/\s+/g, '-');
+    const details = item.vehicleDetails || {};
+    const itemTitleSlug = `${details.year}-${details.make}-${details.model}`.toLowerCase().replace(/\s+/g, '-');
     return (
       item.id === rawSlug ||
       item.slug === rawSlug ||
       itemSlug === normalizedSlug ||
       itemSlug.includes(normalizedSlug) ||
-      normalizedSlug.includes(itemSlug)
+      normalizedSlug.includes(itemSlug) ||
+      itemTitleSlug.includes(normalizedSlug) ||
+      normalizedSlug.includes(itemTitleSlug) ||
+      (details.year && normalizedSlug.includes(String(details.year)) && normalizedSlug.includes((details.make || '').toLowerCase()) && normalizedSlug.includes((details.model || '').toLowerCase().split(' ')[0]))
     );
   });
 

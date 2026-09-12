@@ -313,14 +313,87 @@ async function fixCorolla() {
   }
 }
 
+// 5. Clean and Stage 2016 Chevrolet Cruze Limited LT
+async function fixCruze() {
+  console.log('\n========================================');
+  console.log('Fixing 2016 Chevrolet Cruze Limited LT Images...');
+  console.log('========================================');
+
+  const srcDir = path.resolve('../2016 Chevrolet cruze  limited edition');
+  const destDir = path.resolve('public/images/inventory/chevy-cruze-2016');
+  if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+
+  const rawFiles = fs.readdirSync(srcDir).filter(f => f.endsWith('.jpeg') || f.endsWith('.jpg'));
+  const heroFile = rawFiles.find(f => f.includes('8.42.24 PM (1)')) || rawFiles[0];
+  fs.copyFileSync(path.join(srcDir, heroFile), path.join(destDir, 'featured.jpeg'));
+
+  const cleanFileNames = ['featured.jpeg'];
+  let idx = 1;
+
+  for (const raw of rawFiles) {
+    const cleanName = `cruze-${String(idx).padStart(2, '0')}.jpeg`;
+    fs.copyFileSync(path.join(srcDir, raw), path.join(destDir, cleanName));
+    cleanFileNames.push(cleanName);
+    idx++;
+  }
+
+  // Upload to Supabase Storage
+  console.log('Uploading clean Cruze images to Supabase Storage...');
+  const uploadedUrls = [];
+
+  for (const cleanName of cleanFileNames) {
+    const filePath = path.join(destDir, cleanName);
+    const buffer = fs.readFileSync(filePath);
+    const storagePath = `chevy-cruze-2016/${cleanName}`;
+
+    const { error: upErr } = await supabase.storage
+      .from('vehicle-images')
+      .upload(storagePath, buffer, {
+        contentType: 'image/jpeg',
+        upsert: true
+      });
+
+    if (upErr) {
+      console.error(`Upload error on ${cleanName}:`, upErr.message);
+    } else {
+      const { data } = supabase.storage
+        .from('vehicle-images')
+        .getPublicUrl(storagePath);
+      
+      const ok = await testUrl(data.publicUrl);
+      console.log(`[${ok ? '200 OK' : 'FAILED'}] ${cleanName} -> ${data.publicUrl}`);
+      uploadedUrls.push(data.publicUrl);
+    }
+  }
+
+  // Update Supabase DB
+  const { data: vRecord } = await supabase
+    .from('vehicles')
+    .select('id')
+    .eq('slug', '2016-chevrolet-cruze-limited-lt')
+    .single();
+
+  if (vRecord) {
+    const { error: updErr } = await supabase
+      .from('vehicles')
+      .update({ images: uploadedUrls })
+      .eq('id', vRecord.id);
+
+    if (updErr) console.error('DB Update error:', updErr);
+    else console.log('✓ Successfully updated Chevrolet Cruze image URLs in Supabase DB!');
+  }
+}
+
 async function run() {
   await fixEscape();
   await fixAcura();
   await fixSantaFe();
   await fixCorolla();
+  await fixCruze();
   console.log('\n========================================');
   console.log('ALL VEHICLE IMAGES CLEANED & SYNCHRONIZED!');
   console.log('========================================\n');
 }
 
 run();
+

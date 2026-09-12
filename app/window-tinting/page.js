@@ -7,6 +7,15 @@ export const metadata = {
   title: "Ceramic Window Tinting in Jacksonville, FL | AHAQ Auto Exchange",
   description: "High-heat rejection ceramic & carbon window tinting in Jacksonville, FL. Blocks 99% UV rays and up to 85% infrared heat at 6615 N Main St.",
   keywords: "window tinting Jacksonville FL, ceramic tint Jacksonville, car tinting Jacksonville, auto tint Jacksonville FL",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/window-tinting",
+  },
+  openGraph: {
+    title: "Ceramic Window Tinting | Jacksonville, FL | AHAQ Auto Exchange",
+    description: "Superior heat and UV blocking ceramic window tint in Jacksonville, FL. Lifetime warranty & professional installation.",
+    url: "https://ahhaqautoexchange.net/window-tinting",
+    siteName: "AHAQ Auto Exchange",
+  },
 };
 
 const TINT_PACKAGES = [

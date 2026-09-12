@@ -8,21 +8,35 @@ export async function GET() {
 
   const staticPages = [
     { path: "", priority: "1.0", changefreq: "daily" },
-    { path: "/inventory", priority: "0.9", changefreq: "daily" },
-    { path: "/auto-repair", priority: "0.85", changefreq: "weekly" },
-    { path: "/window-tinting", priority: "0.85", changefreq: "weekly" },
-    { path: "/book-service", priority: "0.8", changefreq: "weekly" },
-    { path: "/sell-your-car", priority: "0.8", changefreq: "weekly" },
-    { path: "/service-specials", priority: "0.8", changefreq: "weekly" },
-    { path: "/finance", priority: "0.8", changefreq: "weekly" },
+    { path: "/inventory", priority: "0.95", changefreq: "daily" },
+    { path: "/auto-repair", priority: "0.9", changefreq: "weekly" },
+    { path: "/auto-repair/brake-repair", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/oil-change", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/engine-diagnostics", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/ac-repair", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/transmission-service", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/suspension-repair", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/battery-service", priority: "0.85", changefreq: "weekly" },
+    { path: "/auto-repair/electrical-diagnostics", priority: "0.85", changefreq: "weekly" },
+    { path: "/window-tinting", priority: "0.9", changefreq: "weekly" },
+    { path: "/service-specials", priority: "0.85", changefreq: "weekly" },
+    { path: "/book-service", priority: "0.85", changefreq: "weekly" },
+    { path: "/sell-your-car", priority: "0.85", changefreq: "weekly" },
+    { path: "/finance", priority: "0.85", changefreq: "weekly" },
     { path: "/finance/apply", priority: "0.8", changefreq: "weekly" },
     { path: "/finance/pre-qualify", priority: "0.8", changefreq: "weekly" },
     { path: "/finance/trade-in", priority: "0.8", changefreq: "weekly" },
-    { path: "/finance/calculator", priority: "0.7", changefreq: "monthly" },
-    { path: "/about", priority: "0.7", changefreq: "monthly" },
-    { path: "/contact", priority: "0.7", changefreq: "monthly" },
-    { path: "/faq", priority: "0.6", changefreq: "monthly" },
+    { path: "/finance/calculator", priority: "0.75", changefreq: "monthly" },
+    { path: "/finance/lease-vs-buy", priority: "0.75", changefreq: "monthly" },
+    { path: "/service/track", priority: "0.7", changefreq: "monthly" },
+    { path: "/about", priority: "0.75", changefreq: "monthly" },
+    { path: "/contact", priority: "0.8", changefreq: "monthly" },
+    { path: "/faq", priority: "0.7", changefreq: "monthly" },
+    { path: "/privacy", priority: "0.5", changefreq: "monthly" },
+    { path: "/terms", priority: "0.5", changefreq: "monthly" },
   ];
+
+  const now = new Date().toISOString();
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -31,7 +45,7 @@ export async function GET() {
           return `
             <url>
               <loc>${baseUrl}${page.path}</loc>
-              <lastmod>${new Date().toISOString()}</lastmod>
+              <lastmod>${now}</lastmod>
               <changefreq>${page.changefreq}</changefreq>
               <priority>${page.priority}</priority>
             </url>
@@ -52,9 +66,9 @@ export async function GET() {
           return `
             <url>
               <loc>${baseUrl}/inventory/${vehicle.slug}</loc>
-              <lastmod>${new Date().toISOString()}</lastmod>
+              <lastmod>${now}</lastmod>
               <changefreq>daily</changefreq>
-              <priority>0.8</priority>
+              <priority>0.85</priority>
               ${imgXml}
             </url>
           `;
@@ -63,9 +77,10 @@ export async function GET() {
     </urlset>
   `;
 
-  return new Response(sitemap, {
+  return new Response(sitemap.trim(), {
     headers: {
-      "Content-Type": "application/xml",
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }

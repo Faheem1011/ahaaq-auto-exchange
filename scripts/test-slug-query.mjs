@@ -109,6 +109,15 @@ async function testAll() {
     '2006-acura-tl',
     '2006 acura tl',
     '2010-toyota-corolla',
+    '2016-chevrolet-cruze-limited-lt',
+    '2016-chevrolet-cruze-limited',
+    '2016-chevrolet-cruze',
+    '2016 chevrolet cruze',
+    '2016 chevrolet cruze limited edition',
+    '2011-buick-lacrosse-cxl',
+    '2011-buick-lacrosse',
+    '2011 buick lacrosse cxl',
+    '2011 buick lacrosse',
     'b3e523a4-28bd-4330-8520-d711e78a6cef', // Santa Fe UUID
     'invalid-slug-123'
   ];

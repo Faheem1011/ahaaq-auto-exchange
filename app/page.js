@@ -11,10 +11,19 @@ export const metadata = {
   title: "AHAQ Auto Exchange | Used Cars, Auto Repair & Window Tinting | Jacksonville, FL",
   description: "Jacksonville's premier all-in-one automotive center: quality pre-owned vehicles, certified mechanical auto repair, and window tinting at 6615 N Main St.",
   keywords: "used cars Jacksonville FL, auto repair Jacksonville, mechanic Jacksonville FL, window tint Jacksonville",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net",
+  },
+  openGraph: {
+    title: "AHAQ Auto Exchange | Used Cars, Auto Repair & Window Tinting | Jacksonville, FL",
+    description: "Jacksonville's premier all-in-one automotive center: quality pre-owned vehicles, certified mechanical auto repair, and window tinting at 6615 N Main St.",
+    url: "https://ahhaqautoexchange.net",
+    siteName: "AHAQ Auto Exchange",
+  },
 };
 
 export default async function Home() {
-  const vehicles = await getVehicles(6);
+  const vehicles = await getVehicles(12);
   
   // JSON-LD Local Business & Auto Repair Schema
   const jsonLd = {

@@ -1,0 +1,71 @@
+import fs from 'fs';
+import path from 'path';
+import { localVehicles } from '../lib/localVehicles.js';
+
+const baseUrl = "https://ahhaqautoexchange.net";
+
+const staticPages = [
+  { path: "", priority: "1.0", changefreq: "daily" },
+  { path: "/inventory", priority: "0.95", changefreq: "daily" },
+  { path: "/auto-repair", priority: "0.9", changefreq: "weekly" },
+  { path: "/auto-repair/brake-repair", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/oil-change", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/engine-diagnostics", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/ac-repair", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/transmission-service", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/suspension-repair", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/battery-service", priority: "0.85", changefreq: "weekly" },
+  { path: "/auto-repair/electrical-diagnostics", priority: "0.85", changefreq: "weekly" },
+  { path: "/window-tinting", priority: "0.9", changefreq: "weekly" },
+  { path: "/service-specials", priority: "0.85", changefreq: "weekly" },
+  { path: "/book-service", priority: "0.85", changefreq: "weekly" },
+  { path: "/sell-your-car", priority: "0.85", changefreq: "weekly" },
+  { path: "/finance", priority: "0.85", changefreq: "weekly" },
+  { path: "/finance/apply", priority: "0.8", changefreq: "weekly" },
+  { path: "/finance/pre-qualify", priority: "0.8", changefreq: "weekly" },
+  { path: "/finance/trade-in", priority: "0.8", changefreq: "weekly" },
+  { path: "/finance/calculator", priority: "0.75", changefreq: "monthly" },
+  { path: "/finance/lease-vs-buy", priority: "0.75", changefreq: "monthly" },
+  { path: "/service/track", priority: "0.7", changefreq: "monthly" },
+  { path: "/about", priority: "0.75", changefreq: "monthly" },
+  { path: "/contact", priority: "0.8", changefreq: "monthly" },
+  { path: "/faq", priority: "0.7", changefreq: "monthly" },
+  { path: "/privacy", priority: "0.5", changefreq: "monthly" },
+  { path: "/terms", priority: "0.5", changefreq: "monthly" },
+];
+
+const now = new Date().toISOString();
+
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  ${staticPages
+    .map((page) => `
+  <url>
+    <loc>${baseUrl}${page.path}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`).join("")}
+  ${localVehicles
+    .map((vehicle) => {
+      const featuredImg = vehicle.featuredImage?.node?.sourceUrl || vehicle.galleryImages?.[0];
+      const imgXml = featuredImg ? `
+    <image:image>
+      <image:loc>${featuredImg.startsWith('http') ? featuredImg : `${baseUrl}${featuredImg}`}</image:loc>
+      <image:title>${vehicle.title} Jacksonville FL</image:title>
+      <image:caption>${vehicle.title} available at Ahaaq Auto Exchange in Jacksonville, FL</image:caption>
+    </image:image>` : '';
+
+      return `
+  <url>
+    <loc>${baseUrl}/inventory/${vehicle.slug}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>${imgXml}
+  </url>`;
+    }).join("")}
+</urlset>
+`;
+
+fs.writeFileSync(path.resolve('public/sitemap.xml'), sitemap.trim(), 'utf8');
+console.log('✓ Generated public/sitemap.xml successfully with', staticPages.length, 'pages and', localVehicles.length, 'vehicles!');

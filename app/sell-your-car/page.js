@@ -7,6 +7,15 @@ export const metadata = {
   title: "Sell Your Car in Jacksonville, FL | Fast Cash Offer | AHAQ Auto Exchange",
   description: "Sell or trade your vehicle in Jacksonville, FL. We buy all makes and models with competitive cash offers and 15-minute appraisals at 6615 N Main St.",
   keywords: "sell my car Jacksonville, sell used car Jacksonville FL, trade in car Jacksonville, cash for cars Jacksonville FL",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/sell-your-car",
+  },
+  openGraph: {
+    title: "Sell Your Car in Jacksonville, FL | Cash Offers Today",
+    description: "Get a fast cash offer for your used car in Jacksonville, FL. Free appraisals and top dollar paid at 6615 N Main St.",
+    url: "https://ahhaqautoexchange.net/sell-your-car",
+    siteName: "AHAQ Auto Exchange",
+  },
 };
 
 export default function SellYourCarPage() {

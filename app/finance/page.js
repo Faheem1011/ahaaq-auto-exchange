@@ -8,6 +8,15 @@ export const metadata = {
   title: "Credit Acceptance Car Financing in Jacksonville, FL | Ahaaq Auto Exchange",
   description: "Apply for car financing online through Credit Acceptance at Ahaaq Auto Exchange in Jacksonville, FL. All credit types welcome with fast online approval, English & Spanish support.",
   keywords: "credit acceptance car financing Jacksonville, bad credit car loans Jacksonville, auto loans Jacksonville FL, startyourcreditapproval DCX3C, no money down used cars Jacksonville",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/finance",
+  },
+  openGraph: {
+    title: "Credit Acceptance Car Financing | Jacksonville, FL",
+    description: "Guaranteed auto financing in Jacksonville, FL. All credit accepted with fast online approvals.",
+    url: "https://ahhaqautoexchange.net/finance",
+    siteName: "Ahaaq Auto Exchange",
+  },
 };
 
 export default function FinanceCentre() {

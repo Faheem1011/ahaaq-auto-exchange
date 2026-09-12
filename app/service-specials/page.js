@@ -1,22 +1,31 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
+import { createPublicClient } from "@/utils/supabase/public";
 import { Tag, Scissors } from "lucide-react";
 
 export const metadata = {
   title: "Auto Repair Coupons & Service Specials | Jacksonville, FL | AHAQ Auto Exchange",
   description: "Save on your next auto repair, synthetic oil change, brake job, and ceramic window tinting at AHAQ Auto Exchange in Jacksonville, FL.",
   keywords: "auto repair coupons Jacksonville, oil change coupon Jacksonville, brake service discount Jacksonville FL, window tint coupon",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/service-specials",
+  },
+  openGraph: {
+    title: "Auto Repair Coupons & Service Specials | Jacksonville, FL",
+    description: "Save on mechanical auto repair, synthetic oil changes, brake service, and ceramic window tinting in Jacksonville, FL.",
+    url: "https://ahhaqautoexchange.net/service-specials",
+    siteName: "AHAQ Auto Exchange",
+  },
 };
 
 export default async function ServiceSpecialsPage() {
-  const supabase = await createClient();
-  const { data: specials } = await supabase
+  const supabase = createPublicClient();
+  const { data: specials } = supabase ? await supabase
     .from('service_specials')
     .select('*')
     .eq('is_active', true)
-    .order('display_order', { ascending: true });
+    .order('display_order', { ascending: true }) : { data: null };
 
   const fallbackSpecials = [
     {

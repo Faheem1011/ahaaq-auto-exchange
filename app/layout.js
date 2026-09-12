@@ -25,9 +25,6 @@ export const metadata = {
     address: true,
     telephone: true,
   },
-  alternates: {
-    canonical: "https://ahhaqautoexchange.net",
-  },
   openGraph: {
     title: "Ahaaq Auto Exchange | Quality Used Cars & Auto Repair | Jacksonville, FL",
     description: "Find quality used vehicles and certified auto service in Jacksonville, FL. Guaranteed financing approval & top-dollar trade-ins at 6615 N Main St.",

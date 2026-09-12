@@ -4,6 +4,15 @@ import Footer from "@/components/Footer";
 export const metadata = {
   title: "Terms of Service | Ahaaq Auto Exchange",
   description: "The terms and conditions for using the Ahaaq Auto Exchange website and services in Jacksonville, FL.",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/terms",
+  },
+  openGraph: {
+    title: "Terms of Service | Ahaaq Auto Exchange",
+    description: "Terms and conditions for using Ahaaq Auto Exchange website and services.",
+    url: "https://ahhaqautoexchange.net/terms",
+    siteName: "Ahaaq Auto Exchange",
+  },
 };
 
 export default function TermsPage() {

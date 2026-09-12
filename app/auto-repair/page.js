@@ -8,6 +8,15 @@ export const metadata = {
   title: "Certified Auto Repair & Mechanic in Jacksonville, FL | AHAQ Auto Exchange",
   description: "Complete auto repair services in Jacksonville, FL: engine diagnostics, brakes, transmission, A/C recharge, suspension, and maintenance at 6615 N Main St.",
   keywords: "auto repair Jacksonville FL, mechanic Jacksonville, brake repair Jacksonville, check engine light Jacksonville, car AC repair Jacksonville",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/auto-repair",
+  },
+  openGraph: {
+    title: "Certified Auto Repair & Mechanic | Jacksonville, FL | AHAQ Auto Exchange",
+    description: "Complete certified mechanical auto repair services in Jacksonville, FL. Diagnostics, brakes, A/C, engine repair, and maintenance.",
+    url: "https://ahhaqautoexchange.net/auto-repair",
+    siteName: "AHAQ Auto Exchange",
+  },
 };
 
 const SERVICES = [

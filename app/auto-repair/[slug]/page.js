@@ -183,13 +183,36 @@ const SERVICE_DATA = {
   }
 };
 
+export function generateStaticParams() {
+  return Object.keys(SERVICE_DATA).map((slug) => ({
+    slug,
+  }));
+}
+
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const data = SERVICE_DATA[resolvedParams?.slug];
   if (!data) return {};
+  const pageUrl = `https://ahhaqautoexchange.net/auto-repair/${resolvedParams.slug}`;
   return {
     title: `${data.title} | AHAQ Auto Exchange`,
     description: data.desc,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title: `${data.title} | AHAQ Auto Exchange`,
+      description: data.desc,
+      url: pageUrl,
+      siteName: 'AHAQ Auto Exchange',
+      images: ['/images/Jacksonville-ahaaq-hero-banner.webp'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${data.title} | AHAQ Auto Exchange`,
+      description: data.desc,
+      images: ['/images/Jacksonville-ahaaq-hero-banner.webp'],
+    },
   };
 }
 

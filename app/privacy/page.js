@@ -4,6 +4,15 @@ import Footer from "@/components/Footer";
 export const metadata = {
   title: "Privacy Policy & Financing Disclosures | Ahaaq Auto Exchange",
   description: "Our commitment to protecting your privacy and automotive financing disclosures at Ahaaq Auto Exchange in Jacksonville, FL.",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Ahaaq Auto Exchange",
+    description: "Our privacy policies and consumer protection disclosures at Ahaaq Auto Exchange in Jacksonville, FL.",
+    url: "https://ahhaqautoexchange.net/privacy",
+    siteName: "Ahaaq Auto Exchange",
+  },
 };
 
 export default function PrivacyPage() {

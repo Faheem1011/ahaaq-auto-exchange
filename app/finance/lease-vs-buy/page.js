@@ -3,6 +3,21 @@ import Footer from "@/components/Footer";
 import { Check, X } from "lucide-react";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Lease vs. Buy Guide | Auto Financing | Ahaaq Auto Exchange Jacksonville",
+  description: "Understand the pros and cons of leasing versus financing a pre-owned vehicle in Jacksonville, FL. Make the best financial choice for your budget.",
+  keywords: "lease vs buy car Jacksonville, auto leasing vs financing, buy or lease used car Jacksonville FL",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/finance/lease-vs-buy",
+  },
+  openGraph: {
+    title: "Lease vs. Buy Guide | Ahaaq Auto Exchange",
+    description: "Compare leasing versus buying a car in Jacksonville, FL to decide which financing option fits your budget.",
+    url: "https://ahhaqautoexchange.net/finance/lease-vs-buy",
+    siteName: "Ahaaq Auto Exchange",
+  },
+};
+
 export default function LeaseVsBuy() {
   return (
     <main className="min-h-screen bg-white">

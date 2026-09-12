@@ -7,6 +7,15 @@ export const metadata = {
   title: "About Us | Ahaaq Auto Exchange | Jacksonville's Trusted Used Car Dealer",
   description: "Learn about Ahaaq Auto Exchange in Jacksonville, FL. Led by Bobby Ali, we provide premium pre-owned luxury vehicles and exceptional auto financing since our founding.",
   keywords: "Bobby Ali Jacksonville, Ahaaq Auto Exchange history, about used car dealer Jacksonville, best luxury dealer Jax",
+  alternates: {
+    canonical: "https://ahhaqautoexchange.net/about",
+  },
+  openGraph: {
+    title: "About Us | Ahaaq Auto Exchange | Jacksonville, FL",
+    description: "Learn about Ahaaq Auto Exchange in Jacksonville, FL. Led by Bobby Ali, offering quality used vehicles and exceptional service.",
+    url: "https://ahhaqautoexchange.net/about",
+    siteName: "Ahaaq Auto Exchange",
+  },
 };
 
 export default function AboutPage() {
